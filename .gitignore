@@ -1,5 +1,13 @@
-### ignroe credential files
+### custom ignores 
 *secret*
+*.pdf
+*.PDF
+*.png
+*.PNG
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
