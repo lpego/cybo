@@ -10,6 +10,7 @@ import mimetypes
 from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
+from email.mime.application import MIMEApplication
 
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 CLIENT_SECRET_FILE = 'client_secret.json'
@@ -108,6 +109,10 @@ def createMessageWithAttachment(
         fp = open(attachmentFile, 'rb')
         msg = MIMEAudio(fp.read(), _subtype=sub_type)
         fp.close()
+    elif main_type == 'application':
+        fp = open(attachmentFile, 'rb')
+        msg = MIMEApplication(fp.read(), _subtype=sub_type)
+        fp.close()
     else:
         fp = open(attachmentFile, 'rb')
         msg = MIMEBase(main_type, sub_type)
@@ -123,12 +128,12 @@ def createMessageWithAttachment(
 def main():
     to = "luca.pegoraro@outlook.com"
     sender = "cybotest20@gmail.com "
-    subject = "CYBO emails - do you still work?"
+    subject = "CYBO emails - testing PDF attachments 2"
     msgHtml = "Hi<br/>Html Email"
     msgPlain = "Hi\nPlain Email"
-    SendMessage(sender, to, subject, msgHtml, msgPlain)
-    # # Send message with attachment: 
-    # SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo_emails\Draft_Antonelli2.pdf')
+    # SendMessage(sender, to, subject, msgHtml, msgPlain)
+    # Send message with attachment: 
+    SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf')
 
 if __name__ == '__main__':
     main()
