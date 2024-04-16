@@ -15,7 +15,7 @@ Following these tutorials:
 **Update 3:** updated script `OAuth2_email_test.py` to correctly evaluate pdf MIMEtypes, thanks to [this](https://stackoverflow.com/a/11921241/7722773) now they send & open correctly. 
 
 Base functionality running, next steps: 
- 1. Implement parsing of names from Wordpress website users registration export. 
+ 1. ~~Implement parsing of names from Wordpress website users registration export. ~~
  2. Loop over names / emails to create personalised emails
     - Import `OAuth_email_test.py` as a module? 
  3. Figure out solution for personalised PDFs, possible routes: 
@@ -29,3 +29,8 @@ Inspiration from:
  - https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop 
 
 Current idea is to use the TeX workshop extension in VS code and go with their recommended Docker container. 
+
+# Repo structure
+`OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
+
+`parse_wp_users` pulls out the list of user emails for each webinar from the esport of WordPress's plugin User Registration. 
