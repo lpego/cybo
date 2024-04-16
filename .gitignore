@@ -8,6 +8,8 @@
 *.JPG
 *.jpeg
 *.JPEG
+*.csv
+*.CSV
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
