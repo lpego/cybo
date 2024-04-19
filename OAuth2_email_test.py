@@ -11,6 +11,8 @@ from email.mime.image import MIMEImage
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 from email.mime.application import MIMEApplication
+import argparse
+import sys
 
 SCOPES = 'https://www.googleapis.com/auth/gmail.send'
 CLIENT_SECRET_FILE = 'client_secret.json'
@@ -124,16 +126,46 @@ def createMessageWithAttachment(
 
     return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
+# ### Hardcoded arguments    
+# def send_email():
+#     """Send email with attachment"""
+#     to = "luca.pegoraro@outlook.com"
+#     sender = "cybotest20@gmail.com "
+#     subject = "CYBO emails - testing PDF attachments 2"
+#     msgHtml = "Hi<br/>Html Email"
+#     msgPlain = "Hi\nPlain Email"
+#     ### Send message without attachment: 
+#     # SendMessage(sender, to, subject, msgHtml, msgPlain)
+#     ### Send message with attachment: 
+#     SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf')
 
-def main():
-    to = "luca.pegoraro@outlook.com"
-    sender = "cybotest20@gmail.com "
-    subject = "CYBO emails - testing PDF attachments 2"
-    msgHtml = "Hi<br/>Html Email"
-    msgPlain = "Hi\nPlain Email"
+# if __name__ == '__main__':
+#     send_email()
+
+### Argument parsing
+def send_email(sender, to, subject, msgHtml, msgPlain, attachmentFile=None):
+    """Send email with attachment"""
+    ### Send message without attachment: 
     # SendMessage(sender, to, subject, msgHtml, msgPlain)
-    # Send message with attachment: 
-    SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf')
+    ### Send message with attachment: 
+    SendMessage(sender, to, subject, msgHtml, msgPlain, attachmentFile)
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+   
+    parser = argparse.ArgumentParser(description="Send email with attachments")
+    parser.add_argument('--sender', type=str, required=True, help="Reply to field")
+    parser.add_argument('--to', type=str, required=True, help="Address to send email to")
+    parser.add_argument('--subject', type=str, required=True, help="Subject text of the email")
+    parser.add_argument('--msgHtml', type=str, required=True, help="HTML-formatted text body of the email")
+    parser.add_argument('--msgPlain', type=str, required=True, help="Plain-text body of the email (for legacy clients)")
+    parser.add_argument('--attachmentFile', type=str, required=False, help="Path to the attachment file")
+    parser.add_argument('--verbose', "-v", action="store_true", help="Print function arguments")
+    args = parser.parse_args()
+    
+    if args.verbose:
+        print(f"args: {args}")
+
+    sys.exit(send_email(args.sender, args.to, args.subject, args.msgHtml, args.msgPlain, args.attachmentFile))
+
+# ### CLI string to test: 
+# ### python OAuth2_email_test.py --to "luca.pegoraro@outlook.com" --sender "cybo20@gmail.com" --subject "CLI_test_email" --msgHtml "Hi<br/>Html Email" --msgPlain "Hi\nPlain Email" --attachmentFile D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf --verbose    
