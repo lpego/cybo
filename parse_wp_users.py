@@ -17,3 +17,5 @@ for speaker in speakers:
 # print(data)
 
 data.to_csv(os.path.splitext(filename)[0]+"_parsed.csv")
+
+print(data[data['Antonelli'] == 1][['User Email', 'Do you need an attendance certificate?']])
