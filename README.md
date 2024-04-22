@@ -18,13 +18,15 @@ Following these tutorials:
 
 **Update 5:** `OAuth2_email_test.py` can be run from CLI (via `argparse`) or imported as module.  
 
+**Update 5:** created `webinar_invitation.py` to loop over list of names for each webinar and send personalised emails with the correct PDF (based on workflow that uses Overleaf, no local LaTeX yet). 
+
 Base functionality running, next steps: 
  1. ~~Implement parsing of names from Wordpress website users registration export. ~~
- 2. Loop over names / emails to create personalised emails
+ 2. ~~Loop over names / emails to create personalised emails~~
     - ~~Import `OAuth_email_test.py` as a module? ~~
     - ~~Implement argparse for the main function~~
  3. Figure out solution for personalised PDFs, possible routes: 
-    - Use Overleaf as before (see [here](https://www.overleaf.com/project/660fa8e25e8920231dabd66e)) and figure out splitting PD in Python, leveraging known users order. 
+    - Use Overleaf as before (see [here](https://www.overleaf.com/project/660fa8e25e8920231dabd66e)) and figure out splitting PDF in Python, leveraging known users order (see [here](https://stackoverflow.com/questions/70817546/how-do-i-split-a-pdf-using-python-every-page-that-contains-a-set-of-specific-un)). 
     - Compile personalised certificates in LaTeX locally (but don't really want to deal with installation, so probably a Docker instead)
 
 ### Trying to make LaTeX compile in a Docker container for easy certificate generation
