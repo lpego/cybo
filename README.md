@@ -18,7 +18,7 @@ Following these tutorials:
 
 **Update 5:** `OAuth2_email_test.py` can be run from CLI (via `argparse`) or imported as module.  
 
-**Update 5:** created `webinar_invitation.py` to loop over list of names for each webinar and send personalised emails with the correct PDF (based on workflow that uses Overleaf, no local LaTeX yet). 
+**Update 6:** created `webinar_invitation.py` to loop over list of names for each webinar and send personalised emails with the correct PDF (based on workflow that uses Overleaf, no local LaTeX yet). 
 
 Base functionality running, next steps: 
  1. ~~Implement parsing of names from Wordpress website users registration export. ~~
