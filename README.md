@@ -41,3 +41,5 @@ Current idea is to use the TeX workshop extension in VS code and go with their r
 `OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
 
 `parse_wp_users` pulls out the list of user emails for each webinar from the esport of WordPress's plugin User Registration. 
+
+`webinar_invitation.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)

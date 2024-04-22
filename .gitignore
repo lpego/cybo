@@ -10,6 +10,8 @@
 *.JPEG
 *.csv
 *.CSV
+*.txt
+*.TXT
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

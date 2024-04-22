@@ -28,7 +28,7 @@ with open(f"certificate_names_{speaker}.txt", "w") as file:
     for line in certificates_names: 
         file.write(f"{line}\n")
         
-### Go to Overleaf, generate multi-page PDF, copy in locale
+### Go to Overleaf, upload "certificate_names..." and generate multi-page PDF, copy in locale
 
 ### Extract PDF pages, in order of participant
 pdf_path = f"D:\cybo_emails\certificates\{speaker}"
