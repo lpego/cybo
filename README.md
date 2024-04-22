@@ -1,11 +1,17 @@
 # cybo_emails
 Sending automated personalised emails using OAuth2 Gmail API
 
-Following these tutorials: 
- - https://stackoverflow.com/questions/37201250/sending-email-via-gmail-python 
- - https://realpython.com/python-send-email/#sending-multiple-personalized-emails 
+## Repo structure
+`OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
+
+`parse_wp_users` pulls out the list of user emails for each webinar from the export of WordPress's plugin User Registration. 
+
+`webinar_invitation.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
 
  ## Trials & Tribulations
+ Following these tutorials: 
+ - https://stackoverflow.com/questions/37201250/sending-email-via-gmail-python 
+ - https://realpython.com/python-send-email/#sending-multiple-personalized-emails 
  SMTP is deprecated, need to use OAuth2. 
 
  **Update 1:** Successfully sent an "Hello World" using `OAuth2_email_test.py` pulled from [here](https://stackoverflow.com/a/40942045/7722773). Need to send attachments with it now. 
@@ -25,9 +31,9 @@ Base functionality running, next steps:
  2. ~~Loop over names / emails to create personalised emails~~
     - ~~Import `OAuth_email_test.py` as a module? ~~
     - ~~Implement argparse for the main function~~
- 3. Figure out solution for personalised PDFs, possible routes: 
-    - Use Overleaf as before (see [here](https://www.overleaf.com/project/660fa8e25e8920231dabd66e)) and figure out splitting PDF in Python, leveraging known users order (see [here](https://stackoverflow.com/questions/70817546/how-do-i-split-a-pdf-using-python-every-page-that-contains-a-set-of-specific-un)). 
-    - Compile personalised certificates in LaTeX locally (but don't really want to deal with installation, so probably a Docker instead)
+ 3. ~~Figure out solution for personalised PDFs, possible routes:~~ 
+    - ~~Use Overleaf as before (see [here](https://www.overleaf.com/project/660fa8e25e8920231dabd66e)) and figure out splitting PDF in Python, leveraging known users order (see [here](https://stackoverflow.com/questions/70817546/how-do-i-split-a-pdf-using-python-every-page-that-contains-a-set-of-specific-un))~~ 
+    - Compile personalised certificates in LaTeX locally (but don't really want to deal with installation, so probably a Docker instead) -- *seems too much work for what it's worth...*
 
 ### Trying to make LaTeX compile in a Docker container for easy certificate generation
 Inspiration from: 
@@ -36,10 +42,4 @@ Inspiration from:
  - https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop 
 
 Current idea is to use the TeX workshop extension in VS code and go with their recommended Docker container. 
-
-# Repo structure
-`OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
-
-`parse_wp_users` pulls out the list of user emails for each webinar from the esport of WordPress's plugin User Registration. 
-
-`webinar_invitation.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
+*seems too much work for what it's worth...*

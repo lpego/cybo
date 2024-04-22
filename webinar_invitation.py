@@ -28,11 +28,11 @@ with open(f"certificate_names_{speaker}.txt", "w") as file:
     for line in certificates_names: 
         file.write(f"{line}\n")
         
-### Go to Overleaf, upload "certificate_names..." and generate multi-page PDF, copy in locale
+### Go to Overleaf, upload "certificate_names..." and generate multi-page PDF, copy in locale "cybo_emails\certificates\{speaker}"
 
 ### Extract PDF pages, in order of participant
 pdf_path = f"D:\cybo_emails\certificates\{speaker}"
-inputpdf = PdfReader(open(f"{pdf_path}\CYBO_2024_webinar_participation_certificates_autofill-2.pdf", "rb"))
+inputpdf = PdfReader(open(f"{pdf_path}\CYBO_2024_webinar_participation_certificates_autofill___new_design-4.pdf", "rb"))
 
 if not os.path.exists(f"{pdf_path}\split"):
     os.makedirs(f"{pdf_path}\split")
@@ -51,10 +51,10 @@ for i in range(len(inputpdf.pages)):
 for addressee, certificate in zip(email_addresses, certificates_list): 
     print(addressee, f"{pdf_path}\split\{certificate}")
     send_email(
-        sender="cybotest20@gmail.com", 
+        sender="conferenceyoungbotanists@gmail.com", 
         to=addressee,
-        subject="CYBO test certificate email", 
-        msgHtml="Hi<br/>This is an email to test automated sending of personalised certificates in Python.", 
-        msgPlain="Hi\nIf you read this you probably should update your mail client! XD", 
+        subject="CYBO test certificate email -- new certificate design", 
+        msgHtml="Dear webinar participant,<br/>Please find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.<br/><br/>We hope to welcome you again for the following webinars!<br/>Kind regards,<br/>the CYBO steering committee.", 
+        msgPlain="Dear webinar participant,\nPlease find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.\n\nWe hope to welcome you again for the following webinars!\nKind regards,\nthe CYBO steering committee.", 
         attachmentFile=f"{pdf_path}\split\{certificate}"
         )

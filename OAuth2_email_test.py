@@ -130,7 +130,7 @@ def createMessageWithAttachment(
 # def send_email():
 #     """Send email with attachment"""
 #     to = "luca.pegoraro@outlook.com"
-#     sender = "cybotest20@gmail.com "
+#     sender = "conferenceyoungbotanists@gmail.com"
 #     subject = "CYBO emails - testing PDF attachments 2"
 #     msgHtml = "Hi<br/>Html Email"
 #     msgPlain = "Hi\nPlain Email"
