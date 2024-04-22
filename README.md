@@ -8,6 +8,8 @@ Sending automated personalised emails using OAuth2 Gmail API
 
 `certificates.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
 
+`webinar_invitation.py` sends invites to webinar attendees (need to fix plain text hardcoded Zoom invite)
+
  ## Trials & Tribulations
  Following these tutorials: 
  - https://stackoverflow.com/questions/37201250/sending-email-via-gmail-python 
