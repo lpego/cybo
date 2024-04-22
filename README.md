@@ -6,7 +6,7 @@ Sending automated personalised emails using OAuth2 Gmail API
 
 `parse_wp_users` pulls out the list of user emails for each webinar from the export of WordPress's plugin User Registration. 
 
-`webinar_invitation.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
+`certificates.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
 
  ## Trials & Tribulations
  Following these tutorials: 
