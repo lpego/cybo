@@ -1,14 +1,23 @@
 # cybo_emails
-Sending automated personalised emails using OAuth2 Gmail API
+Sending automated personalised emails using OAuth2 Gmail API. 
 
 ## Repo structure
 `OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
 
 `parse_wp_users` pulls out the list of user emails for each webinar from the export of WordPress's plugin User Registration. 
 
-`certificates.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order)
+`certificates.py` loops over list of names pulled from registration from export and splits PDFs based on that (relies on Overleaf generating PDF pages in teh same order). 
 
-`webinar_invitation.py` sends invites to webinar attendees (need to fix plain text hardcoded Zoom invite)
+`webinar_invitation.py` sends invites to webinar attendees (need to fix plain text hardcoded Zoom invite). 
+
+### Known bugs
+If the the `.csv` export contains empty values for certain variables (e.g. "What webinars are you interested in?"), it will throw an error; could fix it with a `try` construct but seems unnecessary at this point... 
+
+## What to do for...
+ - *Get participant emails, webinar info etc from website export*: on [CYBO's Word Press website](https://conferenceyoungbotanists.000webhostapp.com/) go to Admin panel > User Registration form > Settings > Export > Select registration form. Save in this repo, then run `parse_wp_users` changing variable `filename`. 
+ - *Send Zoom invitation to webinar participants*: run `webinar_invitation.py` and change the following variables: `filename`, `speaker` , `zoom_invite` as well as the arguments in the `send_email` function call. 
+ - *Send certificates to webinar participants*: run `certificates.py` and change variables as above. 
+ - *"Token expired" error*: run `OAuth2_email_test.py` and follow browser-based authentication to renew it. Use hardcoded arguments (commented out in the script) if `argparse` mode fails. 
 
  ## Trials & Tribulations
  Following these tutorials: 
