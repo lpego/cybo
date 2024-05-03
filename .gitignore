@@ -12,6 +12,11 @@
 *.CSV
 *.txt
 *.TXT
+*.svg
+*.SVG
+*.synctex.gz
+graphics/svg-inkscape/
+*.pdf_tex
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
