@@ -21,7 +21,7 @@ names = data[data[speaker] == 1 & data['Do you need an attendance certificate?']
 surnames = data[data[speaker] == 1 & data['Do you need an attendance certificate?'].str.contains('Yes')]['Last Name']
 certificates_names = [m.strip()+" "+n.strip() for m,n in zip(names,surnames)]
 certificates_names = [capwords(x) for x in certificates_names]
-# certificates_names = ["Luca Pegoraro", "Maria Guerrina", "Jacopo Calevo"]
+# certificates_names = ["Luca Pegoraro", "Maria Guerrina", "Jacopo Calevo"] # for testing
 
 with open(f"certificate_names_{speaker}.txt", "w") as file:
     for line in certificates_names: 

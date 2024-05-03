@@ -131,7 +131,7 @@ def createMessageWithAttachment(
 #     """Send email with attachment"""
 #     to = "luca.pegoraro@outlook.com"
 #     sender = "conferenceyoungbotanists@gmail.com"
-#     subject = "CYBO emails - testing PDF attachments 2"
+#     subject = "CYBO emails - testing PDF attachments"
 #     msgHtml = "Hi<br/>Html Email"
 #     msgPlain = "Hi\nPlain Email"
 #     ### Send message without attachment: 
@@ -167,5 +167,5 @@ if __name__ == "__main__":
 
     sys.exit(send_email(args.sender, args.to, args.subject, args.msgHtml, args.msgPlain, args.attachmentFile))
 
-# ### CLI string to test: 
-# ### python OAuth2_email_test.py --to "luca.pegoraro@outlook.com" --sender "cybo20@gmail.com" --subject "CLI_test_email" --msgHtml "Hi<br/>Html Email" --msgPlain "Hi\nPlain Email" --attachmentFile D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf --verbose    
+### CLI string to test: 
+### python OAuth2_email_test.py --to "luca.pegoraro@outlook.com" --sender "conferenceyoungbotanists@gmail.com" --subject "CLI_test_email" --msgHtml "Hi<br/>Html Email" --msgPlain "Hi\nPlain Email" --attachmentFile D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf --verbose
