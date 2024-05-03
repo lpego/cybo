@@ -1,0 +1,24 @@
+### Docker stuff
+.dockerignore
+devcontainer.json
+docker-compose.yml
+Dockerfile
+README.md
+
+### Python stuff
+__pycache__
+environment.yaml
+*.py
+
+### cybo_emails stuff
+certificates/
+client_secret.json
+*.csv
+*.CSV
+<!-- Need to keep text files for generating the PDF!
+*.txt
+*.TXT -->
+*.pdf
+*.PDF
+*.png
+*.PNG
