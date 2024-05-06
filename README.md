@@ -43,7 +43,7 @@ In dev container `LaTeX-custom-devcontainer`, on Windows the SSH agent doesn't c
 **Update 7:** adapted Docker coonatiner image for local LaTeX PDF generation, imported .tex from Overleaf (dependencies installed at Docker build). 
 
 Base functionality running, next steps: 
- 1. ~~Implement parsing of names from Wordpress website users registration export. ~~
+ 1. ~~Implement parsing of names from Wordpress website users registration export.~~
  2. ~~Loop over names / emails to create personalised emails~~
     - ~~Import `OAuth_email_test.py` as a module? ~~
     - ~~Implement argparse for the main function~~
@@ -59,4 +59,4 @@ Inspiration from:
 
 Current idea is to use the TeX workshop extension in VS code and go with their recommended Docker container. 
 
-Getting container from [here](https://github.com/qdm12/latexdevcontainer)... After various adaptation it works, and settings, terminal history are persistent! 
+**Update**: getting container from [here](https://github.com/qdm12/latexdevcontainer)... After various adaptation it works, and settings, terminal history are persistent! 
