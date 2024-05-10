@@ -4,7 +4,7 @@ import html
 from OAuth2_email_test import send_email
 
 ### Provide filename of the PARSED WordPress export here
-filename = "cybo-webinars-2024-registration-2024-05-09_14 51 23_parsed.csv"
+filename = "cybo-webinars-2024-registration-2024-05-10_13 21 39_parsed.csv"
 
 ### Provide surname of speaker here
 speaker = "Riva"
@@ -34,7 +34,7 @@ with open("D:\cybo_emails\zoom_riva.txt", "r") as file:
 ### Get emails for attendees of the specified webinar
 data = pd.read_csv(filename, skipinitialspace=True)
 # print(data[data[speaker] == 1][['User Email', 'Do you need an attendance certificate?']])
-email_addresses = data[data[speaker] == 1 & data['Do you need an attendance certificate?'].str.contains('Yes')]['User Email']
+email_addresses = data[data[speaker] == 1]['User Email']
 # email_addresses = ["luca.pegoraro@outlook.com"]
 
 ### Send emails
@@ -43,16 +43,18 @@ for addressee in email_addresses:
     send_email(
         sender="conferenceyoungbotanists@gmail.com",
         to=addressee,
-        subject="Next CYBO webinar - Federico riva",
+        subject="CYBO webinar: Federico Riva - in 1 hour",
         msgHtml="""
         Dear webinar participant,<br/>
-        find below the Zoom link to the next CYBO webinar.<br/>
+        A quick reminder that the next CYBO webinar will start in one hour.<br/>
+        Find below the Zoom link.<br/>
         <br/>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br/>
         <br/>
         """ + html.escape(zoom_invite).replace('\n', '<br/>'),
         msgPlain="""
         Dear webinar participant,\n
-        find below the Zoom link to the next CYBO webinar.\n
+        A quick reminder that the next CYBO webinar will start in one hour.\n
+        Find below the Zoom link.\n
         \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
         \n
         """ + html.unescape(zoom_invite),
