@@ -42,6 +42,6 @@ with open(f"certificate_names_{speaker}.txt", "w") as file:
 #     output.add_page(inputpdf.pages[i])
 #     name = certificates_names[i].replace(" ", "_")
 #     # print(name)
-#     certificates_list.append(f"Certificate_CYBO_webinar_{name}.pdf")
-#     with open(f"{pdf_path}\split\Certificate_CYBO_webinar_{name}.pdf", "wb") as outputStream:
+#     certificates_list.append(f"Certificate_CYBO_webinar_10May2024_{name}.pdf")
+#     with open(f"{pdf_path}\split\Certificate_CYBO_webinar_10May2024_{name}.pdf", "wb") as outputStream:
 #         output.write(outputStream)
