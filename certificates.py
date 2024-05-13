@@ -6,10 +6,10 @@ from pypdf import PdfWriter, PdfReader
 from OAuth2_email_test import send_email
 
 ### Provide filename of the PARSED WordPress export here
-filename = "cybo-webinars-2024-registration-2024-04-15_14 06 53_parsed.csv"
+filename = "cybo-webinars-2024-registration-2024-05-10_13 21 39_parsed.csv"
 
 ### Provide surname of speaker
-speaker = "Antonelli"
+speaker = "Riva"
 
 ### Get emails for attendees of the specified webinar
 data = pd.read_csv(filename, skipinitialspace=True) 
@@ -31,7 +31,7 @@ with open(f"certificate_names_{speaker}.txt", "w") as file:
 
 ### Extract PDF pages, in order of participant
 pdf_path = f"D:\cybo_emails\certificates\{speaker}"
-inputpdf = PdfReader(open(f"{pdf_path}\CYBO_2024_webinar_participation_certificates_autofill___new_design-6.pdf", "rb"))
+inputpdf = PdfReader(open(f"{pdf_path}\certificates_autofill.pdf", "rb"))
 
 if not os.path.exists(f"{pdf_path}\split"):
     os.makedirs(f"{pdf_path}\split")
@@ -46,15 +46,15 @@ for i in range(len(inputpdf.pages)):
     with open(f"{pdf_path}\split\Certificate_CYBO_webinar_{name}.pdf", "wb") as outputStream:
         output.write(outputStream)
 
-### Send emails
-for name, addressee, certificate in zip(certificates_names, email_addresses, certificates_list): 
-    print(name, addressee, f"{pdf_path}\split\{certificate}")
-    # time.sleep(.5) # optional: give the server a little time before sending new one
-    send_email(
-        sender="conferenceyoungbotanists@gmail.com", 
-        to=addressee,
-        subject="CYBO webinar certificate", 
-        msgHtml="Dear webinar participant,<br/>Please find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.<br/><br/>We hope to welcome you again for the following webinars!<br/>Kind regards,<br/>the CYBO steering committee.", 
-        msgPlain="Dear webinar participant,\nPlease find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.\n\nWe hope to welcome you again for the following webinars!\nKind regards,\nthe CYBO steering committee.", 
-        attachmentFile=f"{pdf_path}\split\{certificate}"
-        )
+# ### Send emails
+# for name, addressee, certificate in zip(certificates_names, email_addresses, certificates_list): 
+#     print(name, addressee, f"{pdf_path}\split\{certificate}")
+#     # time.sleep(.5) # optional: give the server a little time before sending new one
+#     send_email(
+#         sender="conferenceyoungbotanists@gmail.com", 
+#         to=addressee,
+#         subject="CYBO webinar certificate", 
+#         msgHtml="Dear webinar participant,<br/>Please find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.<br/><br/>We hope to welcome you again for the following webinars!<br/>Kind regards,<br/>the CYBO steering committee.", 
+#         msgPlain="Dear webinar participant,\nPlease find enclosed the participation certificate for the first CYBO webinar of April 15, 2025.\n\nWe hope to welcome you again for the following webinars!\nKind regards,\nthe CYBO steering committee.", 
+#         attachmentFile=f"{pdf_path}\split\{certificate}"
+#         )
