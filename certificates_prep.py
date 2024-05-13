@@ -29,19 +29,19 @@ with open(f"certificate_names_{speaker}.txt", "w") as file:
         
 ### Start devcontainer and generate multi-page PDF, copy it inside "certificates\{speaker}"
 
-# ### Extract PDF pages, in order of participant
-# pdf_path = f"D:\cybo_emails\certificates\{speaker}"
-# inputpdf = PdfReader(open(f"{pdf_path}\certificates_autofill.pdf", "rb"))
+### Extract PDF pages, in order of participant
+pdf_path = f"D:\cybo_emails\certificates\{speaker}"
+inputpdf = PdfReader(open(f"{pdf_path}\certificates_autofill.pdf", "rb"))
 
-# if not os.path.exists(f"{pdf_path}\split"):
-#     os.makedirs(f"{pdf_path}\split")
+if not os.path.exists(f"{pdf_path}\split"):
+    os.makedirs(f"{pdf_path}\split")
 
-# certificates_list = []
-# for i in range(len(inputpdf.pages)):
-#     output = PdfWriter()
-#     output.add_page(inputpdf.pages[i])
-#     name = certificates_names[i].replace(" ", "_")
-#     # print(name)
-#     certificates_list.append(f"Certificate_CYBO_webinar_10May2024_{name}.pdf")
-#     with open(f"{pdf_path}\split\Certificate_CYBO_webinar_10May2024_{name}.pdf", "wb") as outputStream:
-#         output.write(outputStream)
+certificates_list = []
+for i in range(len(inputpdf.pages)):
+    output = PdfWriter()
+    output.add_page(inputpdf.pages[i])
+    name = certificates_names[i].replace(" ", "_")
+    # print(name)
+    certificates_list.append(f"Certificate_CYBO_webinar_10May2024_{name}.pdf")
+    with open(f"{pdf_path}\split\Certificate_CYBO_webinar_10May2024_{name}.pdf", "wb") as outputStream:
+        output.write(outputStream)
