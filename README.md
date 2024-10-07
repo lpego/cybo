@@ -20,6 +20,7 @@ In dev container `LaTeX-custom-devcontainer`, on Windows the SSH agent doesn't c
 ## What to do for...
  - *Get participant emails, webinar info from website export*: on [CYBO's Word Press website](https://conferenceyoungbotanists.000webhostapp.com/) go to Admin panel > User Registration form > Settings > Export > Select registration form. Save in this repo, then run `parse_wp_users` changing variable `filename`. 
  - *Send Zoom invitation to webinar participants*: run `webinar_invitation.py` and change the following variables: `filename`, `speaker` , `zoom_invite` (can save Zoom invitation either in text file or hardcoded in script) as well as the arguments in the `send_email` function call. 
+ - *Send a regular email to participants*: run `send_emails.py` and change the following variables: `filename`, as well as the arguments in the `send_email` function call. 
  - *Generate LaTeX certificates locally with Docker*: 
     - run `certificates_prep.py` to generate participants list; 
     - in VS Code, open repo folder in dev container (Ctrl+Shift+P -> "Dev container: Open Folder in Container..."); in `certificates_autofill.tex` , change the aname of the speaker (line 137), title of the talk (line 137), and filename with participants (line 165); with VS Code extension LaTeX workshop, compile with "Recipe: pdflatex"; this should output a multipage PDF with all the participants names named `certificates_autofill.pdf`. 
