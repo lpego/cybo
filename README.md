@@ -18,7 +18,7 @@ If the the `.csv` export contains empty values for certain variables (e.g. "What
 In dev container `LaTeX-custom-devcontainer`, on Windows the SSH agent doesn't communicate correctly with Docker, so authentication doesn't currently work (e.g. github). 
 
 ## What to do for...
- - *Get participant emails, webinar info from website export*: on [CYBO's Word Press website](https://conferenceyoungbotanists.000webhostapp.com/) go to Admin panel > User Registration form > Settings > Export > Select registration form. Save in this repo, then run `parse_wp_users` changing variable `filename`. 
+ - *Get participant emails, webinar info from website export*: on [CYBO's Word Press website](https://conferenceyoungbotanists.com/) go to Admin panel > User Registration form > Settings > Export > Select registration form. Save in this repo, then run `parse_wp_users` changing variable `filename`. 
  - *Send Zoom invitation to webinar participants*: run `webinar_invitation.py` and change the following variables: `filename`, `speaker` , `zoom_invite` (can save Zoom invitation either in text file or hardcoded in script) as well as the arguments in the `send_email` function call. 
  - *Send a regular email to participants*: run `send_emails.py` and change the following variables: `filename`, as well as the arguments in the `send_email` function call. 
  - *Generate LaTeX certificates locally with Docker*: 
