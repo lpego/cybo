@@ -1,4 +1,5 @@
 FROM qmcgaw/latexdevcontainer
+RUN apt-get update
 RUN apt --assume-yes install fonts-roboto
 RUN apt-get --assume-yes install inkscape
 RUN tlmgr update --self
