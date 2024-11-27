@@ -6,10 +6,10 @@ from pypdf import PdfWriter, PdfReader
 from OAuth2_email_test import send_email
 
 ### Provide filename of the PARSED WordPress export here
-filename = "cybo-webinars-2024-registration-2024-05-10_13 21 39_parsed.csv"
+filename = "cybo-webinars-2024-registration-2024-11-06_10_01_24_parsed.csv"
 
 ### Provide surname of speaker
-speaker = "Riva"
+speaker = "Temunovic"
 
 ### Get emails for attendees of the specified webinar
 data = pd.read_csv(filename, skipinitialspace=True) 
@@ -23,14 +23,16 @@ certificates_names = [m.strip()+" "+n.strip() for m,n in zip(names,surnames)]
 certificates_names = [capwords(x) for x in certificates_names]
 # certificates_names = ["Luca Pegoraro", "Maria Guerrina", "Jacopo Calevo"] # for testing
 
-with open(f"certificate_names_{speaker}.txt", "w") as file:
+with open(f"certificate_names_{speaker}.txt", "w", encoding="utf-8") as file:
     for line in certificates_names: 
         file.write(f"{line}\n")
-        
+
 ### Start devcontainer and generate multi-page PDF, copy it inside "certificates\{speaker}"
 
 ### Extract PDF pages, in order of participant
 pdf_path = f"D:\cybo_emails\certificates\{speaker}"
+if not os.path.exists(pdf_path):
+    os.makedirs(pdf_path)
 inputpdf = PdfReader(open(f"{pdf_path}\certificates_autofill.pdf", "rb"))
 
 if not os.path.exists(f"{pdf_path}\split"):
@@ -42,6 +44,6 @@ for i in range(len(inputpdf.pages)):
     output.add_page(inputpdf.pages[i])
     name = certificates_names[i].replace(" ", "_")
     # print(name)
-    certificates_list.append(f"Certificate_CYBO_webinar_10May2024_{name}.pdf")
-    with open(f"{pdf_path}\split\Certificate_CYBO_webinar_10May2024_{name}.pdf", "wb") as outputStream:
+    certificates_list.append(f"Certificate_CYBO_webinar_06Nov2024_{name}.pdf")
+    with open(f"{pdf_path}\split\Certificate_CYBO_webinar_06Nov2024_{name}.pdf", "wb") as outputStream:
         output.write(outputStream)

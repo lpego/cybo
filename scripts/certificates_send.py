@@ -6,10 +6,10 @@ from pypdf import PdfWriter, PdfReader
 from OAuth2_email_test import send_email
 
 ### Provide filename of the PARSED WordPress export here
-filename = "cybo-webinars-2024-registration-2024-05-10_13 21 39_parsed.csv"
+filename = "cybo-webinars-2024-registration-2024-11-11_16_57_14_parsed.csv"
 
 ### Provide surname of speaker
-speaker = "Riva"
+speaker = "Temunovic"
 
 ### Get emails for attendees of the specified webinar
 data = pd.read_csv(filename, skipinitialspace=True) 
@@ -29,8 +29,8 @@ pdf_path = f"D:\cybo_emails\certificates\{speaker}"
 certificates_list = []
 for name in certificates_names:
     # print(cert)
-    certificates_list.append(f"Certificate_CYBO_webinar_10May2024_{name}.pdf".replace(" ", "_"))
-# certificates_list = [f"Certificate_CYBO_webinar_Luca_Pegoraro.pdf"] # for testing
+    certificates_list.append(f"Certificate_CYBO_webinar_06Nov2024_{name}.pdf".replace(" ", "_"))
+# certificates_list = [f"Certificate_CYBO_webinar_09Oct2024_Luca_Pegoraro.pdf"] # for testing
 
 ### Send emails
 for name, addressee, certificate in zip(certificates_names, email_addresses, certificates_list): 
@@ -39,18 +39,18 @@ for name, addressee, certificate in zip(certificates_names, email_addresses, cer
     send_email(
         sender="conferenceyoungbotanists@gmail.com", 
         to=addressee,
-        subject="CYBO webinar certificate - 10 May 2024", 
+        subject="CYBO webinar certificate - 6 Nov 2024", 
         msgHtml="""
         Dear webinar participant,<br/>
-        Please find enclosed the participation certificate for the second CYBO webinar of May 10<sup>th</sup>, 2024.<br/><br/>
-        We hope to welcome you again for the next webinar in September!<br/><br/>
+        Please find enclosed the participation certificate for the fifth CYBO webinar on Nov 6<sup>th</sup>, 2024.<br/><br/>
+        We hope to welcome you again for the next webinar!<br/><br/>
         Kind regards,<br/>
         CYBO steering committee.
         """, 
         msgPlain="""
         Dear webinar participant,\n
-        Please find enclosed the participation certificate for the second CYBO webinar of May 10, 2024.\n\n
-        We hope to welcome you again for the next webinar in September!\n\n
+        Please find enclosed the participation certificate for the fifth CYBO webinar of Nov 6, 2024.\n\n
+        We hope to welcome you again for the next webinar!\n\n
         Kind regards,\n
         CYBO steering committee.
         """, 

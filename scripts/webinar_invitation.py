@@ -4,14 +4,14 @@ import html
 from OAuth2_email_test import send_email
 
 ### Provide filename of the PARSED WordPress export here
-filename = "cybo-webinars-2024-registration-2024-05-10_13 21 39_parsed.csv"
+filename = "cybo-webinars-2024-registration-2024-11-06_10_01_24_parsed.csv"
 
 ### Provide surname of speaker here
-speaker = "Riva"
+speaker = "Temunovic"
 
 ### Paste the Zoom webinar invite here; 
 ### could be opened from a txt file (more secure)...
-with open("D:\cybo_emails\zoom_riva.txt", "r") as file: 
+with open("D:\cybo_emails\zoom_Temunovic.txt", "r") as file: 
     zoom_invite = file.read()
 
 # ### ...or hardcoded with multiline string (might be useful for debugging)
@@ -43,17 +43,17 @@ for addressee in email_addresses:
     send_email(
         sender="conferenceyoungbotanists@gmail.com",
         to=addressee,
-        subject="CYBO webinar: Federico Riva - in 1 hour",
+        subject="CYBO webinar: Martina Temunovic - in 1 hour",
         msgHtml="""
         Dear webinar participant,<br/>
-        A quick reminder that the next CYBO webinar will start in one hour.<br/>
+        The next CYBO webinar will start at 11:00am CET<br/>
         Find below the Zoom link.<br/>
         <br/>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br/>
         <br/>
         """ + html.escape(zoom_invite).replace('\n', '<br/>'),
         msgPlain="""
         Dear webinar participant,\n
-        A quick reminder that the next CYBO webinar will start in one hour.\n
+        The next CYBO webinar will start at 11:00am CET.\n
         Find below the Zoom link.\n
         \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n
         \n

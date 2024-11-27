@@ -126,7 +126,7 @@ def createMessageWithAttachment(
 
     return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
-# ### Hardcoded arguments    
+# ### Hardcode/d arguments    
 # def send_email():
 #     """Send email with attachment"""
 #     to = "luca.pegoraro@outlook.com"
