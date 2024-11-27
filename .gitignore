@@ -8,6 +8,8 @@
 *.JPG
 *.jpeg
 *.JPEG
+*.json
+*.JSON
 *.csv
 *.CSV
 *.txt
