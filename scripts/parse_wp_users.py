@@ -3,7 +3,7 @@ import re
 import os
 
 ### Provide file name here
-filename = "cybo-webinars-2024-registration-2024-11-11_16_57_14.csv"
+filename = "..\website_exports\cybo-webinars-2024-registration-2024-12-04_10_07_56.csv"
 
 data = pd.read_csv(filename, skipinitialspace=True)
 data.columns = data.columns.str.strip()

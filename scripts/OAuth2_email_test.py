@@ -126,7 +126,7 @@ def createMessageWithAttachment(
 
     return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
-# ### Hardcode/d arguments    
+# ### Hardcoded arguments    
 # def send_email():
 #     """Send email with attachment"""
 #     to = "luca.pegoraro@outlook.com"
@@ -137,7 +137,7 @@ def createMessageWithAttachment(
 #     ### Send message without attachment: 
 #     # SendMessage(sender, to, subject, msgHtml, msgPlain)
 #     ### Send message with attachment: 
-#     SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf')
+#     SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo\webinars_cybo2024_v4.1_compressed.pdf')
 
 # if __name__ == '__main__':
 #     send_email()
