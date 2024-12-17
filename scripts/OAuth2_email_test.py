@@ -34,16 +34,17 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def SendMessage(sender, to, subject, msgHtml, msgPlain, attachmentFile=None):
+def SendMessage(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile=None):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('gmail', 'v1', http=http)
     if attachmentFile:
-        message1 = createMessageWithAttachment(sender, to, subject, msgHtml, msgPlain, attachmentFile)
+        message1 = createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile)
     else: 
-        message1 = CreateMessageHtml(sender, to, subject, msgHtml, msgPlain)
+        message1 = CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain)      
     result = SendMessageInternal(service, "me", message1)
     return result
+
 
 def SendMessageInternal(service, user_id, message):
     try:
@@ -55,32 +56,25 @@ def SendMessageInternal(service, user_id, message):
         return "Error"
     return "OK"
 
-def CreateMessageHtml(sender, to, subject, msgHtml, msgPlain):
+def CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = sender
     msg['To'] = to
+    if cc:  # Include CC in headers only if provided
+        msg['Cc'] = cc
     msg.attach(MIMEText(msgPlain, 'plain'))
     msg.attach(MIMEText(msgHtml, 'html'))
-    return {'raw': base64.urlsafe_b64encode(msg.as_string().encode()).decode()}
+    # Combine 'To' and 'Cc' for the final recipient list
+    all_recipients = [to] + ([cc] if cc else [])
+    return {'raw': base64.urlsafe_b64encode(msg.as_string().encode()).decode(), 'to': all_recipients}
 
-def createMessageWithAttachment(
-    sender, to, subject, msgHtml, msgPlain, attachmentFile):
-    """Create a message for an email.
 
-    Args:
-      sender: Email address of the sender.
-      to: Email address of the receiver.
-      subject: The subject of the email message.
-      msgHtml: Html message to be sent
-      msgPlain: Alternative plain text message for older email clients          
-      attachmentFile: The path to the file to be attached.
-
-    Returns:
-      An object containing a base64url encoded email object.
-    """
+def createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile):
     message = MIMEMultipart('mixed')
     message['to'] = to
+    if cc:
+        message['Cc'] = cc
     message['from'] = sender
     message['subject'] = subject
 
@@ -93,38 +87,32 @@ def createMessageWithAttachment(
 
     message.attach(messageA)
 
-    print("create_message_with_attachment: file: %s" % attachmentFile)
     content_type, encoding = mimetypes.guess_type(attachmentFile)
-
     if content_type is None or encoding is not None:
         content_type = 'application/octet-stream'
+    
     main_type, sub_type = content_type.split('/', 1)
-    if main_type == 'text':
-        fp = open(attachmentFile, 'rb')
-        msg = MIMEText(fp.read(), _subtype=sub_type)
-        fp.close()
-    elif main_type == 'image':
-        fp = open(attachmentFile, 'rb')
-        msg = MIMEImage(fp.read(), _subtype=sub_type)
-        fp.close()
-    elif main_type == 'audio':
-        fp = open(attachmentFile, 'rb')
-        msg = MIMEAudio(fp.read(), _subtype=sub_type)
-        fp.close()
-    elif main_type == 'application':
-        fp = open(attachmentFile, 'rb')
-        msg = MIMEApplication(fp.read(), _subtype=sub_type)
-        fp.close()
-    else:
-        fp = open(attachmentFile, 'rb')
-        msg = MIMEBase(main_type, sub_type)
-        msg.set_payload(fp.read())
-        fp.close()
+    with open(attachmentFile, 'rb') as fp:
+        if main_type == 'text':
+            msg = MIMEText(fp.read(), _subtype=sub_type)
+        elif main_type == 'image':
+            msg = MIMEImage(fp.read(), _subtype=sub_type)
+        elif main_type == 'audio':
+            msg = MIMEAudio(fp.read(), _subtype=sub_type)
+        elif main_type == 'application':
+            msg = MIMEApplication(fp.read(), _subtype=sub_type)
+        else:
+            msg = MIMEBase(main_type, sub_type)
+            msg.set_payload(fp.read())
+    
     filename = os.path.basename(attachmentFile)
     msg.add_header('Content-Disposition', 'attachment', filename=filename)
     message.attach(msg)
 
-    return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
+    # Combine 'To' and 'Cc' for the final recipient list
+    all_recipients = [to] + ([cc] if cc else [])
+    return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode(), 'to': all_recipients}
+
 
 # ### Hardcoded arguments    
 # def send_email():
@@ -143,21 +131,20 @@ def createMessageWithAttachment(
 #     send_email()
 
 ### Argument parsing
-def send_email(sender, to, subject, msgHtml, msgPlain, attachmentFile=None):
-    """Send email with attachment"""
-    ### Send message without attachment: 
-    # SendMessage(sender, to, subject, msgHtml, msgPlain)
-    ### Send message with attachment: 
-    SendMessage(sender, to, subject, msgHtml, msgPlain, attachmentFile)
+def send_email(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile=None):
+    """Send email with optional CC and attachment."""
+    SendMessage(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile)
+
 
 if __name__ == "__main__":
    
     parser = argparse.ArgumentParser(description="Send email with attachments")
     parser.add_argument('--sender', type=str, required=True, help="Reply to field")
     parser.add_argument('--to', type=str, required=True, help="Address to send email to")
+    parser.add_argument('--cc', type=str, required=False, help="Address to copy in")
     parser.add_argument('--subject', type=str, required=True, help="Subject text of the email")
     parser.add_argument('--msgHtml', type=str, required=True, help="HTML-formatted text body of the email")
-    parser.add_argument('--msgPlain', type=str, required=True, help="Plain-text body of the email (for legacy clients)")
+    parser.add_argument('--msgPlain', type=str, required=False, help="Plain-text body of the email (for legacy clients)")
     parser.add_argument('--attachmentFile', type=str, required=False, help="Path to the attachment file")
     parser.add_argument('--verbose', "-v", action="store_true", help="Print function arguments")
     args = parser.parse_args()
@@ -165,7 +152,7 @@ if __name__ == "__main__":
     if args.verbose:
         print(f"args: {args}")
 
-    sys.exit(send_email(args.sender, args.to, args.subject, args.msgHtml, args.msgPlain, args.attachmentFile))
+    sys.exit(send_email(args.sender, args.to, args.cc, args.subject, args.msgHtml, args.msgPlain, args.attachmentFile))
 
 ### CLI string to test: 
 ### python OAuth2_email_test.py --to "luca.pegoraro@outlook.com" --sender "conferenceyoungbotanists@gmail.com" --subject "CLI_test_email" --msgHtml "Hi<br/>Html Email" --msgPlain "Hi\nPlain Email" --attachmentFile D:\cybo_emails\webinars_cybo2024_v4.1_compressed.pdf --verbose
