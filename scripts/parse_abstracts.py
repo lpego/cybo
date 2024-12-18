@@ -5,7 +5,7 @@ from glob import glob
 from latest_file import find_most_recent_file
 
 ### Provide file lists here here
-filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*")
+filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[!A-z].csv")
 filename = find_most_recent_file(filelist) # grab most recent version
 print("Reading from file: ", filename)
 
@@ -37,4 +37,4 @@ data_redux["URL"] = 'https://conferenceyoungbotanists.com/abstracts/' + data_red
 ### write out to file
 print("Writing out: ", os.path.splitext(filename)[0]+"_parsed.csv", " ; ", os.path.splitext(filename)[0]+"redux.csv")
 data.to_csv(os.path.splitext(filename)[0]+"_parsed.csv")
-data_redux.to_csv(os.path.splitext(filename)[0]+"redux.csv")
+data_redux.to_csv(os.path.splitext(filename)[0]+"_redux.csv")
