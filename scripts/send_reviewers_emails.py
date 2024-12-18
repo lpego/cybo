@@ -6,8 +6,16 @@ import pandas as pd
 import os, sys
 import html
 from OAuth2_email_test import send_email
+from glob import glob
 
-data = pd.read_csv("..\\website_exports\\Abstracts list for evaluation - data_redux_parsed.csv")
+from latest_file import find_most_recent_file
+
+### Provide file lists here here
+filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*_redux.csv")
+filename = find_most_recent_file(filelist) # grab most recent version
+print("Reading from file: ", filename)
+
+data = pd.read_csv(filename)
 
 # %% Grab abstract links for each reviewer
 abstracts = {}
