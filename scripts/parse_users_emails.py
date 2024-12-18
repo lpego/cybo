@@ -2,12 +2,15 @@
 import pandas as pd
 import re
 import os
+from glob import glob
+from latest_file import find_most_recent_file
 
 ### Provide file name here
-registrations = "..\website_exports\cybo-webinars-2024-registration-2024-12-04_10_07_56.csv"
-conference_attendance = "..\website_exports\cybo-2025-registration,-attendance-only-2024-12-04_10_08_08.csv"
-conference_contribution = "..\website_exports\cybo-2025-registration,-with-contribution-2024-12-04_10_08_04.csv"
+registrations = find_most_recent_file(glob("..\website_exports\cybo-webinars-2024-registration*[!A-z].csv")) # "..\website_exports\cybo-webinars-2024-registration-2024-12-04_10_07_56.csv"
+conference_attendance = find_most_recent_file(glob("..\website_exports\cybo-2025-registration,-attendance-only*[!A-z].csv")) # "..\website_exports\cybo-2025-registration,-attendance-only-2024-12-04_10_08_08.csv"
+conference_contribution = find_most_recent_file(glob("..\website_exports\cybo-2025-registration,-with-contribution*[!A-z].csv")) # "..\website_exports\cybo-2025-registration,-with-contribution-2024-12-04_10_08_04.csv"
 
+# %% 
 email_list = []
 for file in [registrations, conference_attendance, conference_contribution]: 
     data = pd.read_csv(file, skipinitialspace=True)
@@ -29,3 +32,5 @@ print(len(email_set))
 with open("..\website_exports\email_list.txt", "w", encoding="utf-8") as file:
     for line in email_set: 
         file.write(f"{line}\n")
+
+# %%
