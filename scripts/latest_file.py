@@ -2,10 +2,10 @@ import re
 from datetime import datetime
 
 def find_most_recent_file(files):
-    # Regular expression to match both formats with optional suffix
     timestamp_regex = re.compile(
-        r"[-_](\d{4}-\d{2}-\d{2}[_\d{2}_\d{2}_\d{2})(?:_[a-zA-Z0-9]+)?\.csv$"  # Format 1: YYYY-MM-DD_HH_MM_SS
-        r"|_(\d{2}[A-Za-z]{3}\d{4})(?:_[a-zA-Z0-9]+)?\.csv$"  # Format 2: DDMMMYYYY
+        r"(\d{4}-\d{2}-\d{2}_\d{2}_\d{2}_\d{2})"  # Format: YYYY-MM-DD_HH_MM_SS
+        r"|(\d{4}-\d{2}-\d{2})"  # Format: YYYY-MM-DD
+        r"|(\d{2}[A-Za-z]{3}\d{4})"  # Format: DDMMMYYYY
     )
 
     def extract_timestamp(file_name):
@@ -13,13 +13,15 @@ def find_most_recent_file(files):
         if match:
             # Handle format: YYYY-MM-DD_HH_MM_SS
             if match.group(1):
-                # Remove suffix if present and replace underscores with spaces
-                timestamp_str = match.group(1).split('_redux')[0].replace("_", " ")
+                timestamp_str = match.group(1).replace("_", " ")
                 return datetime.strptime(timestamp_str, "%Y-%m-%d %H %M %S")
-            # Handle format: DDMMMYYYY
+            # Handle format: YYYY-MM-DD
             elif match.group(2):
-                # Remove suffix if present
-                timestamp_str = match.group(2).split('_redux')[0]
+                timestamp_str = match.group(2)
+                return datetime.strptime(timestamp_str, "%Y-%m-%d")
+            # Handle format: DDMMMYYYY
+            elif match.group(3):
+                timestamp_str = match.group(3)
                 return datetime.strptime(timestamp_str, "%d%b%Y")
         return None
 
@@ -45,6 +47,8 @@ files = [
     "cybo-2025-registration,-with-contribution-2024-12-18_11_29_37_redux.csv",
     "wp_users_22Dec2024.csv",
     "cybo-2025-registration,-with-contribution-2024-12-23_11_29_37_redux.csv",
+    "evf-entry-export-abstract-evaluation-2024-12-11-9622391a024e2387a88157a78094f283.csv", 
+    "evf-entry-export-abstract-evaluation-2025-01-06-9622391a024e2387a88157a78094f283.csv",
 ]
 
 most_recent = find_most_recent_file(files)
