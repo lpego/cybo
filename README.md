@@ -1,7 +1,7 @@
 # CYBO website utilities
 This repo contains all the scripts and utils to manage, automate and run the [CYBO](https://conferenceyoungbotanists.com/) website. 
 
-🛑 Need to recode all filepaths after repo re-organistaion... 
+🛑 Need to recode all filepaths after repo re-organistaion... [not sure if I did that already for all scripts...]
 
 ## What's what
 The main directories are: 
@@ -14,6 +14,7 @@ The main directories are:
 There is also a `.devcontainer` directory with details for Docker container deployment for this repo.
 
 ### Index
+ - [Utilities](#utils)
  - [Parse users info](#parse-users-info)
  - [Send bulk emails](#send-bulk-emails)
  - [Generate certificates](#generate-certificates)
@@ -22,16 +23,24 @@ There is also a `.devcontainer` directory with details for Docker container depl
  - [Dev notes](#dev-notes)
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
+# Utils
+General-purpose utilities used in other scripts here.  
+
+ - `scripts/latest_file.py` a RegEx that grabs the most recent file given a list, using `glob` for instance; supports several `datetime` formats. 
+
+ - `scripts/OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function), with attachment. Supports also CC. 
+
+<!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 # Parse users info
 Handle the export files from WordPress plugin [User Registration](https://wordpress.org/plugins/user-registration/) and convert in a more usable format. 
 
  - `scripts/parse_wp_users` pulls out the list of user emails for each webinar from the export of WordPress's plugin User Registration. 
+ 
+ - `scripts/merge_abstracts_evaluations.py` merges files from WordPress plugins [User Registration](https://wordpress.org/plugins/user-registration/) and [Everest Forms](https://everestforms.net/) exports, with assigned reviewers and handlers from Google Sheet export. 
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 # Send bulk emails
 Sending automated bulk personalised emails using OAuth2 Gmail API: reminders, webinar invitations and sending certificates. 
-
- - `scripts/OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function for now), with attachment. 
 
  - `scripts/certificates_send.py` sends the generated pdf certificates to webinar attendees. 
 
