@@ -14,7 +14,7 @@ from OAuth2_email_test import send_email
 # # print(email_addresses)
 
 # ### get email list 
-with open("..\website_exports\email_list.txt") as f:
+with open("website_exports\email_list.txt") as f:
      email_addresses = [line.rstrip('\n') for line in f]
 # print(type(email_addresses))
 # print(email_addresses)
@@ -25,18 +25,18 @@ for addressee in email_addresses:
     send_email(
         sender="conferenceyoungbotanists@gmail.com",
         to=addressee,
-        subject="CYBO registration deadline extended!",
+        subject="CYBO webinar, today 2pm: Franziska Willems",
         msgHtml="""
         <p>Dear Young Botanists, <br>
-        &nbsp;if you missed the chance to submit a contribution to CYBO 2025, we have now extended the abstract submission deadline for talks and posters to <strong>Monday, December 23<sup>rd</sup>, 23:59 (CET)</strong>! Head over to the <a rel="nofollow" target="_blank" href="https://conferenceyoungbotanists.com/cybo-2025/cybo-2025-registration">registration page here</a> to submit your contribution. <br><br>
-        We look forward to welcoming you in Genova! <br>
+        &nbsp;please find below the link for the next CYBO webinar, <strong>today at 2pm</strong>, by Franziska Willems, Philipps University of Marburg (DE), entitled: “How and why is wildflower phenology changing over the last century?“<br>
+        <a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_YzIzZTRmYmYtMTQ1YS00ZTZmLWFiNGUtODU0YzBhY2MxMGM1%40thread.v2/0?context=%7b%22Tid%22%3a%226cd36f83-1a02-442d-972f-2670cb5e9b1a%22%2c%22Oid%22%3a%22b17c2380-aac4-4307-aaa4-036f94f36f63%22%7d">Microsoft Teams meeting link</a>.<br><br>
         Kind regards, <br>
         CYBO organising committee.</p>
         """,
         msgPlain="""
         Dear Young Botanists, \n
-        if you missed the chance to submit a contribution to CYBO 2025, we have now extended the abstract submission deadaline for talks and posters to  Monday, December 23rd, 23:59 (CET)! Head over to https://conferenceyoungbotanists.com/cybo-2025/cybo-2025-registration to submit your contribution. \n\n
-        We look forward to welcoming you in Genova! \n
+        please find below the link for the next CYBO webinar, today at 2pm, by Franziska Willems, Philipps University of Marburg (DE), entitled: “How and why is wildflower phenology changing over the last century?“\n
+        https://teams.microsoft.com/l/meetup-join/19%3ameeting_YzIzZTRmYmYtMTQ1YS00ZTZmLWFiNGUtODU0YzBhY2MxMGM1%40thread.v2/0?context=%7b%22Tid%22%3a%226cd36f83-1a02-442d-972f-2670cb5e9b1a%22%2c%22Oid%22%3a%22b17c2380-aac4-4307-aaa4-036f94f36f63%22%7d">Microsoft Teams meeting link</a>.\n\n
         Kind regards, \n
         CYBO organising committee.
         """,
