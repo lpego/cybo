@@ -1,3 +1,6 @@
+### This script uses various exports to collect all user emails
+### useful for sending newsletters, etc. 
+
 # %% 
 import pandas as pd
 import re
