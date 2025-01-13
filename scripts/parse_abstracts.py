@@ -1,3 +1,7 @@
+### This script parses the abstracts form export, cleans rogue newlines, 
+### and writes out a reduced csv for further processing
+
+# %% 
 import pandas as pd
 import re
 import os
@@ -11,30 +15,53 @@ print("Reading from file: ", filename)
 
 data = pd.read_csv(filename)
 
+ # %%
 # Strip newlines from all cells
 data = data.apply(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else x)
 
-### count preferred sessions
+# %% count preferred sessions
 data['Preferred session'].value_counts()
-### gender balance
+# %% gender balance
 data['Gender'].value_counts()
+# %% career stage
+data['Career stage'].value_counts()
 
+# %%
 ### Prepare reduced version
 data_redux = data[['First Name', 'Last Name', 'Email address', 'Career stage', 'Country', 'Gender',
-       'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session']]
-# ### Obtain usernames based on email addresses - CAUTION< some users have different usernames...
+       'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session', 'User Registered GMT']]
+# ### Obtain usernames based on email addresses - CAUTION! some users have different usernames...
 # data_redux["Username"] = data['Email address'].str.extract(r'^([^@]+)@')
+### Sort by registration date
+data_redux['User Registered GMT'] = pd.to_datetime(data_redux['User Registered GMT'])
+data_redux = data_redux.sort_values('User Registered GMT', ascending=True)
 
-### Grab full user table
-# wp_users = pd.read_csv("..\website_exports\wp_users_10Dec2024.csv")
+# %%
+### Grab full user table from the phpMyAdmin database manager
+### Look for the table "wp_users" and export as .csv
 wp_users = pd.read_csv(find_most_recent_file(glob("..\website_exports\wp_users*")))
 print("Reading user table from file: ", find_most_recent_file(glob("..\website_exports\wp_users*")))
 ### Merge by email
-data_redux = data_redux.merge(wp_users[['user_email', 'user_login']], left_on='Email address', right_on='user_email', how='left')
+data_redux_merged = data_redux.merge(wp_users[['user_email', 'user_login']], left_on='Email address', right_on='user_email', how='left')
 ### Make URL
-data_redux["URL"] = 'https://conferenceyoungbotanists.com/abstracts/' + data_redux['user_login']
+data_redux_merged["URL"] = 'https://conferenceyoungbotanists.com/abstracts/' + data_redux_merged['user_login']
 
 ### write out to file
-print("Writing out: ", os.path.splitext(filename)[0]+"_parsed.csv", " ; ", os.path.splitext(filename)[0]+"redux.csv")
-data.to_csv(os.path.splitext(filename)[0]+"_parsed.csv")
-data_redux.to_csv(os.path.splitext(filename)[0]+"_redux.csv")
+print(
+       "Writing out: ", 
+       # os.path.splitext(filename)[0]+"_parsed.csv", " ; ", 
+       os.path.splitext(filename)[0]+"_redux.csv"
+       )
+# data.to_csv(os.path.splitext(filename)[0]+"_parsed.csv")
+data_redux_merged.to_csv(os.path.splitext(filename)[0]+"_redux.csv")
+
+# %% 
+### EXTRA: merge back to existing reviewer assignments from Google Sheet
+gsheet = pd.read_csv("..\website_exports\Abstracts list for evaluation - data_redux_parsed.csv")
+gsheet = gsheet[["Email address", "Reviewer", "Handler", "Reviewed?", "Notes", "Reviewer_email", "Handler_email"]]
+gsheet_new = data_redux_merged.merge(gsheet, on="Email address", how="outer")
+gsheet_new['User Registered GMT'] = pd.to_datetime(gsheet_new['User Registered GMT'])
+gsheet_new.sort_values('User Registered GMT', ascending=True)
+gsheet_new.to_csv("..\website_exports\Abstracts list for evaluation - data_redux_parsed_NEW.csv")
+
+# %%
