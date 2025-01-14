@@ -15,12 +15,13 @@ print("Reading from file: ", filename)
 
 data = pd.read_csv(filename)
 
- # %%
-# Strip newlines from all cells
+# %% strip newlines from all cells
 data = data.apply(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else x)
 
 # %% count preferred sessions
 data['Preferred session'].value_counts()
+# %% count preferred sessions
+data["What type of contribution would you prefer to submit?"].value_counts()
 # %% gender balance
 data['Gender'].value_counts()
 # %% career stage
