@@ -34,18 +34,6 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def SendMessage(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile=None):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('gmail', 'v1', http=http)
-    if attachmentFile:
-        message1 = createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile)
-    else: 
-        message1 = CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain)      
-    result = SendMessageInternal(service, "me", message1)
-    return result
-
-
 def SendMessageInternal(service, user_id, message):
     try:
         message = (service.users().messages().send(userId=user_id, body=message).execute())
@@ -56,19 +44,35 @@ def SendMessageInternal(service, user_id, message):
         return "Error"
     return "OK"
 
-def CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain):
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = to
-    if cc:  # Include CC in headers only if provided
-        msg['Cc'] = cc
-    msg.attach(MIMEText(msgPlain, 'plain'))
-    msg.attach(MIMEText(msgHtml, 'html'))
-    # Combine 'To' and 'Cc' for the final recipient list
-    all_recipients = [to] + ([cc] if cc else [])
-    return {'raw': base64.urlsafe_b64encode(msg.as_string().encode()).decode(), 'to': all_recipients}
+# ...existing code...
 
+def SendMessage(sender, to, subject, msgHtml, msgPlain, cc=None, attachmentFile=None):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('gmail', 'v1', http=http)
+    if attachmentFile:
+        message1 = createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile)
+    else: 
+        message1 = CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain)      
+    result = SendMessageInternal(service, "me", message1)
+    return result
+
+def CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain):
+    message = MIMEMultipart('alternative')
+    message['to'] = to
+    message['from'] = sender
+    message['subject'] = subject
+    if cc:
+        message['cc'] = cc
+    part1 = MIMEText(msgPlain, 'plain')
+    part2 = MIMEText(msgHtml, 'html')
+    message.attach(part1)
+    message.attach(part2)
+    raw = base64.urlsafe_b64encode(message.as_bytes())
+    raw = raw.decode()
+    return {'raw': raw}
+
+# ...existing code...
 
 def createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile):
     message = MIMEMultipart('mixed')
@@ -132,9 +136,9 @@ def createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, atta
 #     send_email()
 
 ### Argument parsing
-def send_email(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile=None):
+def send_email(sender, to, subject, msgHtml, msgPlain, cc=None, attachmentFile=None):
     """Send email with optional CC and attachment."""
-    SendMessage(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile)
+    SendMessage(sender, to, subject, msgHtml, msgPlain, cc, attachmentFile)
 
 
 if __name__ == "__main__":
