@@ -20,12 +20,17 @@ data = data.apply(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else
 
 # %% count preferred sessions
 data['Preferred session'].value_counts()
+talks  = data[data["What type of contribution would you prefer to submit?"] == "Talk"]
+talks['Preferred session'].value_counts()
 # %% count preferred sessions
 data["What type of contribution would you prefer to submit?"].value_counts()
 # %% gender balance
 data['Gender'].value_counts()
 # %% career stage
 data['Career stage'].value_counts()
+
+# %% suggestions changes
+
 
 # %%
 ### Prepare reduced version

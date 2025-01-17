@@ -1,5 +1,6 @@
 import html
-from OAuth2_email_test import SendMessage
+from OAuth2_email import SendMessage
+
 ### Hardcoded arguments    
 def send_email():
     """Send email with attachment"""
@@ -10,9 +11,9 @@ def send_email():
     msgHtml = "Hi<br/>Html Email"
     msgPlain = "Hi\nPlain Email"
     ### Send message without attachment: 
-    # SendMessage(sender, to, subject, msgHtml, msgPlain)
-    ### Send message with attachment: 
-    SendMessage(sender, to, cc, subject, msgHtml, msgPlain, 'D:\cybo\webinars_cybo2024_v4.1_compressed.pdf')
+    SendMessage(sender, to, subject, msgHtml, msgPlain)
+    # ### Send message with attachment: 
+    # SendMessage(sender, to, cc, subject, msgHtml, msgPlain, 'D:\cybo\webinars_cybo2024_v4.1_compressed.pdf')
 
 if __name__ == '__main__':
     send_email()

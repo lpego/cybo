@@ -5,7 +5,7 @@
 import pandas as pd
 import os, sys
 import html
-from OAuth2_email_test import send_email
+from OAuth2_email import send_email
 from glob import glob
 
 # from latest_file import find_most_recent_file

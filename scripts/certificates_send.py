@@ -1,9 +1,12 @@
+### This script send personalised emails
+### with locally generated LaTeX certificates
+
 import pandas as pd
 import os, sys
 from string import capwords
 # import time
 from pypdf import PdfWriter, PdfReader
-from OAuth2_email_test import send_email
+from OAuth2_email import send_email
 
 ### Provide filename of the PARSED WordPress export here
 filename = "cybo-webinars-2024-registration-2024-11-11_16_57_14_parsed.csv"
