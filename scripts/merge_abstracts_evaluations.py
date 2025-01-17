@@ -45,6 +45,14 @@ merged = merged.drop("Link to the abstract", axis=1)
 merged = merged.merge(emails, on="URL", how="left")
 # merged = merged.drop("Link to the abstract", axis=1)
 
+# %% Find suggested up / down-grades
+# Filter rows where both columns have non-empty values
+filtered = merged.dropna(subset=["What type of contribution would you prefer to submit?", "Reccommended type of contribution"])
+# Find rows where the values are different
+different_contributions = filtered[filtered["What type of contribution would you prefer to submit?"] != filtered["Reccommended type of contribution"]]
+# Display the result
+print(different_contributions)
+
 # %% Add "Reviewed?" column based on "Status" column
 merged["Reviewed?"] = merged["Status"].apply(lambda x: "✔" if pd.notna(x) and x != "" else "")
 
