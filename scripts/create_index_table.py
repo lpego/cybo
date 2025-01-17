@@ -4,6 +4,9 @@
 
 # %%
 import pandas as pd
+from glob import glob
+from latest_file import find_most_recent_file
+import datetime
 
 # Define the schedule data with two tracks
 schedule = [
@@ -29,7 +32,7 @@ schedule = [
     ["7 February 2025", "14:00-17:00", "Workshops and Closing Ceremony", "Workshops and Closing Ceremony"]
 ]
 
-# Define a palette of 6 muted colors for the sessions
+# Define a palette of 6 distinct colors for the sessions
 palette = {
     "Systematics": "#B0C4DE",
     "Ecology": "#98FB98",
@@ -79,10 +82,30 @@ def calculate_talks(start_time, end_time):
 # Create a DataFrame from the schedule data
 df = pd.DataFrame(schedule, columns=["Date", "Time", "Track A", "Track B"])
 
+# %% Load the data containing author information
+filename = "..\website_exports\Abstracts list for evaluation - merged_abstracts_evaluations_2025-01-16_12-16-04_FINAL.csv"
+print("Reading from file: ", filename)
+author_data = pd.read_csv(filename).drop(['Unnamed: 0'],axis=1)
+# Replace NaN values in the 'General comments' column with the string 'none'
+author_data['General comments'] = author_data['General comments'].fillna('none')
+# Filter the data to only include rows where "Final contribution" is "Talk"
+author_data = author_data[author_data["Final contribution"] == "Talk"]
+
+# %% Read in most recent version of abstracts data
+filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[_redux].csv")
+filename = find_most_recent_file(filelist) # grab most recent version
+print("Reading from file: ", filename)
+abstract_data = pd.read_csv(filename, skipinitialspace=True)
+
+# %% merge session and abstract data
+merged = author_data.merge(abstract_data, on=['First Name', 'Last Name', 'Email address'], how="left")
+
 # Function to generate HTML table for a given day
-def generate_html_table(df, day):
+def generate_html_table(df, day, merged):
     html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">\n'
     html_table += '  <tr>\n    <th style="width: 20%;">Time</th>\n    <th style="width: 40%;">Track A</th>\n    <th style="width: 40%;">Track B</th>\n  </tr>\n'
+    
+    author_index = 0
     
     for _, row in df.iterrows():
         date, time, track_a, track_b = row["Date"], row["Time"], row["Track A"], row["Track B"]
@@ -99,7 +122,11 @@ def generate_html_table(df, day):
                 num_talks = calculate_talks(start_time, end_time)
                 for i in range(num_talks):
                     talk_time = f"{start_time}-{end_time}" if i == 0 else ""
-                    html_table += f'  <tr>\n    <td>{talk_time}</td>\n    <td{style_a}>Talk {i+1}</td>\n    <td{style_b}>Talk {i+1}</td>\n  </tr>\n'
+                    author_a = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">Link to abstract</a>' if author_index < len(merged) else ""
+                    author_index += 1
+                    author_b = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">Link to abstract</a>' if author_index < len(merged) else ""
+                    author_index += 1
+                    html_table += f'  <tr>\n    <td>{talk_time}</td>\n    <td{style_a}>{author_a}</td>\n    <td{style_b}>{author_b}</td>\n  </tr>\n'
             elif track_a == track_b:
                 html_table += f'  <tr>\n    <td>{time}</td>\n    <td colspan="2"{style_a}>{track_a}</td>\n  </tr>\n'
             else:
@@ -110,7 +137,7 @@ def generate_html_table(df, day):
 
 # Generate HTML tables for each day
 days = ["5 February 2025", "6 February 2025", "7 February 2025"]
-html_tables = [generate_html_table(df, day) for day in days]
+html_tables = [generate_html_table(df, day, merged) for day in days]
 
 # Combine the tables into a single HTML file
 html_content = "<html>\n<head>\n<title>Conference Schedule</title>\n</head>\n<body>\n"
@@ -118,8 +145,10 @@ for table in html_tables:
     html_content += table + "<br>\n"
 html_content += "</body>\n</html>"
 
-# Save the HTML content to a file
-with open("schedule_table.html", "w") as file:
+# Save the HTML content to a file with utf-8 encoding
+current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+with open(f"schedule_table_{current_datetime}.html", "w", encoding="utf-8") as file:
     file.write(html_content)
 
 print("HTML tables generated and saved to schedule_table.html")
+# %%
