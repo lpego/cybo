@@ -35,7 +35,8 @@ data['Career stage'].value_counts()
 # %%
 ### Prepare reduced version
 data_redux = data[['First Name', 'Last Name', 'Email address', 'Career stage', 'Country', 'Gender',
-       'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session', 'User Registered GMT']]
+       'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session', 'User Registered GMT', 
+       'Title', "Contributing author's institution"]]
 # ### Obtain usernames based on email addresses - CAUTION! some users have different usernames...
 # data_redux["Username"] = data['Email address'].str.extract(r'^([^@]+)@')
 ### Sort by registration date
