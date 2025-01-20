@@ -131,9 +131,9 @@ def generate_html_table(df, day, merged):
                 num_talks = calculate_talks(start_time, end_time)
                 for i in range(num_talks):
                     talk_time = f"{start_time}-{end_time}" if i == 0 else ""
-                    author_a = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">Link to abstract</a>' if author_index < len(merged) else ""
+                    author_a = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">{merged.iloc[author_index]["Title"]}</a>' if author_index < len(merged) else ""
                     author_index += 1
-                    author_b = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">Link to abstract</a>' if author_index < len(merged) else ""
+                    author_b = f'{merged.iloc[author_index]["First Name"]} {merged.iloc[author_index]["Last Name"]} <br> <a href="{merged.iloc[author_index]["URL_x"]}">{merged.iloc[author_index]["Title"]}</a>' if author_index < len(merged) else ""
                     author_index += 1
                     html_table += f'  <tr>\n    <td>{talk_time}</td>\n    <td{style_a}>{author_a}</td>\n    <td{style_b}>{author_b}</td>\n  </tr>\n'
             elif track_a == track_b:
