@@ -3,6 +3,7 @@
 ### and with custom links to abstracts on the website
 
 # %%
+import os
 import pandas as pd
 from glob import glob
 from latest_file import find_most_recent_file
@@ -33,13 +34,21 @@ schedule = [
 ]
 
 # Define a palette of 6 distinct colors for the sessions
+# palette = {
+#     "Systematics": "#B0C4DE",
+#     "Ecology": "#98FB98",
+#     "Biodiversity": "#FFDAB9",
+#     "Physiology": "#E6E6FA",
+#     "Genetics": "#FFB6C1",
+#     "Society": "#FFFACD"
+# }
 palette = {
-    "Systematics": "#B0C4DE",
-    "Ecology": "#98FB98",
-    "Biodiversity": "#FFDAB9",
-    "Physiology": "#E6E6FA",
-    "Genetics": "#FFB6C1",
-    "Society": "#FFFACD"
+    "Systematics": "#A0C1E6",
+    "Ecology": "#D5B3AE",
+    "Biodiversity": "#CE7773",
+    "Physiology": "#D9CBDD",
+    "Genetics": "#907A9D",
+    "Society": "#4F81BB",
 }
 
 # Assign sessions to slots
@@ -146,8 +155,12 @@ for table in html_tables:
 html_content += "</body>\n</html>"
 
 # Save the HTML content to a file with utf-8 encoding
+save_dir = "../website_exports/HTML_tables"
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
 current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-with open(f"schedule_table_{current_datetime}.html", "w", encoding="utf-8") as file:
+with open(f"{save_dir}/schedule_table_{current_datetime}.html", "w", encoding="utf-8") as file:
     file.write(html_content)
 
 print("HTML tables generated and saved to schedule_table.html")
