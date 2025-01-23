@@ -71,7 +71,7 @@ def generate_html_table_posters(data, color_mode="background"):
 # %% Generate HTML table for posters
 html_table_posters = generate_html_table_posters(merged, color_mode="square")
 # Save the HTML content to a file with utf-8 encoding
-filename = "posters_table.html"
+filename = "../website_exports/HTML_tables/posters_table.html"
 with open(filename, "w", encoding="utf-8") as file:
     file.write(html_table_posters)
 print(f"HTML table for posters generated and saved to {filename}")

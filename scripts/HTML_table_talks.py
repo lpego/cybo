@@ -18,6 +18,7 @@ palette = {
     "5. Genetics, genomics, and bioinformatics": "#907A9D",
     "6. Plants, Fungi and Society": "#4F81BB",
 }
+
 # %% Load the data from the CSV file
 filename = "d:/cybo/website_exports/Programme_2025 - Sheet10.csv"
 data = pd.read_csv(filename)
@@ -74,7 +75,7 @@ unique_days = data['Date'].dropna().unique()
 for day in unique_days:
     html_table = generate_html_table(data, day, color_mode="square")
     # Save the HTML content to a file with utf-8 encoding
-    filename = f"schedule_table_{day.replace(' ', '_').replace(':', '-')}.html"
+    filename = f"../website_exports/HTML_tables/talks_table_{day.replace(' ', '_').replace(':', '-')}.html"
     with open(filename, "w", encoding="utf-8") as file:
         file.write(html_table)
     print(f"HTML table for {day} generated and saved to {filename}")
