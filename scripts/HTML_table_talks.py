@@ -117,7 +117,7 @@ for day in unique_days:
 
 # %% Generate and save the session colour legend
 palette_html_table = '<div style="text-align: center;">\n'
-palette_html_table += '<table border="1" style="border-collapse: collapse; width: 50%; margin: 0 auto;">\n'
+palette_html_table += '<table border="1" style="border-collapse: collapse; width: 75%; margin: 0 auto;">\n'
 palette_html_table += '  <tr>\n    <th style="width: 80%;">Session</th>\n    <th style="width: 20%;">Colour</th>\n  </tr>\n'
 
 for session, color in palette.items():
