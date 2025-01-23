@@ -114,4 +114,21 @@ for day in unique_days:
     with open(filename, "w", encoding="utf-8") as file:
         file.write(html_table)
     print(f"HTML table for {day} generated and saved to {filename}")
+
+# %% Generate and save the session colour legend
+palette_html_table = '<div style="text-align: center;">\n'
+palette_html_table += '<table border="1" style="border-collapse: collapse; width: 50%; margin: 0 auto;">\n'
+palette_html_table += '  <tr>\n    <th style="width: 80%;">Session</th>\n    <th style="width: 20%;">Colour</th>\n  </tr>\n'
+
+for session, color in palette.items():
+    palette_html_table += f'  <tr>\n    <td>{session}</td>\n    <td style="background-color: {color};"></td>\n  </tr>\n'
+
+palette_html_table += '</table>\n'
+palette_html_table += '</div>\n'
+
+palette_filename = "../website_exports/HTML_tables/sessions_legend.html"
+with open(palette_filename, "w", encoding="utf-8") as file:
+    file.write(palette_html_table)
+print(f"Palette HTML table generated and saved to {palette_filename}")
+
 # %%
