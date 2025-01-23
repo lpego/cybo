@@ -21,7 +21,36 @@ palette = {
 
 # %% Load the data from the CSV file
 filename = "d:/cybo/website_exports/Programme_2025 - Sheet10.csv"
-data = pd.read_csv(filename)
+talk_data = pd.read_csv(filename)
+
+# %% Reshape talk_data to have one "First Name" and one "Last Name" column per row
+talk_data_a = talk_data[['Date', 'Time', 'Activity', 'First Name - Track A', 'Last Name - Track A', 'Session - Track A']]
+talk_data_a = talk_data_a.rename(columns={
+    'First Name - Track A': 'First Name A',
+    'Last Name - Track A': 'Last Name A',
+    'Session - Track A': 'Session A',
+    'Title - Track A': 'Title A'
+})
+
+talk_data_b = talk_data[['Date', 'Time', 'Activity', 'First Name - Track B', 'Last Name - Track B', 'Session - Track B']]
+talk_data_b = talk_data_b.rename(columns={
+    'First Name - Track B': 'First Name B',
+    'Last Name - Track B': 'Last Name B',
+    'Session - Track B': 'Session B',
+    'Title - Track B': 'Title B'
+})
+
+reshaped_talk_data = pd.merge(talk_data_a, talk_data_b, on=['Date', 'Time', 'Activity'], how='outer')
+
+# %% Load the data containing abstract information
+filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[_redux].csv")
+filename = find_most_recent_file(filelist) # grab most recent version
+print("Reading from file: ", filename)
+abstract_data = pd.read_csv(filename, skipinitialspace=True)
+
+# %% Merge the reshaped talk data and author data
+merged_data = pd.merge(reshaped_talk_data, abstract_data, left_on=['First Name A', 'Last Name A'], right_on=['First Name', 'Last Name'], how='left')
+merged_data = pd.merge(merged_data, abstract_data, left_on=['First Name B', 'Last Name B'], right_on=['First Name', 'Last Name'], how='left', suffixes=('_A', '_B'))
 
 # %% Function to generate HTML table for a given day
 def generate_html_table(data, day, color_mode="background"):
@@ -36,12 +65,18 @@ def generate_html_table(data, day, color_mode="background"):
         
         time_slot = row["Time"]
         activity = row["Activity"]
-        first_name_a = row["First Name - Track A"] if pd.notna(row["First Name - Track A"]) else ""
-        last_name_a = row["Last Name - Track A"] if pd.notna(row["Last Name - Track A"]) else ""
-        session_a = row["Session - Track A"] if pd.notna(row["Session - Track A"]) else ""
-        first_name_b = row["First Name - Track B"] if pd.notna(row["First Name - Track B"]) else ""
-        last_name_b = row["Last Name - Track B"] if pd.notna(row["Last Name - Track B"]) else ""
-        session_b = row["Session - Track B"] if pd.notna(row["Session - Track B"]) else ""
+        
+        first_name_a = row["First Name A"] if pd.notna(row["First Name A"]) else ""
+        last_name_a = row["Last Name A"] if pd.notna(row["Last Name A"]) else ""
+        session_a = row["Session A"] if pd.notna(row["Session A"]) else ""
+        title_a = row["Title_A"] if pd.notna(row["Title_A"]) else ""
+        url_a = row["URL_A"] if pd.notna(row["URL_A"]) else ""
+        
+        first_name_b = row["First Name B"] if pd.notna(row["First Name B"]) else ""
+        last_name_b = row["Last Name B"] if pd.notna(row["Last Name B"]) else ""
+        session_b = row["Session B"] if pd.notna(row["Session B"]) else ""
+        title_b = row["Title_B"] if pd.notna(row["Title_B"]) else ""
+        url_b = row["URL_B"] if pd.notna(row["URL_B"]) else ""
         
         author_a = f'{first_name_a} {last_name_a}' if first_name_a and last_name_a else ""
         author_b = f'{first_name_b} {last_name_b}' if first_name_b and last_name_b else ""
@@ -65,17 +100,18 @@ def generate_html_table(data, day, color_mode="background"):
         if pd.notna(activity):
             html_table += f'  <tr>\n    <td>{time_slot}</td>\n    <td colspan="2" style="text-align: center;">{activity}</td>\n  </tr>\n'
         else:
-            html_table += f'  <tr>\n    <td>{time_slot}</td>\n    <td{style_a}>{color_square_a}{author_a}<br>{session_a}</td>\n    <td{style_b}>{color_square_b}{author_b}<br>{session_b}</td>\n  </tr>\n'
+            html_table += f'  <tr>\n    <td>{time_slot}</td>\n    <td{style_a}>{color_square_a}{author_a}<br><a href="{url_a}">{title_a}</a></td>\n    <td{style_b}>{color_square_b}{author_b}<br><a href="{url_b}">{title_b}</a></td>\n  </tr>\n'
     
     html_table += '</table>\n'
     return html_table
 
 # %% Generate HTML tables for each day
-unique_days = data['Date'].dropna().unique()
+unique_days = merged_data['Date'].dropna().unique()
 for day in unique_days:
-    html_table = generate_html_table(data, day, color_mode="square")
+    html_table = generate_html_table(merged_data, day, color_mode="square")
     # Save the HTML content to a file with utf-8 encoding
     filename = f"../website_exports/HTML_tables/talks_table_{day.replace(' ', '_').replace(':', '-')}.html"
     with open(filename, "w", encoding="utf-8") as file:
         file.write(html_table)
     print(f"HTML table for {day} generated and saved to {filename}")
+# %%
