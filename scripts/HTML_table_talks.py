@@ -47,6 +47,14 @@ filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[_
 filename = find_most_recent_file(filelist) # grab most recent version
 print("Reading from file: ", filename)
 abstract_data = pd.read_csv(filename, skipinitialspace=True)
+# Covert to same capitalisation to avoid issues with merge
+lastnames_caps, firstnames_caps = [[],[]]
+for row in abstract_data['Last Name']:
+    lastnames_caps.append(row.title())
+for row in abstract_data['First Name']:
+    firstnames_caps.append(row.title())
+abstract_data['Last Name'] = lastnames_caps
+abstract_data['First Name'] = firstnames_caps
 
 # %% Merge the reshaped talk data and author data
 merged_data = pd.merge(reshaped_talk_data, abstract_data, left_on=['First Name A', 'Last Name A'], right_on=['First Name', 'Last Name'], how='left')
