@@ -35,6 +35,9 @@ author_data['General comments'] = author_data['General comments'].fillna('none')
 # %% merge the authors and abstract data
 merged = pd.merge(abstract_data, author_data, on=['First Name', 'Last Name', 'What type of contribution would you prefer to submit?', 'Preferred session'], how='left')
 
+# %% Removing last-minute cancellations...
+merged = merged[~merged['Last Name'].isin(['Popescu', 'Panero'])]
+
 # %% Function to generate HTML table for posters
 def generate_html_table_posters(data, color_mode="background"):
     html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">\n'
