@@ -40,7 +40,7 @@ def generate_html_table_posters(data, color_mode="background"):
     html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">\n'
     html_table += '  <tr>\n    <th style="width: 20%;">Author</th>\n    <th style="width: 60%;">Title</th>\n    <th style="width: 20%;">Session</th>\n  </tr>\n'
     
-    poster_data = data[data['What type of contribution would you prefer to submit?'] == "Poster"]
+    poster_data = data[data['Final contribution'] == "Poster"]
     poster_data = poster_data.sort_values(by="Preferred session")
     
     for _, row in poster_data.iterrows():
