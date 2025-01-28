@@ -47,14 +47,6 @@ filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[_
 filename = find_most_recent_file(filelist) # grab most recent version
 print("Reading from file: ", filename)
 abstract_data = pd.read_csv(filename, skipinitialspace=True)
-# Covert to same capitalisation to avoid issues with merge
-lastnames_caps, firstnames_caps = [[],[]]
-for row in abstract_data['Last Name']:
-    lastnames_caps.append(row.title())
-for row in abstract_data['First Name']:
-    firstnames_caps.append(row.title())
-abstract_data['Last Name'] = lastnames_caps
-abstract_data['First Name'] = firstnames_caps
 
 # %% Merge the reshaped talk data and author data
 merged_data = pd.merge(reshaped_talk_data, abstract_data, left_on=['First Name A', 'Last Name A'], right_on=['First Name', 'Last Name'], how='left')
@@ -63,7 +55,7 @@ merged_data = pd.merge(merged_data, abstract_data, left_on=['First Name B', 'Las
 # %% Function to generate HTML table for a given day
 def generate_html_table(data, day, color_mode="background"):
     html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">\n'
-    html_table += '  <tr>\n    <th style="width: 20%;">Time</th>\n    <th style="width: 40%;">Track A</th>\n    <th style="width: 40%;">Track B</th>\n  </tr>\n'
+    html_table += '  <tr>\n    <th style="width: 20%;">Time</th>\n    <th style="width: 40%; text-align: center;">Room 1B</th>\n    <th style="width: 40%; text-align: center;">Room 1A</th>\n  </tr>\n'
     
     day_data = data[data['Date'] == day]
     
