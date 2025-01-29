@@ -1,0 +1,219 @@
+%%% From https://tex.stackexchange.com/questions/94582/automating-the-creation-of-name-badges-for-an-event
+
+%%% use the corresponding paper size for your ticket definition
+\documentclass[a4paper,10pt,landscape]{letter}
+% \usepackage[top=0cm,left=0cm]{geometry}
+% \setlength{\topskip}{0pt}
+
+%%% choose ticket.sty from ticket package's template for conference pins
+\usepackage[freepin,crossmark]{ticket}
+
+\unitlength=1mm
+\ticketSize{90}{170}
+\ticketDistance{0}{0}
+\ticketNumbers{3}{1}
+
+\usepackage{graphicx}
+% \usepackage{mfirstuc} % word capitalisation
+\usepackage{tikz}
+\usepackage[inkscapelatex=false]{svg}
+
+%%% Select font
+\usepackage{fontspec}
+\setmainfont{Andale Mono}
+
+%%% Font drop-shadow
+\usepackage{shadowtext}
+\shadowoffsetx{-.25pt}
+\shadowoffsety{.25pt}
+\shadowcolor{white!75!white}
+
+%%% make your default ticket. \ticketdefault is somewhat like a background
+\renewcommand{\ticketdefault}{
+  % \put(1,95){\includegraphics[width=88mm]{graphics/BC_1_noqr.svg}}
+  % \put(1,75){\includegraphics[width=88mm,angle=180]{graphics/BC_1_noqr.svg}}
+  % \put(1,75){\includesvg[width=88mm]{graphics/BC_1_noqr.svg}}
+  % \put(1,5){\includesvg[width=88mm,angle=180]{graphics/BC_1_noqr.svg}}
+}
+
+%%% define function that prints the two fields - v3
+\newcommand{\confpin}[4]{\ticket{
+    % ---------------------- % 
+    \put(1,85){\includesvg[width=88mm]{../graphics/cybo_2025/#4}}
+    \put(1,85){\rotatebox{180}{\includesvg[width=88mm]{graphics/#4}}}
+    % ---------------------- % 
+    \put(25,145){\parbox{.50\linewidth}{\bfseries\huge\raggedleft \shadowtext{#1}}} % name
+    \put(30,125){\parbox{.45\linewidth}{\bfseries\normalsize\raggedleft \shadowtext{#2}}} % affiliation
+    % \put(30,125){\parbox{.45\linewidth}{\bfseries\normalsize\raggedleft \textcolor{red}{#2}\kern+0.52pt\raisebox{+0.52pt}{\llap{#2}}}} % affiliation
+    % \put(30,125){\fb \textcolor{red}{The Art of Kerning}\kern+0.52pt\raisebox{+0.52pt}{\llap{\fa The Art of Kerning}}}
+    \put(55,92.5){\includesvg[width=20mm]{../graphics/qr_codes/#3}} % QR code
+    % Guide markers
+    \put(42.5,5){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};}
+    % \put(0,15){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
+    \put(0,85){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
+    % \put(0,155){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
+    \put(42.5,160){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};}
+    % Guide markers
+    \put(0,45){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}}} % affiliation, specular
+    \put(0,25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}}} % name, specular
+    \put(12.5,77.5){\rotatebox{180}{\includesvg[width=20mm]{../graphics/qr_codes/#3}}} % QR code, specular
+    }}
+
+%%% ### ~~~~~ ### 
+
+%%% grab the \confpin bit from here: 
+%%% https://docs.google.com/spreadsheets/d/1rASq-GHYglUGBy9cxT3poznBz1c4UOBVyVqRLF1JGeI/edit#gid=610836843
+
+%%% 
+\begin{document}
+
+% \pagenumbering{roman}
+
+% \sffamily
+
+\confpin{Jacopo Calevo}{Royal Botanic Gardens, Kew (UK)}{Calevo_Jacopo.svg}{BC_2_noqr.svg}
+\confpin{Maria Guerrina}{University of Genova (IT)}{Guerrina_Maria.svg}{BC_1_noqr.svg}
+\confpin{Giulia Ghirardello}{University of Padova (IT)}{Ghirardello_Giulia.svg}{BC_2_noqr.svg}
+% \confpin{Simone Balestra}{University of Milano (IT)}{Balestra_Simone.svg}{BC_3_noqr.svg}
+% \confpin{Mariel Isidra Arellano}{Royal Botanic Gardens, Kew (UK)}{Isidra-Arellano_Mariel.svg}{BC_2_noqr.svg}
+% \confpin{Virág Grónás}{Hungarian University of Agriculture and Life Sciences (HU)}{Grónás_Virág.svg}{BC_3_noqr.svg}
+% \confpin{Giulia Raffaele}{Istituto Italiano di Tecnologia, University of Napoli Federico II (IT)}{Raffaele_Giulia.svg}{BC_3_noqr.svg}
+% \confpin{Anna Gillini}{University of Molise (IT)}{Gillini_Anna.svg}{BC_2_noqr.svg}
+% \confpin{Chiara Paleni}{University of Milano (IT)}{Paleni_Chiara.svg}{BC_3_noqr.svg}
+% \confpin{Vanessa Manuzi}{University of Milano (IT)}{Manuzi_Vanessa.svg}{BC_3_noqr.svg}
+% \confpin{Sara Beltrami}{University of Firenze (IT)}{Beltrami_Sara.svg}{BC_3_noqr.svg}
+% \confpin{Valentina Boscariol}{University of Palermo (IT)}{Boscariol_Valentina.svg}{BC_2_noqr.svg}
+% \confpin{Fiona White}{University of Pavia, University of Bozen-Bolzano (IT)}{White_Fiona.svg}{BC_1_noqr.svg}
+% \confpin{Manuela Porrovecchio}{University of Catania (IT)}{Porrovecchio_Manuela.svg}{BC_1_noqr.svg}
+% \confpin{Marjol Meço}{University of Tirana (AL)}{Meço_Marjol.svg}{BC_3_noqr.svg}
+% \confpin{Eliška Krtilová}{Charles University (CZ)}{Krtilová_Eliška.svg}{BC_1_noqr.svg}
+% \confpin{Simone Pedrini}{Curtin University (AU)}{Pedrini_Simone.svg}{BC_1_noqr.svg}
+% \confpin{Thuy Hang Le}{University of Hildesheim (DE)}{Le_Thuy-Hang.svg}{BC_2_noqr.svg}
+% \confpin{Francesca Alderotti}{National Research Council of Italy (CNR) (IT)}{Alderotti_Francesca.svg}{BC_2_noqr.svg}
+% \confpin{Silvia Cannucci}{University of Siena, NBFC (IT)}{Cannucci_Silvia.svg}{BC_2_noqr.svg}
+% \confpin{Danilo Monari}{University of Catania (IT)}{Monari_Danilo.svg}{BC_2_noqr.svg}
+% \confpin{Marta Agostini}{University of Pisa (IT)}{Agostini_Marta.svg}{BC_1_noqr.svg}
+% \confpin{Vivien Lábadi}{Hungarian University of Agriculture and Life Sciences (HU)}{Lábadi_Vivien.svg}{BC_2_noqr.svg}
+% \confpin{Laura Ferigato}{National Research Council of Italy (CNR) (IT)}{Ferigato_Laura.svg}{BC_1_noqr.svg}
+% \confpin{Ilaria Mezza}{University of Molise (IT)}{Mezza_Ilaria.svg}{BC_3_noqr.svg}
+% \confpin{Domenico Amantea}{University of Calabria (IT)}{Amantea_Domenico.svg}{BC_2_noqr.svg}
+% \confpin{Gilda Perri}{University of Calabria (IT)}{Perri_Gilda.svg}{BC_2_noqr.svg}
+% \confpin{Giorgia Guardigli}{University of Firenze (IT)}{Guardigli_Giorgia.svg}{BC_1_noqr.svg}
+% \confpin{Elena Cini}{Roma Tre University (IT)}{Cini_Elena.svg}{BC_3_noqr.svg}
+% \confpin{Alberto Massimi}{University of L’Aquila (IT)}{Massimi_Alberto.svg}{BC_1_noqr.svg}
+% \confpin{Martina Tarascio}{Roma Tre University (IT)}{Tarascio_Martina.svg}{BC_1_noqr.svg}
+% \confpin{Alfredo Maccioni}{University of Sassari (IT)}{Maccioni_Alfredo.svg}{BC_3_noqr.svg}
+% \confpin{Agnese Denaro}{University of Sassari (IT)}{Denaro_Agnese.svg}{BC_3_noqr.svg}
+% \confpin{Silvia Macis}{University of Cagliari (IT)}{Macis_Silvia.svg}{BC_1_noqr.svg}
+% \confpin{Maura Francioni}{University of Camerino (IT)}{Francioni_Maura.svg}{BC_3_noqr.svg}
+% \confpin{Miriam Bazzicalupo}{Royal Botanic Gardens, Kew (UK)}{Bazzicalupo_Miriam.svg}{BC_3_noqr.svg}
+% \confpin{Richard Bačák}{Slovak Academy of Science (SK)}{Bačák_Richard.svg}{BC_3_noqr.svg}
+% \confpin{Gaia Regini}{University of Firenze (IT)}{Regini_Gaia.svg}{BC_2_noqr.svg}
+% \confpin{Pierluigi Giacò}{University of Ferrara (IT)}{Giacò_Pierluigi.svg}{BC_3_noqr.svg}
+% \confpin{Federico Puliga}{University of Bologna (IT)}{Puliga_Federico.svg}{BC_3_noqr.svg}
+% \confpin{Simone Graziosi}{University of Bologna (IT)}{Graziosi_Simone.svg}{BC_3_noqr.svg}
+% \confpin{Leonardo Salvatori}{University of Camerino (IT)}{Salvatori_Leonardo.svg}{BC_1_noqr.svg}
+% \confpin{Beatrice Chiavacci}{University of Firenze (IT)}{Chiavacci_Beatrice.svg}{BC_3_noqr.svg}
+% \confpin{Angela Martina}{University of Ferrara (IT)}{Martina_Angela.svg}{BC_3_noqr.svg}
+% \confpin{Marcello Bigoni}{University of Ferrara (IT)}{Bigoni_Marcello.svg}{BC_3_noqr.svg}
+% \confpin{Cristiana Rizzi}{University of Milano Bicocca (IT)}{Rizzi_Cristiana.svg}{BC_3_noqr.svg}
+% \confpin{Claudia Russo}{University of Milano Bicocca (IT)}{Russo_Claudia.svg}{BC_2_noqr.svg}
+% \confpin{Nubia Guzmán}{nan (nan)}{Guzmán_Nubia.svg}{BC_3_noqr.svg}
+% \confpin{Ginevra Nota}{University of Torino (IT)}{Nota_Ginevra.svg}{BC_1_noqr.svg}
+% \confpin{Chiara Pezzuto}{University of Molise (IT)}{Pezzuto_Chiara.svg}{BC_2_noqr.svg}
+% \confpin{Carolina Stringa Basile}{University of Genova (IT)}{Stringa-Basile_Carolina.svg}{BC_2_noqr.svg}
+% \confpin{Agnieszka Adamska}{Charles University (CZ)}{Adamska_Agnieszka.svg}{BC_1_noqr.svg}
+% \confpin{Bruno Bighignoli}{University of Firenze (IT)}{Bighignoli_Bruno.svg}{BC_1_noqr.svg}
+% \confpin{Friederike Westrich}{Innsbruck University (AT)}{Westrich_Friederike.svg}{BC_3_noqr.svg}
+% \confpin{Szabolcs Kis}{University of Debrecen (HU)}{Kis_Szabolcs.svg}{BC_1_noqr.svg}
+% \confpin{Claudia Colombo}{University of Catania (IT)}{Colombo_Claudia.svg}{BC_2_noqr.svg}
+% \confpin{Marco Dainelli}{University of Firenze (IT)}{Dainelli_Marco.svg}{BC_3_noqr.svg}
+% \confpin{Giorgia Tonielli}{University of Rome Tor Vergata (IT)}{Tonielli_Giorgia.svg}{BC_1_noqr.svg}
+% \confpin{Adam Kantor}{Slovak Academy of Science (SK)}{Kantor_Adam.svg}{BC_3_noqr.svg}
+% \confpin{Dario Nicola Tangredi}{University of Salerno (IT)}{Tangredi_Dario-Nicola.svg}{BC_3_noqr.svg}
+% \confpin{Paloma Perez-Bello Gil}{University of Udine (IT)}{Perez-Bello-Gil_Paloma.svg}{BC_2_noqr.svg}
+% \confpin{Ilaria Panero}{Sapienza University of Rome (IT)}{Panero_Ilaria.svg}{BC_2_noqr.svg}
+% \confpin{Sara Ribotta}{University of Parma (IT)}{Ribotta_Sara.svg}{BC_3_noqr.svg}
+% \confpin{Giulia Canali}{University of Genova (IT)}{Canali_Giulia.svg}{BC_1_noqr.svg}
+% \confpin{Nicoa Postiglione}{University of Camerino (IT)}{Postiglione_Nicoa.svg}{BC_1_noqr.svg}
+% \confpin{Marta Beccaluva}{University of Firenze (IT)}{Beccaluva_Marta.svg}{BC_2_noqr.svg}
+% \confpin{Pablo Carril}{University of Firenze (IT)}{Carril_Pablo.svg}{BC_1_noqr.svg}
+% \confpin{Julia Leman}{Humbolt University Berlin (DE)}{Leman_Julia.svg}{BC_3_noqr.svg}
+% \confpin{Fanny Defant}{Julius Kühn Institute (DE)}{Defant_Fanny.svg}{BC_3_noqr.svg}
+% \confpin{Karl Duffy}{University of Napoli Federico II (IT)}{Duffy_Karl.svg}{BC_3_noqr.svg}
+% \confpin{Jacopo Vujovic}{University of Bologna (IT)}{Vujovic_Jacopo.svg}{BC_1_noqr.svg}
+% \confpin{Alice Dalla Vecchia}{University of Parma (IT)}{Dalla-Vecchia_Alice.svg}{BC_2_noqr.svg}
+% \confpin{Silvia Giusto}{University of Genova (IT)}{Giusto_Silvia.svg}{BC_1_noqr.svg}
+% \confpin{Andrea Mainetti}{Gran Paradiso National Park (IT)}{Mainetti_Andrea.svg}{BC_2_noqr.svg}
+% \confpin{Antonio Giacò}{University of Pisa (IT)}{Giacò_Antonio.svg}{BC_1_noqr.svg}
+% \confpin{Thinles Chondol}{Czech Academy of Sciences, Slovak Academy of Science (CZ, SK)}{Chondol_Thinles.svg}{BC_1_noqr.svg}
+% \confpin{Olivier Dayou}{Humbolt University Berlin (DE)}{Dayou_Olivier.svg}{BC_2_noqr.svg}
+% \confpin{Marlene Volz}{Innsbruck University (AT)}{Volz_Marlene.svg}{BC_1_noqr.svg}
+% \confpin{Giorgia Benati}{University of Bologna (IT)}{Benati_Giorgia.svg}{BC_2_noqr.svg}
+% \confpin{Roman Müller}{University of Vienna (IT)}{Müller_Roman.svg}{BC_3_noqr.svg}
+% \confpin{Christopher Großmann}{Humbolt University Berlin (DE)}{Großmann_Christopher.svg}{BC_1_noqr.svg}
+% \confpin{Charline Gennat}{University of Münster (DE)}{Gennat_Charline.svg}{BC_2_noqr.svg}
+% \confpin{Daniel Baumgartner}{Innsbruck University (AT)}{Baumgartner_Daniel.svg}{BC_1_noqr.svg}
+% \confpin{Letizia Conti}{University of Siena (IT)}{Conti_Letizia.svg}{BC_2_noqr.svg}
+% \confpin{Dr. Muhammad Khan}{Univeristy of Poonch Rawalakot (PK)}{Khan_Dr.-Muhammad.svg}{BC_1_noqr.svg}
+% \confpin{Higor Antonio-Domingues}{Royal Botanic Gardens, Kew (UK)}{Antonio-Domingues_Higor.svg}{BC_1_noqr.svg}
+% \confpin{Erik Curcio}{University of Calabria (IT)}{Curcio_Erik.svg}{BC_2_noqr.svg}
+% \confpin{Raffaele De Matteis}{University of Milano Bicocca (IT)}{De-Matteis_Raffaele.svg}{BC_3_noqr.svg}
+% \confpin{Irene Mazza}{University of Palermo (IT)}{Mazza_Irene.svg}{BC_1_noqr.svg}
+% \confpin{Jasmin Lepper}{University of Basel (CH)}{Lepper_Jasmin.svg}{BC_1_noqr.svg}
+% \confpin{Dario Galanti}{Royal Botanic Gardens, Kew, Queen Mary University of Lodnon (UK)}{Galanti_Dario.svg}{BC_2_noqr.svg}
+% \confpin{Nayara Machado}{Universidade Estadual de Maringá (BR)}{Machado_Nayara.svg}{BC_1_noqr.svg}
+% \confpin{Dario Comunello}{University of Padova (IT)}{Comunello_Dario.svg}{BC_2_noqr.svg}
+% \confpin{Edyta Mazur}{Polish Academy of Sciences (PL)}{Mazur_Edyta.svg}{BC_1_noqr.svg}
+% \confpin{Vlad Popescu}{University of Brescia (IT)}{Popescu_Vlad.svg}{BC_1_noqr.svg}
+% \confpin{Jacopo Franzoni}{University of Pisa (IT)}{Franzoni_Jacopo.svg}{BC_1_noqr.svg}
+% \confpin{Leonardo Malvezzi}{University of Milano (IT)}{Malvezzi_Leonardo.svg}{BC_2_noqr.svg}
+% \confpin{Alice Grandi}{University of Milano (IT)}{Grandi_Alice.svg}{BC_3_noqr.svg}
+% \confpin{Margherita Tognela}{nan (nan)}{Tognela_Margherita.svg}{BC_2_noqr.svg}
+% \confpin{Denise De Franco}{University of Rome Tor Vergata (IT)}{De-Franco_Denise.svg}{BC_2_noqr.svg}
+% \confpin{Giorgia Del Cioppo}{University of Molise (IT)}{Del-Cioppo_Giorgia.svg}{BC_2_noqr.svg}
+% \confpin{Giulia Mozzo}{University of Firenze (IT)}{Mozzo_Giulia.svg}{BC_3_noqr.svg}
+% \confpin{Saverio Savio}{University of Rome Tor Vergata (IT)}{Savio_Saverio.svg}{BC_2_noqr.svg}
+% \confpin{Anna Pasinato}{University of Padova (IT)}{Pasinato_Anna.svg}{BC_3_noqr.svg}
+% \confpin{Bálint Pacsai}{Hungarian University of Agriculture and Life Sciences (HU)}{Pacsai_Bálint.svg}{BC_2_noqr.svg}
+% \confpin{Erika Bellini}{University of Pisa, Sapienza University fo Rome (IT)}{Bellini_Erika.svg}{BC_2_noqr.svg}
+% \confpin{Giovanni Spinelli}{University of Firenze (IT)}{Spinelli_Giovanni.svg}{BC_3_noqr.svg}
+% \confpin{Viola Alessandrini}{University of Pisa (IT)}{Alessandrini_Viola.svg}{BC_1_noqr.svg}
+% \confpin{Cristina Danna}{University of Genova (IT)}{Danna_Cristina.svg}{BC_3_noqr.svg}
+% \confpin{Chiara Macolino}{University of Genova (IT)}{Macolino_Chiara.svg}{BC_1_noqr.svg}
+% \confpin{Najnin Khatun}{Technical University Braunschweig (DE)}{Khatun_Najnin.svg}{BC_1_noqr.svg}
+% \confpin{Alessandra Renella}{University of Molise (IT)}{Renella_Alessandra.svg}{BC_1_noqr.svg}
+% \confpin{Cristina Gasperini}{University of Firenze (IT)}{Gasperini_Cristina.svg}{BC_2_noqr.svg}
+% \confpin{Claudia Zitarelli}{Roma Tre University (IT)}{Zitarelli_Claudia.svg}{BC_1_noqr.svg}
+% \confpin{Martino Adamo}{University of Torino (IT)}{Adamo_Martino.svg}{BC_2_noqr.svg}
+% \confpin{Antonio De Agostini}{University of Cagliari (IT)}{De-Agostini_Antonio.svg}{BC_2_noqr.svg}
+% \confpin{Francesco Ponticelli}{University of Firenze (IT)}{Ponticelli_Francesco.svg}{BC_2_noqr.svg}
+% \confpin{Emilia Pafumi}{University of Siena (IT)}{Pafumi_Emilia.svg}{BC_3_noqr.svg}
+% \confpin{Alex Alberto}{GeSDiMont, University of Milano (IT)}{Alberto_Alex.svg}{BC_2_noqr.svg}
+% \confpin{Mattia Pallanza}{University of Pavia, NBFC (IT)}{Pallanza_Mattia.svg}{BC_2_noqr.svg}
+% \confpin{Davide Casalino}{University of Genova (IT)}{Casalino_Davide.svg}{BC_3_noqr.svg}
+% \confpin{Irene Ventura}{University of Pavia, University of Bozen-Bolzano (IT)}{Ventura_Irene.svg}{BC_1_noqr.svg}
+% \confpin{Federica Betuzzi}{University of Genova (IT)}{Betuzzi_Federica.svg}{BC_3_noqr.svg}
+% \confpin{Chiara Dassow}{Technical University Braunschweig (DE)}{Dassow_Chiara.svg}{BC_2_noqr.svg}
+% \confpin{Mario Pentassuglia}{University of Pisa (IT)}{Pentassuglia_Mario.svg}{BC_1_noqr.svg}
+% \confpin{Daan Curwiel}{FLORON (NL)}{Curwiel_Daan.svg}{BC_3_noqr.svg}
+% \confpin{Veronica Spinelli}{Sapienza University of Rome (IT)}{Spinelli_Veronica.svg}{BC_1_noqr.svg}
+% \confpin{Carlo Maria Cusaro}{University of Pavia (IT)}{Cusaro_Carlo-Maria.svg}{BC_2_noqr.svg}
+% \confpin{Marwen Amari}{NBFC, University of Palermo, University of Udine (IT)}{Amari_Marwen.svg}{BC_1_noqr.svg}
+% \confpin{Martina Bottoni}{University of Milan (IT)}{Bottoni_Martina.svg}{BC_3_noqr.svg}
+% \confpin{Fabrizia Milani}{University of Milan (IT)}{Milani_Fabrizia.svg}{BC_1_noqr.svg}
+% \confpin{Laura Fischer}{Technical University Braunschweig (DE)}{Fischer_Laura.svg}{BC_3_noqr.svg}
+% \confpin{Chiara Bonifazio}{University of Genova (IT)}{Bonifazio_Chiara.svg}{BC_1_noqr.svg}
+% \confpin{Valeria Fochi}{University of Torino (IT)}{Fochi_Valeria.svg}{BC_3_noqr.svg}
+% \confpin{Silvia Piccinelli}{Franklin University (CH)}{Piccinelli_Silvia.svg}{BC_2_noqr.svg}
+% \confpin{Francesca Emili}{Sapienza University of Rome (IT)}{Emili_Francesca.svg}{BC_3_noqr.svg}
+% \confpin{Geordie Biffoni}{University of Genova (IT)}{Biffoni_Geordie.svg}{BC_2_noqr.svg}
+% \confpin{Eugenia Siccardi}{University of Firenze (IT)}{Siccardi_Eugenia.svg}{BC_2_noqr.svg}
+% \confpin{Virginia Amanda Volanti}{University of Firenze (IT)}{Volanti_Virginia-Amanda.svg}{BC_3_noqr.svg}
+% \confpin{Giammarco Dadà}{University of Firenze (IT)}{Dadà_Giammarco.svg}{BC_2_noqr.svg}
+% \confpin{Lucia Doni}{University of Genova (IT)}{Doni_Lucia.svg}{BC_3_noqr.svg}
+% \confpin{Guido Silvano}{University of Bologna (IT)}{Silvano_Guido.svg}{BC_1_noqr.svg}
+% \confpin{Waad Bousselmi}{Center of Biotechnology of Borj Cedria (CBBC) (TN)}{Bousselmi_Waad.svg}{BC_3_noqr.svg}
+% \confpin{Ian Briozzo}{University of Genova (IT)}{Briozzo_Ian.svg}{BC_3_noqr.svg}
+
+\end{document}
