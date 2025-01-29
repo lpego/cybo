@@ -18,7 +18,7 @@ print("Reading from file: ", filename)
 abstract_data = pd.read_csv(filename, skipinitialspace=True)
 
 # %% Create save dir for QR codes if it doesn't exist
-save_dir = "../website_exports/QR_codes"
+save_dir = "../graphics/qr_codes"
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
