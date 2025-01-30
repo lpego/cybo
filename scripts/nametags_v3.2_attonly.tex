@@ -1,0 +1,112 @@
+%%% REMEMBER TO COMPILE WITH LuaLaTeX! %%%
+
+%%% From https://tex.stackexchange.com/questions/94582/automating-the-creation-of-name-badges-for-an-event
+
+%%% use the corresponding paper size for your ticket definition
+\documentclass[a4paper,10pt,landscape]{letter}
+% \usepackage[top=0cm,left=0cm]{geometry}
+% \setlength{\topskip}{0pt}
+
+\usepackage{graphicx}
+% \usepackage{mfirstuc} % word capitalisation
+\usepackage{tikz}
+\usepackage[inkscapelatex=false]{svg}
+
+%%% choose ticket.sty from ticket package's template for conference pins
+\usepackage[freepin,crossmark]{ticket}
+\unitlength=1mm
+\ticketSize{90}{170}
+\ticketDistance{0}{0}
+\ticketNumbers{3}{1}
+
+%%% Select font
+\usepackage{fontspec}
+\setmainfont{Andale Mono}
+
+% ---------------------- % 
+
+%%% make your default ticket. \ticketdefault is somewhat like a background
+\renewcommand{\ticketdefault}{
+  % \put(1,95){\includegraphics[width=88mm]{../graphics/cybo_2025/BC_1_noqr.svg}}
+  % \put(1,75){\includegraphics[width=88mm,angle=180]{../graphics/cybo_2025/BC_1_noqr.svg}}
+  % \put(1,75){\includesvg[width=88mm]{../graphics/cybo_2025/BC_1_noqr.svg}}
+  % \put(1,5){\includesvg[width=88mm,angle=180]{../graphics/cybo_2025/BC_1_noqr.svg}}
+}
+
+%%% define function that prints the two fields - v3
+\newcommand{\confpin}[2]{\ticket{
+    % ---------------------- % 
+    %%% Background image
+    \put(1,85){\includesvg[width=88mm]{../graphics/cybo_2025/#2}}
+    \put(1,85){\rotatebox{180}{\includesvg[width=88mm]{../graphics/cybo_2025/#2}}}
+    % ---------------------- % 
+    %%% Vanilla parbox, w/ hack...
+    \put(24.75,144.75){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}} % name
+    \put(25,145){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}} % name
+    % ---------------------- % 
+    % Dotted lines, etc.
+    \put(42.5,5){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};} % bottom circle
+    % \put(0,15){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % top line
+    \put(0,85){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % middle line
+    % \put(0,155){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % bottom line
+    \put(42.5,160){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};} % top circle
+    % ---------------------- % 
+    %%% Vanilla parbox, flipped, w/ hack...
+    \put(5.25,25.25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}}} % name, specular
+    \put(5,25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}}} % name, specular
+    }}
+
+%%% grab the \confpin bit from here: 
+%%% https://docs.google.com/spreadsheets/d/1rASq-GHYglUGBy9cxT3poznBz1c4UOBVyVqRLF1JGeI/edit#gid=610836843
+
+% ---------------------- % 
+
+%%% 
+\begin{document}
+
+% \pagenumbering{roman}
+
+% \sffamily
+
+\confpin{Adriana Santanello}{BC_1_noqr.svg}
+\confpin{Arianna Gualdi}{BC_3_noqr.svg}
+\confpin{Antonella Smeriglio}{BC_1_noqr.svg}
+\confpin{Benedetta D'Ambrosio}{BC_2_noqr.svg}
+\confpin{Beatrice Fois}{BC_2_noqr.svg}
+\confpin{Camilla Micaletti}{BC_2_noqr.svg}
+\confpin{Chiara Vallese}{BC_1_noqr.svg}
+\confpin{Clara Conte}{BC_3_noqr.svg}
+\confpin{David Wulsdorf}{BC_3_noqr.svg}
+\confpin{Damiano Trovato}{BC_3_noqr.svg}
+\confpin{Daniele Giugia}{BC_3_noqr.svg}
+\confpin{Elena Capuzzi}{BC_2_noqr.svg}
+\confpin{Elena Tuccio}{BC_2_noqr.svg}
+\confpin{Elisa Beninato}{BC_3_noqr.svg}
+\confpin{Francesco Laspina}{BC_1_noqr.svg}
+\confpin{Francesco Candini}{BC_1_noqr.svg}
+\confpin{Botond Gaál}{BC_2_noqr.svg}
+\confpin{Gabriele Casazza}{BC_1_noqr.svg}
+\confpin{Gergely Vajda}{BC_1_noqr.svg}
+\confpin{Gianmaria Bonari}{BC_3_noqr.svg}
+\confpin{Giulia Dal Maso}{BC_3_noqr.svg}
+\confpin{Hanna Révész}{BC_1_noqr.svg}
+\confpin{Balázs Huszár}{BC_2_noqr.svg}
+\confpin{Laurie Proes}{BC_1_noqr.svg}
+\confpin{Letizia Tomati}{BC_3_noqr.svg}
+\confpin{Lilla Gyüre}{BC_3_noqr.svg}
+\confpin{Luca Pegoraro}{BC_2_noqr.svg}
+\confpin{Lucia Varaldo}{BC_1_noqr.svg}
+\confpin{Maria Guerrina}{BC_1_noqr.svg}
+\confpin{Marilena Ronzan}{BC_2_noqr.svg}
+\confpin{Micol Orengo}{BC_1_noqr.svg}
+\confpin{Paola Malaspina}{BC_1_noqr.svg}
+\confpin{Paola Raffo}{BC_2_noqr.svg}
+\confpin{Erik Pózer}{BC_2_noqr.svg}
+\confpin{Serena Pannuzzo}{BC_2_noqr.svg}
+\confpin{Silvano Lodetti}{BC_1_noqr.svg}
+\confpin{T'Ai Forte}{BC_3_noqr.svg}
+\confpin{Thomas Abeli}{BC_1_noqr.svg}
+\confpin{Tommaso Gabbriellini}{BC_3_noqr.svg}
+\confpin{Veronica Maresca}{BC_2_noqr.svg}
+
+\end{document}
