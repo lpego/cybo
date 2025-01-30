@@ -44,8 +44,9 @@ for line in latex_code_contrib:
 
 ### Calls for badges without contribution, without QR codes
 # %% Read in most recent version of registrations without contribution
-filelist = glob("..\website_exports\cybo-2025-registration,-attendance-only-*.csv")
-filename = find_most_recent_file(filelist) # grab most recent version
+# filelist = glob("..\website_exports\cybo-2025-registration,-attendance-only-*.csv")
+# filename = find_most_recent_file(filelist) # grab most recent version
+filename = "..\website_exports\cybo-2025-registration,-attendance-only_institutionsFILLED.csv"
 print("Reading from file: ", filename)
 attendance_data = pd.read_csv(filename, skipinitialspace=True)
 
@@ -54,14 +55,14 @@ latex_code_attend = []
 for index, row in attendance_data.iterrows():
     first_name = row["First Name"].title()
     last_name = row["Last Name"].title()
-    # institution = row["shortened"]
-    # country = row["country"]
-    # institution_country = f"{institution} ({country})"
+    institution = row["Institution"]
+    country = row["Country"]
+    institution_country = f"{institution} ({country})"
     bkg = random.choice(backgrounds)
     surname = last_name.replace(" ", "-")
     name = first_name.replace(" ", "-")
     filename = f"{surname}_{name}"
-    latex_code_attend.append(f"\\confpin{{{first_name} {last_name}}}{{{bkg}}}")
+    latex_code_attend.append(f"\\confpin{{{first_name} {last_name}}}{{{institution_country}}}{{{bkg}}}")
 
 # Print LaTeX code
 for line in latex_code_attend:
