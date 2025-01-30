@@ -14,6 +14,7 @@ filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[_
 filename = find_most_recent_file(filelist) # grab most recent version
 print("Reading from file: ", filename)
 abstract_data = pd.read_csv(filename, skipinitialspace=True)
+abstract_data = abstract_data[abstract_data['Title'] != "Berardia"]
 
 # %% use manually checked affiliations for nametags
 institution = pd.read_csv("..\\website_exports\\unique_institutions.csv")
