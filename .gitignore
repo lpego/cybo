@@ -16,10 +16,16 @@
 *.TXT
 *.svg
 *.SVG
-*.synctex.gz
 graphics/svg-inkscape/
+
+### LaTeX stuff
 *.pdf_tex
 *.html
+*.synctex.gz
+*.aux
+*.fls
+*.log
+*.fdb_latexmk
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
