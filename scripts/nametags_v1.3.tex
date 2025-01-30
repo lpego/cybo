@@ -1,4 +1,4 @@
-%%% REMEMBER TO COMPILE WITH LuaLaTeX
+%%% REMEMBER TO COMPILE WITH LuaLaTeX! %%%
 
 %%% From https://tex.stackexchange.com/questions/94582/automating-the-creation-of-name-badges-for-an-event
 
@@ -7,28 +7,23 @@
 % \usepackage[top=0cm,left=0cm]{geometry}
 % \setlength{\topskip}{0pt}
 
-%%% choose ticket.sty from ticket package's template for conference pins
-\usepackage[freepin,crossmark]{ticket}
-
-\unitlength=1mm
-\ticketSize{90}{170}
-\ticketDistance{0}{0}
-\ticketNumbers{3}{1}
-
 \usepackage{graphicx}
 % \usepackage{mfirstuc} % word capitalisation
 \usepackage{tikz}
 \usepackage[inkscapelatex=false]{svg}
 
+%%% choose ticket.sty from ticket package's template for conference pins
+\usepackage[freepin,crossmark]{ticket}
+\unitlength=1mm
+\ticketSize{90}{170}
+\ticketDistance{0}{0}
+\ticketNumbers{3}{1}
+
 %%% Select font
 \usepackage{fontspec}
 \setmainfont{Andale Mono}
 
-%%% Font drop-shadow
-\usepackage{shadowtext}
-\shadowoffsetx{-.25pt}
-\shadowoffsety{.25pt}
-\shadowcolor{white!75!white}
+% ---------------------- % 
 
 %%% make your default ticket. \ticketdefault is somewhat like a background
 \renewcommand{\ticketdefault}{
@@ -49,23 +44,16 @@
     \put(25,145){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}} % name
     \put(29.75,124.75){\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}} % affiliation
     \put(30,125){\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}} % affiliation
-    % %%% Shadowtext
-    % \put(25,120){\shadowtext{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}}} % name
-    % \put(30,110){\shadowtext{\parbox{.40\linewidth}{\bfseries\large\raggedleft #2}}} % affiliation
-    % %%% Kerning
-    % \put(25,145){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{red}{#1}}} % name
-    % \put(25,145){\raisebox{3pt}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \kern-3pt\raisebox{-3pt}{#1}}}} % name
-    % \put(25,145){\parbox{.50\linewidth}{\bfseries\Huge \textcolor{red}{#1} \llap{\kern-0.52pt\raisebox{-0.52pt}{#1}}}} % name
-    % \put(30,125){\parbox{.45\linewidth}{\bfseries\normalsize\raggedleft \textcolor{red}{#2}\kern+0.52pt\raisebox{+0.52pt}{\llap{#2}}}} % affiliation
-    % \put(30,125){\fb \textcolor{red}{The Art of Kerning}\kern+0.52pt\raisebox{+0.52pt}{\llap{\fa The Art of Kerning}}}
     \put(55,92.5){\includesvg[width=20mm]{../graphics/qr_codes/#3}} % QR code
-    % Guide markers
-    \put(42.5,5){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};}
-    % \put(0,15){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
-    \put(0,85){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
-    % \put(0,155){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);}
-    \put(42.5,160){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};}
-    % Guide markers
+    % ---------------------- % 
+    % Dotted lines, etc.
+    \put(42.5,5){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};} % bottom circle
+    % \put(0,15){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % top line
+    \put(0,85){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % middle line
+    % \put(0,155){\tikz[baseline=-0.5ex,draw=gray] \draw [dash dot] (1mm,0) -- (89mm,0);} % bottom line
+    \put(42.5,160){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};} % top circle
+    % ---------------------- % 
+    %%% Vanilla parbox, flipped, w/ hack...
     \put(0.25,45.25){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}}} % affiliation, specular
     \put(0,45){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}}} % affiliation, specular
     \put(0.25,25.25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}}} % name, specular
@@ -73,15 +61,15 @@
     \put(12.5,77.5){\rotatebox{180}{\includesvg[width=20mm]{../graphics/qr_codes/#3}}} % QR code, specular
     }}
 
-%%% ### ~~~~~ ### 
-
 %%% grab the \confpin bit from here: 
 %%% https://docs.google.com/spreadsheets/d/1rASq-GHYglUGBy9cxT3poznBz1c4UOBVyVqRLF1JGeI/edit#gid=610836843
+
+% ---------------------- % 
 
 %%% 
 \begin{document}
 
-% \pagenumbering{roman}
+\pagenumbering{roman}
 
 % \sffamily
 
