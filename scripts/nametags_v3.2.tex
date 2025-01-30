@@ -36,13 +36,14 @@
 %%% define function that prints the two fields - v3
 \newcommand{\confpin}[4]{\ticket{
     % ---------------------- % 
+    %%% Background image
     \put(1,85){\includesvg[width=88mm]{../graphics/cybo_2025/#4}}
     \put(1,85){\rotatebox{180}{\includesvg[width=88mm]{../graphics/cybo_2025/#4}}}
     % ---------------------- % 
     %%% Vanilla parbox, w/ hack...
     \put(24.75,144.75){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}} % name
     \put(25,145){\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}} % name
-    \put(29.75,124.75){\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}} % affiliation
+    \put(29.825,124.825){\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}} % affiliation
     \put(30,125){\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}} % affiliation
     \put(55,92.5){\includesvg[width=20mm]{../graphics/qr_codes/#3}} % QR code
     % ---------------------- % 
@@ -54,10 +55,10 @@
     \put(42.5,160){\tikz[fill=none,draw=gray] \draw [dash dot] (0,0) circle (2.5mm) node [xshift=0mm] {};} % top circle
     % ---------------------- % 
     %%% Vanilla parbox, flipped, w/ hack...
-    \put(0.25,45.25){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}}} % affiliation, specular
-    \put(0,45){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}}} % affiliation, specular
-    \put(0.25,25.25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}}} % name, specular
-    \put(0,25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}}} % name, specular
+    \put(5.125,45.125){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft \textcolor{white}{#2}}}} % affiliation, specular
+    \put(5,45){\rotatebox{180}{\parbox{.45\linewidth}{\bfseries\large\raggedleft #2}}} % affiliation, specular
+    \put(5.25,25.25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft \textcolor{white}{#1}}}} % name, specular
+    \put(5,25){\rotatebox{180}{\parbox{.50\linewidth}{\bfseries\Huge\raggedleft #1}}} % name, specular
     \put(12.5,77.5){\rotatebox{180}{\includesvg[width=20mm]{../graphics/qr_codes/#3}}} % QR code, specular
     }}
 
