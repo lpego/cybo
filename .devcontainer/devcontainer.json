@@ -1,5 +1,5 @@
 {
-    "name": "LaTeX-custom-devcontainer",
+    "name": "LaTeX-devcontainer",
     "dockerComposeFile": [
         "docker-compose.yml"
     ],
@@ -46,7 +46,35 @@
                         "name": "pdflatex",
                         "command": "pdflatex",
                         "args": [
-                            "-shell-escape", // <---- added this line
+                            "-shell-escape",
+                            "-synctex=1",
+                            "-interaction=nonstopmode",
+                            "-file-line-error",
+                            "-pdf",
+                            "-outdir=%OUTDIR%",
+                            "%DOC%"
+                        ],
+                        "env": {}
+                    },
+                    {
+                        "name": "xelatex",
+                        "command": "xelatex",
+                        "args": [
+                            "-shell-escape",
+                            "-synctex=1",
+                            "-interaction=nonstopmode",
+                            "-file-line-error",
+                            "-pdf",
+                            "-outdir=%OUTDIR%",
+                            "%DOC%"
+                        ],
+                        "env": {}
+                    },
+                    {
+                        "name": "latexmk (lualatex)",
+                        "command": "lualatexmk",
+                        "args": [
+                            "-shell-escape", 
                             "-synctex=1",
                             "-interaction=nonstopmode",
                             "-file-line-error",
@@ -86,6 +114,21 @@
                         "name": "latexmk (xelatex)",
                         "tools": [
                             "xelatexmk"
+                        ]
+                    },
+                    {
+                        "name": "xelatex",
+                        "tools": [
+                            "xelatex"
+                        ]
+                    },
+                    {
+                        "name": "xelatex ➞ biber ➞ xelatex x 2x",
+                        "tools": [
+                            "xelatex",
+                            "biber",
+                            "xelatex",
+                            "xelatex"
                         ]
                     },
                     {
