@@ -1,20 +1,13 @@
 %%% From https://tex.stackexchange.com/questions/492380/creating-certificates-automatically
 %%% Parsing and template definitions are stored in this TeX file; the names are stored in "names.txt"
 \documentclass{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{xparse}
+% \usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
 
 %%% Packages for creating template
 \usepackage{graphicx}
 % \usepackage[a4paper, total={190mm,267mm}]{geometry} % define 10mm margins
 \usepackage[a4paper, total={210mm,297mm}]{geometry} % no margins
-\usepackage[percent]{overpic}
-\usepackage[document]{ragged2e}
-\usepackage{tikz}
-\usepackage{xcolor}
-\usepackage{caption}
-\usepackage{subcaption}
 \usepackage{rotating}
 \usepackage{svg}
 %%% Font options
@@ -26,165 +19,79 @@
 % \usepackage{Oswald}
 \usepackage[sfdefault]{roboto}
 
+%%% Reading in CSV data
+\usepackage{datatool}
+
+\DTLloaddb{attendees}{attendees.csv}
+
+% %%% Variable declarations %%%
+
 \title{CYBO 2024 webinar participation certificates}
 \author{Conference of Young Botanists}
-\date{2024}
+\date{2025}
 
-\definecolor{ottanio}{RGB}{16, 175, 155}
-\definecolor{azure}{RGB}{49, 133, 252}
+%%% Use read-in data to populate iteratively %%%
+\begin{document}
 
-%%% Define parsing of database with names
-%%% # ~~~~~ # 
+% \sffamily
+% \thispagestyle{empty}
 
-\ExplSyntaxOn
+%%% Loop through each entry in the CSV file
+\DTLforeach*{attendees}{\Name=Name, \Affiliation=Affiliation, \Contribution=Contribution_type, \Title=Title}{
+    %%% Header
+    \includesvg[width=\paperwidth]{../graphics/certificates/Certficates_topbox_2024_newdesign_cropped}
+    % \vfill
+    \vspace{-.15\paperheight} \\ % this allows overlap
+    \begin{minipage}[c]{.15\paperwidth}
+        \centering
+        \begin{turn}{90}
+            \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
+        \end{turn}
+    \end{minipage}
+    \hspace{.1\paperwidth}
+    %%% Main text - there must be NO NEWLINES between different minipages!
+    \begin{minipage}[c]{.5\paperwidth}
+        \begin{center}
+            \includesvg[width=.3\paperwidth]{../graphics/certificates/LogoCYBO_2025}
+            \vspace{.05\linewidth} \\
+            \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF ATTENDANCE}
+            \vspace{.05\linewidth} \\
+            \Large We hereby certify that \\
+            \textbf{\Name} \\ from \textbf{\Affiliation} \\
+            attended the 3\textsuperscript{rd} edition of Conference for Young Botanists (CYBO) in Genova (IT), on 5-7 February 2025, \\
+            contributing a \textbf{\Contribution} with the title: \\ \textbf{\Title} \\
+            \vspace{.05\linewidth} \\
+            \normalsize The CYBO Organising and Scientific Committees \\
+            \vspace{.05\linewidth} \\
+            \raisebox{-0.5\height}{\includegraphics[width=0.15\paperwidth]{../graphics/certificates/unige-colore}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/distav}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige_stat}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/cesbin}}
+            \\
+            \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SISV}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SBI}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/Logo_SLI-edited}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/OPTIMA_logo}}
+            \\
+            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/springer-logo-transparent}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/Helan_logo}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/zanichelli-editore}}
+            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/piccin}}
+        \end{center}
+    \end{minipage}
+    \hspace{.1\paperwidth}
+    \begin{minipage}[c]{.15\paperwidth}
+        \centering
+        \begin{turn}{270}
+            \huge \textbf{CONFERENCE OF YOUNG BOTANISTS}
+        \end{turn}
+    \end{minipage}
+    \vfill % no overlap here otherwise it cuts text!
+    % \vspace{-.005\paperheight} % this allows overlap
+    %%% Footer
+    \includesvg[width=\paperwidth,]{../graphics/certificates/Certficates_footer_2024_newdesign_cropped}
 
-\msg_new:nnn { upsmakeparticlist } { file-not-found }
-             { File~'\exp_not:n {#1}'~not~found. }
-
-\cs_new_protected:Npn \ups_call_user_callback:Nn #1#2
-  {
-    % Call the user callback (#1) with contents obtained from the file (#2).
-    #1 {#2}
-  }
-
-\cs_generate_variant:Nn \ups_call_user_callback:Nn { Nx }
-
-\ior_new:N \g_ups_stream_ior
-
-% #1: macro taking one argument (the participant name)
-% #2: file containing one participant per line (blank lines are ignored)
-\cs_new_protected:Npn \ups_list_participants:Nn #1#2
-  {
-    \ior_open:NnF \g_ups_stream_ior {#2}
-      { \msg_error:nnn { upsmakeparticlist } { file-not-found } {#2} }
-
-    \ior_map_inline:Nn \g_ups_stream_ior
-      {
-        \tl_if_eq:nnF {##1} { \par } % ignore blank lines
-          {
-            % Calling \ups_call_user_callback:Nx will *not* trigger expansion
-            % of user-provided contents from ##1, so this should be safe to use
-            % (see the documentation of \tl_trim_spaces:n).
-            \ups_call_user_callback:Nx #1 { \tl_trim_spaces:n {##1} }
-          }
-      }
-
-    \ior_close:N \g_ups_stream_ior
-  }
-
-% #1: macro taking one argument (the participant name)
-% #2: file containing one participant per line (blank lines are ignored). Must
-% be readable by TeX; for instance, it can live in the same directory as the
-% .tex document or be somewhere in TEXINPUTS.
-\NewDocumentCommand \participantlist { m m }
-  {
-    \ups_list_participants:Nn #1 {#2}
-  }
-
-\ExplSyntaxOff
-
-%%% # ~~~~~ # 
-
-%%% Define template
-\newcommand*{\printCertificate}[1]{%
-\sffamily
-% \maketitle
-
-% %%% w/o background
-% \begin{minipage}[c]{.4\linewidth}
-% \centering
-% % \hfill
-% \raggedleft \huge\textbf{{CONFERENCE OF \newline YOUNG BOTANISTS}} \newline \huge{FEBRUARY 9-10, 2023}
-% \end{minipage}
-% % \hfill
-% \begin{minipage}[c]{0.1\linewidth}
-% \hfill
-% \begin{tikzpicture}[scale=1]  
-%     \draw[color=ottanio, fill=ottanio] (0,0) rectangle (.075,3); 
-% \end{tikzpicture}
-% \hfill
-% \rotatebox[origin=r]{-90}{\Large\textbf{{BOLZANO}}} 
-% % \hfill
-% \rotatebox[origin=r]{-90}{\Large\textbf{{BOZEN}}}
-% \end{minipage} 
-% \hfill
-% \begin{minipage}[c]{.45\linewidth}
-% \begin{center}
-%     \includegraphics[width=\linewidth]{graphics/logos_grouped.png}
-% \end{center}
-% \end{minipage}
-
-\thispagestyle{empty}
-
-%%% Header
-\includesvg[width=\paperwidth]{../graphics/certificates/Certficates_topbox_2024_newdesign_cropped}
-
-% \vfill
-\vspace{-.1\paperheight} % this allows overlap
-
-%%% Main text
-\begin{minipage}[c]{.15\paperwidth}
-    \centering
-    \begin{turn}{90}
-        \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
-    \end{turn}
-\end{minipage}
-\hspace{.1\paperwidth}
-\begin{minipage}[c]{.5\paperwidth}
-    \centering
-    \includesvg[width=.3\paperwidth]{../graphics/certificates/LogoCYBO_2025}
-    \vspace{.1\linewidth} \\
-    \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF ATTENDANCE}
-    \vspace{.05\linewidth} \\
-    \Large We hereby certify that \newline
-    \textbf{#1} \newline
-    attended the 3\textsuperscript{rd} edtion of Conference for Young Botanists, \newline
-    CYBO 2025 in Genova (IT), 5-7 February.
-    \vspace{.05\linewidth} \\
-    \normalsize The CYBO Organising and Scientific Committees \\
-    \vspace{.1\linewidth} \\
-    \centering
-    % \includesvg[width=.5\paperwidth]{../graphics/certificates/LogoCYBO_2025} \newline
-    \raisebox{-0.5\height}{\includegraphics[width=0.15\paperwidth]{../graphics/certificates/unige-colore}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/distav}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige_stat}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/cesbin}}
-    \newline
-    \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SISV}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SBI}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/Logo_SLI-edited}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/OPTIMA_logo}}
-    \newline
-    \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/springer-logo-transparent}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/Helan_logo}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/zanichelli-editore}}
-    \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/piccin}}
-\end{minipage}
-\hspace{.1\paperwidth}
-\begin{minipage}[c]{.15\paperwidth}
-    \centering
-    \begin{turn}{270}
-        \huge \textbf{CONFERENCE OF YOUNG BOTANISTS}
-    \end{turn}
-\end{minipage}
-
-\vfill % no overlap here otherwise it cuts text!
-% \vspace{-.005\paperheight} % this allows overlap
-
-%%% Footer
-
-\includesvg[width=\paperwidth,]{../graphics/certificates/Certficates_footer_2024_newdesign_cropped}
-
-\newpage
+    \newpage
 }
 
-%%% Call the command and fill the specified field(s)
-\begin{document}
-% \fontseries{c}\selectfont
-% \tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{graphics/Certficates_background_2024_newdesign.png}};
-\participantlist{\printCertificate}{../certificates/certificates_test.txt}
-% Some content
-% \tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{graphics/Certficates_background_2024_newdesign.png}};
-% \clearpage
-% text
 \end{document}
