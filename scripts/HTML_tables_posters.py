@@ -41,7 +41,7 @@ merged = merged[~merged['Last Name'].isin(['Popescu', 'Panero'])]
 # %% Function to generate HTML table for posters
 def generate_html_table_posters(data, color_mode="background"):
     html_table = '<table border="1" style="border-collapse: collapse; width: 100%;">\n'
-    html_table += '  <tr>\n    <th style="width: 20%;">Author</th>\n    <th style="width: 60%;">Title</th>\n    <th style="width: 20%;">Session</th>\n  </tr>\n'
+    html_table += '  <tr>\n    <th style="width: 10%;">Author</th>\n    <th style="width: 40%;">Title</th>\n    <th style="width: 10%;">Session</th>\n    <th style="width: 10%;">Career Stage</th>\n    <th style="width: 5%;">Visual</th>\n    <th style="width: 5%;">Organisation & Layout</th>\n    <th style="width: 5%;">Content quality</th>\n    <th style="width: 5%;">Scientific merit</th>\n    <th style="width: 5%;">Presentation</th>\n  </tr>\n'
     
     poster_data = data[data['Final contribution'] == "Poster"]
     poster_data = poster_data.sort_values(by="Preferred session")
@@ -52,6 +52,7 @@ def generate_html_table_posters(data, color_mode="background"):
         session = row["Preferred session"] if pd.notna(row["Preferred session"]) else ""
         title = row["Title"] if pd.notna(row["Title"]) else ""
         url = row["URL_x"] if pd.notna(row["URL_x"]) else ""
+        career_stage = row["Career stage_x"] if pd.notna(row["Career stage_x"]) else ""
         
         author = f'{first_name} {last_name}' if first_name and last_name else ""
         
@@ -66,7 +67,7 @@ def generate_html_table_posters(data, color_mode="background"):
         if color_mode in ["square", "both"]:
             color_square = f'<span style="display:inline-block; width:10px; height:10px; background-color:{color}; margin-right:5px;"></span>' if color else ""
         
-        html_table += f'  <tr>\n    <td{style}>{author}</td>\n    <td{style}><a href="{url}">{title}</a></td>\n    <td{style}>{color_square}{session}</td>\n  </tr>\n'
+        html_table += f'  <tr>\n    <td{style}>{author}</td>\n    <td{style}><a href="{url}">{title}</a></td>\n    <td{style}>{color_square}{session}</td>\n    <td{style}>{career_stage}</td>\n    <td{style}></td>\n    <td{style}></td>\n    <td{style}></td>\n    <td{style}></td>\n    <td{style}></td>\n  </tr>\n'
     
     html_table += '</table>\n'
     return html_table
