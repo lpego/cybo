@@ -22,6 +22,7 @@ winners = pd.read_csv("..\\website_exports\\awards_for_certificates.csv")
 
 # %% Send attendance certificate emails
 for name, email in participants[['Name', 'Email address',]].values:
+    filename = "Attendance_certificate_CYBO2025_" + name.replace(" ", "_") + ".pdf"
     print("Sending email to: ", email)
     send_email(
         sender="conferenceyoungbotanists@gmail.com",
@@ -50,6 +51,7 @@ for name, email in participants[['Name', 'Email address',]].values:
         Kind regards,\n
         CYBO organising committee.
         """.format(name=name),
+        attachmentFile="..\\certificates\\attendance_certificates\\" + filename
         )
 
 # # %% testing loop
