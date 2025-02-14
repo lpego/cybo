@@ -1,96 +1,74 @@
-%%% From https://tex.stackexchange.com/questions/492380/creating-certificates-automatically
-%%% Parsing and template definitions are stored in this TeX file; the names are stored in "names.txt"
 \documentclass{article}
-% \usepackage[T1]{fontenc}
-% \usepackage[utf8]{inputenc}
 
 %%% Packages for creating template
-\usepackage{graphicx}
-% \usepackage[a4paper, total={190mm,267mm}]{geometry} % define 10mm margins
 \usepackage[a4paper, total={210mm,297mm}]{geometry} % no margins
 \usepackage{rotating}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
 \usepackage{svg}
-%%% Font options
-% \usepackage{helvet}
-% \usepackage[default]{opensans}
-% \usepackage[sfdefault,scaled=.85]{FiraSans}
-% \usepackage{newtxsf}
-% \usepackage[light,condensed,math]{iwona}
-% \usepackage{Oswald}
 \usepackage[sfdefault]{roboto}
 
 %%% Reading in CSV data
 \usepackage{datatool}
-
-\DTLloaddb{attendees}{attendees.csv}
-
-% %%% Variable declarations %%%
-
-\title{CYBO 2024 webinar participation certificates}
-\author{Conference of Young Botanists}
-\date{2025}
+% \DTLloaddb{attendees}{attendees.csv}
+\DTLloaddb{attendees}{../website_exports/presences_for_certificates.csv}
 
 %%% Use read-in data to populate iteratively %%%
 \begin{document}
 
-% \sffamily
-% \thispagestyle{empty}
-
 %%% Loop through each entry in the CSV file
-\DTLforeach*{attendees}{\Name=Name, \Affiliation=Affiliation, \Contribution=Contribution_type, \Title=Title}{
-    %%% Header
-    \includesvg[width=\paperwidth]{../graphics/certificates/Certficates_topbox_2024_newdesign_cropped}
-    % \vfill
-    \vspace{-.15\paperheight} \\ % this allows overlap
-    \begin{minipage}[c]{.15\paperwidth}
+% \DTLforeach*{attendees}{\Name=Name, \Affiliation=Affiliation, \Contribution=Contribution_type, \Title=Title}{
+\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title}{
+    
+    \tikz[remember picture,overlay] \node[opacity=0.3] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo per attestato premio}};
+    \vfill
+    \begin{minipage}[c]{.1\paperwidth}
         \centering
         \begin{turn}{90}
             \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
         \end{turn}
-    \end{minipage}
-    \hspace{.1\paperwidth}
-    %%% Main text - there must be NO NEWLINES between different minipages!
+    \end{minipage}%
+    \hfill
     \begin{minipage}[c]{.5\paperwidth}
         \begin{center}
             \includesvg[width=.3\paperwidth]{../graphics/certificates/LogoCYBO_2025}
-            \vspace{.05\linewidth} \\
-            \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF ATTENDANCE}
-            \vspace{.05\linewidth} \\
+            \vspace{.05\linewidth} 
+            \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF ATTENDANCE} \\
+            \vspace{.05\linewidth} 
             \Large We hereby certify that \\
             \textbf{\Name} \\ from \textbf{\Affiliation} \\
-            attended the 3\textsuperscript{rd} edition of Conference for Young Botanists (CYBO) in Genova (IT), on 5-7 February 2025, \\
+            attended the 3\textsuperscript{rd} edition of Conference for Young Botanists (CYBO) \\ 
+            in Genova (IT), on 5-7 February 2025, \\
             contributing a \textbf{\Contribution} with the title: \\ \textbf{\Title} \\
+            \vspace{.05\linewidth} 
+            \normalsize The CYBO Organising and Scientific Committees 
             \vspace{.05\linewidth} \\
-            \normalsize The CYBO Organising and Scientific Committees \\
-            \vspace{.05\linewidth} \\
-            \raisebox{-0.5\height}{\includegraphics[width=0.15\paperwidth]{../graphics/certificates/unige-colore}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/distav}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige_stat}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/cesbin}}
+            \raisebox{-0.5\height}{\href{https://unige.it/}{\includegraphics[width=0.15\paperwidth]{../graphics/certificates/unige-colore}}}
+            \raisebox{-0.5\height}{\href{https://distav.unige.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/distav}}}
+            \raisebox{-0.5\height}{\href{https://distav.unige.it/phdstat/it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige_stat}}}
+            \raisebox{-0.5\height}{\href{https://www.cesbin.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/cesbin}}}
             \\
-            \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SISV}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SBI}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/Logo_SLI-edited}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/OPTIMA_logo}}
+            \raisebox{-0.5\height}{\href{https://www.scienzadellavegetazione.it/}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SISV}}}
+            \raisebox{-0.5\height}{\href{https://www.societabotanicaitaliana.it/}{\includegraphics[width=0.075\paperwidth]{../graphics/certificates/Logo_SBI}}}
+            \raisebox{-0.5\height}{\href{https://www.lichenologia.eu/}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/Logo_SLI-edited}}}
+            \raisebox{-0.5\height}{\href{https://www.optima-bot.org/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/OPTIMA_logo}}}
             \\
-            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/springer-logo-transparent}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/Helan_logo}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/zanichelli-editore}}
-            \raisebox{-0.5\height}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/piccin}}
+            \raisebox{-0.5\height}{\href{https://www.springer.com/}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/springer-logo-transparent}}}
+            \raisebox{-0.5\height}{\href{https://helan.com/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/Helan_logo}}}
+            \raisebox{-0.5\height}{\href{https://www.zanichelli.it/}{\includegraphics[width=0.125\paperwidth]{../graphics/certificates/zanichelli-editore}}}
+            \raisebox{-0.5\height}{\href{https://www.piccin.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/piccin}}}
         \end{center}
-    \end{minipage}
-    \hspace{.1\paperwidth}
-    \begin{minipage}[c]{.15\paperwidth}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{.1\paperwidth}
         \centering
         \begin{turn}{270}
-            \huge \textbf{CONFERENCE OF YOUNG BOTANISTS}
+            \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
         \end{turn}
-    \end{minipage}
-    \vfill % no overlap here otherwise it cuts text!
-    % \vspace{-.005\paperheight} % this allows overlap
-    %%% Footer
-    \includesvg[width=\paperwidth,]{../graphics/certificates/Certficates_footer_2024_newdesign_cropped}
-
+    \end{minipage}%
+    \hfill
+    \vfill
     \newpage
 }
 
