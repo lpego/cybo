@@ -26,6 +26,7 @@ graphics/svg-inkscape/
 *.fls
 *.log
 *.fdb_latexmk
+*.out
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
