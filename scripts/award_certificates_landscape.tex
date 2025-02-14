@@ -1,0 +1,76 @@
+\documentclass[landscape]{article}
+
+%%% Packages for creating template
+\usepackage[a4paper, total={297mm,210mm}]{geometry} % no margins
+\usepackage{rotating}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{svg}
+\usepackage[sfdefault]{roboto}
+
+%%% Reading in CSV data
+\usepackage{datatool}
+\DTLloaddb{attendees}{../website_exports/awards_for_certificates.csv}
+
+%%% Read-in data to populate iteratively %%%
+\begin{document}
+
+%%% Loop through each entry in the CSV file
+\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title, \Link=Link to the abstract, \Award=Award}{
+
+    \tikz[remember picture,overlay] \node[opacity=.6] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo orizzontale_1_award}};
+    \vfill
+    \begin{minipage}[c]{.1\paperwidth}
+        \centering
+        \begin{turn}{90}
+            % \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
+        \end{turn}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{.75\paperwidth}
+        \begin{center}
+            \includesvg[width=.2\paperwidth]{../graphics/certificates/LogoCYBO_2025} \\
+            \vspace{.025\linewidth} 
+            \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF AWARD} \\
+            \vspace{.025\linewidth} 
+            \Large We hereby certify that \\
+            \textbf{\Name} \\
+            from \textbf{\Affiliation} \\
+            won the \textbf{\Award} \textbf{\Contribution} \textbf{prize} at \\
+            the International Conference for Young Botanists (CYBO) 2025, \\
+            in Genova (IT), on 5-7 February 2025, with a contribution entitled: \\ 
+            \href{\Link}{\textbf{\Title}} \\
+            \vspace{.025\linewidth} 
+            \normalsize The CYBO Organising and Scientific Committees 
+            \vspace{.025\linewidth} \\
+            \raisebox{-0.5\height}{\href{https://unige.it/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/unige-colore}}}
+            \raisebox{-0.5\height}{\href{https://distav.unige.it/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/distav}}}
+            \raisebox{-0.5\height}{\href{https://distav.unige.it/phdstat/it/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/unige_stat}}}
+            \raisebox{-0.5\height}{\href{https://www.cesbin.it/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/cesbin}}}
+            \\
+            \raisebox{-0.5\height}{\href{https://www.scienzadellavegetazione.it/}{\includegraphics[width=0.0375\paperwidth]{../graphics/certificates/Logo_SISV}}}
+            \raisebox{-0.5\height}{\href{https://www.societabotanicaitaliana.it/}{\includegraphics[width=0.0375\paperwidth]{../graphics/certificates/Logo_SBI}}}
+            \raisebox{-0.5\height}{\href{https://www.lichenologia.eu/}{\includegraphics[width=0.0675\paperwidth]{../graphics/certificates/Logo_SLI-edited}}}
+            \raisebox{-0.5\height}{\href{https://www.optima-bot.org/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/OPTIMA_logo}}}
+            \\
+            \raisebox{-0.5\height}{\href{https://www.springer.com/}{\includegraphics[width=0.0675\paperwidth]{../graphics/certificates/springer-logo-transparent}}}
+            \raisebox{-0.5\height}{\href{https://helan.com/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/Helan_logo}}}
+            \raisebox{-0.5\height}{\href{https://www.zanichelli.it/}{\includegraphics[width=0.0675\paperwidth]{../graphics/certificates/zanichelli-editore}}}
+            \raisebox{-0.5\height}{\href{https://www.piccin.it/}{\includegraphics[width=0.05\paperwidth]{../graphics/certificates/piccin}}}
+        \end{center}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{.1\paperwidth}
+        \centering
+        \begin{turn}{270}
+            % \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
+        \end{turn}
+    \end{minipage}%
+    \hfill
+    \vfill
+    \newpage
+
+}
+
+\end{document}
