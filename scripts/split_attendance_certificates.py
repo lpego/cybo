@@ -30,3 +30,27 @@ for i in range(len(inputpdf.pages)):
     certificates_list.append(f"Attendance_certificate_CYBO2025_{name}.pdf")
     with open(f"{pdf_path}\\attendance_certificates\\Attendance_certificate_CYBO2025_{name}.pdf", "wb") as outputStream:
         output.write(outputStream)
+
+# %% Read in file used for awards certificates generation
+data = pd.read_csv('..\\website_exports\\awards_for_certificates.csv')
+names = data["Name"].tolist() # grab list of names
+
+# %% Prepare folders for splitting
+pdf_path = f"..\\certificates"
+if not os.path.exists(f"{pdf_path}\\award_certificates"):
+    os.makedirs(f"{pdf_path}\\award_certificates")
+    
+inputpdf = PdfReader(open(f"{pdf_path}\\award_certificates_landscape.pdf", "rb"))
+
+# %% Extract PDF pages, in order of participant
+certificates_list = []
+for i in range(len(inputpdf.pages)):
+    output = PdfWriter()
+    output.add_page(inputpdf.pages[i])
+    name = names[i].replace(" ", "_")
+    print(name)
+    certificates_list.append(f"Award_certificate_CYBO2025_{name}.pdf")
+    with open(f"{pdf_path}\\award_certificates\\Award_certificate_CYBO2025_{name}.pdf", "wb") as outputStream:
+        output.write(outputStream)
+        
+# %%
