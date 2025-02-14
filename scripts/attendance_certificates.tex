@@ -11,21 +11,20 @@
 
 %%% Reading in CSV data
 \usepackage{datatool}
-% \DTLloaddb{attendees}{attendees.csv}
 \DTLloaddb{attendees}{../website_exports/presences_for_certificates.csv}
 
-%%% Use read-in data to populate iteratively %%%
+%%% Read-in data to populate iteratively %%%
 \begin{document}
 
 %%% Loop through each entry in the CSV file
 \DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title, \Link=Link to the abstract}{
     
-    \tikz[remember picture,overlay] \node[opacity=0.3] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo per attestato premio}};
+    \tikz[remember picture,overlay] \node[opacity=.6] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo verticale_1}};
     \vfill
     \begin{minipage}[c]{.1\paperwidth}
         \centering
         \begin{turn}{90}
-            \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
+            % \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
         \end{turn}
     \end{minipage}%
     \hfill
@@ -42,7 +41,7 @@
             \else
                 from \textbf{\Affiliation} \\
             \fi
-            attended the 3\textsuperscript{rd} edition of Conference for Young Botanists (CYBO) \\ 
+            attended the 3\textsuperscript{rd} edition of International Conference for Young Botanists (CYBO) \\ 
             in Genova (IT), on 5-7 February 2025
             \ifx\Title\empty
                 . \\
@@ -52,7 +51,7 @@
             \vspace{.05\linewidth} 
             \normalsize The CYBO Organising and Scientific Committees 
             \vspace{.05\linewidth} \\
-            \raisebox{-0.5\height}{\href{https://unige.it/}{\includegraphics[width=0.15\paperwidth]{../graphics/certificates/unige-colore}}}
+            \raisebox{-0.5\height}{\href{https://unige.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige-colore}}}
             \raisebox{-0.5\height}{\href{https://distav.unige.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/distav}}}
             \raisebox{-0.5\height}{\href{https://distav.unige.it/phdstat/it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/unige_stat}}}
             \raisebox{-0.5\height}{\href{https://www.cesbin.it/}{\includegraphics[width=0.1\paperwidth]{../graphics/certificates/cesbin}}}
@@ -72,12 +71,13 @@
     \begin{minipage}[c]{.1\paperwidth}
         \centering
         \begin{turn}{270}
-            \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
+            % \huge \bfseries{CONFERENCE OF YOUNG BOTANISTS}
         \end{turn}
     \end{minipage}%
     \hfill
     \vfill
     \newpage
+
 }
 
 \end{document}
