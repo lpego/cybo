@@ -7,7 +7,6 @@ from latest_file import find_most_recent_file
 presences = pd.read_csv('..\website_exports\presenti_CYBO2025_12Feb.csv', sep=';')
 
 # %% Clean up and rename columns
-# presences.head()
 presences = presences.drop(["Unnamed: 5", "Unnamed: 6"], axis=1)
 presences.columns = ["First Name", "Last Name", "Email address", "Career stage", "Contribution"]
 presences["First Name"] = presences["First Name"].str.title()
