@@ -18,8 +18,7 @@
 \begin{document}
 
 %%% Loop through each entry in the CSV file
-% \DTLforeach*{attendees}{\Name=Name, \Affiliation=Affiliation, \Contribution=Contribution_type, \Title=Title}{
-\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title}{
+\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title, \Link=Link to the abstract}{
     
     \tikz[remember picture,overlay] \node[opacity=0.3] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo per attestato premio}};
     \vfill
@@ -37,10 +36,19 @@
             \Huge\textbf{CERTIFICATE} \\ \huge\textbf{OF ATTENDANCE} \\
             \vspace{.05\linewidth} 
             \Large We hereby certify that \\
-            \textbf{\Name} \\ from \textbf{\Affiliation} \\
+            \textbf{\Name} \\ 
+            \ifx\Affiliation\empty
+                % do nothing
+            \else
+                from \textbf{\Affiliation} \\
+            \fi
             attended the 3\textsuperscript{rd} edition of Conference for Young Botanists (CYBO) \\ 
-            in Genova (IT), on 5-7 February 2025, \\
-            contributing a \textbf{\Contribution} with the title: \\ \textbf{\Title} \\
+            in Genova (IT), on 5-7 February 2025
+            \ifx\Title\empty
+                . \\
+            \else
+                , \\ contributing a \textbf{\Contribution} with the title: \\ \href{\Link}{\textbf{\Title}} \\
+            \fi
             \vspace{.05\linewidth} 
             \normalsize The CYBO Organising and Scientific Committees 
             \vspace{.05\linewidth} \\
