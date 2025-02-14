@@ -35,6 +35,7 @@
                     "*.tex": "latex"
                 },
                 "latex-workshop.latexindent.path": "latexindent",
+                "latex-workshop.latex.outDir": "..\\certificates",
                 "latex-workshop.latexindent.args": [
                     "-c",
                     "%DIR%/",
