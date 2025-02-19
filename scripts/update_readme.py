@@ -2,6 +2,7 @@
 ### with the description of what it does, and update the README accordingly. 
 
 import os
+import argparse, sys
 
 def get_script_description(file_path, num_lines=4):
     descriptions = []
@@ -44,11 +45,22 @@ def update_readme(readme_path, scripts_dir):
 
     with open(readme_path, 'w', encoding='utf-8') as readme_file:
         readme_file.writelines(new_content)
-
+    
+    ### output to txt, for debugging
     # with open('new_scripts_content.txt', 'w', encoding='utf-8') as new_file:
     #     new_file.writelines(scripts_content)
 
+# ### Local paths
+# if __name__ == "__main__":
+#     readme_path = '../README.md'
+#     scripts_dir = '.'
+#     update_readme(readme_path, scripts_dir)
+
+### Argument parsing
 if __name__ == "__main__":
-    readme_path = '../../README_test.md'
-    scripts_dir = 'scripts'
-    update_readme(readme_path, scripts_dir)
+    parser = argparse.ArgumentParser(description="Update README with script descriptions")
+    parser.add_argument('--readme', type=str, required=True, help="Path to README.md file")
+    parser.add_argument('--scripts_dir', type=str, required=True, help="Path to directory containing scripts")
+    args = parser.parse_args()
+    
+    sys.exit(update_readme(args.readme, args.scripts_dir))

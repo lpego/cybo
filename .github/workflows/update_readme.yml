@@ -23,7 +23,7 @@ jobs:
     #   run: pip install -r requirements.txt
 
     - name: Run update_readme.py
-      run: python scripts/update_readme.py
+      run: python scripts/update_readme.py --readme "README.md" --scripts_dir "scripts"
 
     - name: Commit and push changes
       run: |
