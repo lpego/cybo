@@ -1,3 +1,7 @@
+### This script is useful to
+### renew the OAuth2 token
+### when expired
+
 import html
 from OAuth2_email import SendMessage
 

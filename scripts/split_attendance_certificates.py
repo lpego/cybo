@@ -1,5 +1,5 @@
 ### This script splits the single PDF file
-### into indivdual, personalised PDFs for each participant
+### into individual, personalised PDFs for each participant
 
 # %%
 import pandas as pd

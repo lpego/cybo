@@ -1,3 +1,7 @@
+### These are the main functions to handle parsing of
+### various arguments for email message composition
+### and sending the message via the Gmail API
+
 import httplib2
 import os
 import oauth2client

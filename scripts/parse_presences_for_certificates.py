@@ -1,3 +1,7 @@
+### This script uses a manually curated list of attendees to the conference
+### and merges it with abstract and evaluation data as well as curated institutions names
+### to create the base data for certificate generation. 
+
 # %% 
 import pandas as pd
 from glob import glob

@@ -1,3 +1,7 @@
+### This is a small utility script
+### to grab the most recent file version
+### when filenames include datetime
+
 import re
 from datetime import datetime
 
