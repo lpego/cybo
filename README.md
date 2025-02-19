@@ -48,6 +48,7 @@ The section [Scripts](#scripts) is auto-generated based on short descriptions at
 - `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
 - `scripts/send_emails.py`: This script grabs email list from parse_users_emails.py and sends messages
 - `scripts/merge_abstracts_evaluations.py`: This script merges the abstracts and reviewers' evaluations
+- `scripts/zip_private_files.py`: This script puts all the files with sensitive information in a zip archive
 - `scripts/parse_users_emails.py`: This script uses various exports to collect all user emails useful for sending newsletters, etc.
 - `scripts/latest_file.py`: This is a small utility script to grab the most recent file version when filenames include datetime
 ## Utils
