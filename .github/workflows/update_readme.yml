@@ -9,6 +9,8 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout repository
@@ -26,8 +28,6 @@ jobs:
       run: python scripts/update_readme.py --readme "README.md" --scripts_dir "scripts"
 
     - name: Commit and push changes
-      permissions:
-        contents: write
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
