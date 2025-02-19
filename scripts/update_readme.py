@@ -45,10 +45,10 @@ def update_readme(readme_path, scripts_dir):
     with open(readme_path, 'w', encoding='utf-8') as readme_file:
         readme_file.writelines(new_content)
 
-    with open('new_scripts_content.txt', 'w', encoding='utf-8') as new_file:
-        new_file.writelines(scripts_content)
+    # with open('new_scripts_content.txt', 'w', encoding='utf-8') as new_file:
+    #     new_file.writelines(scripts_content)
 
 if __name__ == "__main__":
-    readme_path = '../README_test.md'
-    scripts_dir = 'D:/cybo/scripts'
+    readme_path = '../../README_test.md'
+    scripts_dir = 'scripts'
     update_readme(readme_path, scripts_dir)
