@@ -17,7 +17,7 @@
 \begin{document}
 
 %%% Loop through each entry in the CSV file
-\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Reccommended type of contribution, \Title=Title, \Link=Link to the abstract}{
+\DTLforeach*{attendees}{\Name=Name, \Affiliation=Institution, \Contribution=Contribution, \Title=Title, \Link=Link to the abstract}{
     
     \tikz[remember picture,overlay] \node[opacity=.6] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo verticale_1}};
     \vfill
