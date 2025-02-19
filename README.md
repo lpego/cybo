@@ -3,7 +3,7 @@
 # CYBO website utilities
 This repo contains all the scripts and utils to manage, automate and run the [CYBO](https://conferenceyoungbotanists.com/) website. 
 
-Get a snapshot of private files like website exports, email lists, etc here (password protected): *linkie coming soon*
+Get a snapshot of private files like website exports, email lists, etc here (password protected): [CYBO private files archive](https://www.dropbox.com/scl/fi/tmzlut6dv853st162elc4/cybo_archive_2025-02-19_16-57-43.zip?rlkey=1emz6oxqitxcr0f9ljkno4n7w&st=9fishzlw&dl=0). 
 
 ## What's what
 The main directories are: 
