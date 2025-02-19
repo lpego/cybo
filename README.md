@@ -1,56 +1,62 @@
+<a href="[https://conferenceyoungbotanists.com/](https://conferenceyoungbotanists.com/)"><img src="https://conferenceyoungbotanists.com/wp-content/uploads/2024/01/LogoCYBO_black-1110x530.png" align="center" width="480" ></a>
+
 # CYBO website utilities
 This repo contains all the scripts and utils to manage, automate and run the [CYBO](https://conferenceyoungbotanists.com/) website. 
 
-🛑 Need to recode all filepaths after repo re-organistaion... [not sure if I did that already for all scripts...]
+Get a snapshot of private files like website exports, email lists, etc here (password protected): *linkie coming soon*
 
 ## What's what
 The main directories are: 
  - `certificates` - contains the produced files for certificates generation
  - `graphics` - assets for certificate generation and emails
- - `scripts` - contains all the python al LaTeX scripts
+ - `scripts` - contains all the python al LaTeX scripts, as well secrets (i.e. OAuth token)
  - `webinars` - contains the Zoom invites for the webinars
- - `website_exports`- is where WordPress website's users info is stored
+ - `website_exports`- is where most data is stored: WordPress website's users; manually curated lists of various kinds; website form exports; also exported HTML tables for pasting into the website, etc...
 
 There is also a `.devcontainer` directory with details for Docker container deployment for this repo.
 
+The section [Scripts](#scripts) is auto-generated based on short descriptions at the top of `.py` files. 
+
 ### Index
- - [Utilities](#utils)
- - [Parse users info](#parse-users-info)
- - [Send bulk emails](#send-bulk-emails)
- - [Generate certificates](#generate-certificates)
+ - [Scripts](#scripts)
+   - [Utilities](#utils)
+   - [Parse users info](#parse-users-info)
+   - [Generate LaTeX certificates](#generate-certificates)
  - [What to do for...](#what-to-do-for)
  - [Known bugs](#known-bugs)
  - [Dev notes](#dev-notes)
 
+<!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### --> 
+# Scripts
+<!-- auto-generated content here -->
+
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
-# Utils
-General-purpose utilities used in other scripts here.  
+## Utils
+General-purpose utilities used in other scripts.  
 
  - `scripts/latest_file.py` a RegEx that grabs the most recent file given a list, using `glob` for instance; supports several `datetime` formats. 
 
- - `scripts/OAuth2_email_test.py` sends emails to a specified email address (implemented as `main` function), with attachment. Supports also CC. 
+ - `scripts/OAuth2_email.py` sends emails to a specified email address (implemented as `main` function), with attachment. ~~Supports also CC~~. 🐛 BUG: "cc" field is still broken...
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
-# Parse users info
-Handle the export files from WordPress plugin [User Registration](https://wordpress.org/plugins/user-registration/) and convert in a more usable format. 
-
- - `scripts/parse_wp_users` pulls out the list of user emails for each webinar from the export of WordPress's plugin User Registration. 
- 
- - `scripts/merge_abstracts_evaluations.py` merges files from WordPress plugins [User Registration](https://wordpress.org/plugins/user-registration/) and [Everest Forms](https://everestforms.net/) exports, with assigned reviewers and handlers from Google Sheet export. 
+## Parse users info
+`scripts/parse_*` and `scripts/merge_*` scripts handle the export files from WordPress plugin [User Registration](https://wordpress.org/plugins/user-registration/) and [Everest Forms](https://everestforms.net/) exports and convert them to a more usable format. 
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
-# Send bulk emails
-Sending automated bulk personalised emails using OAuth2 Gmail API: reminders, webinar invitations and sending certificates. 
-
- - `scripts/certificates_send.py` sends the generated pdf certificates to webinar attendees. 
-
- - `scripts/webinar_invitation.py` sends invites to webinar attendees (need to fix plain text hardcoded Zoom invite). 
-
-<!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
-# Generate certificates
-Generate personalised certificates using a containerised LaTeX application and users data. 
+## Generate LaTeX certificates
+Uses both `.py` and `.tex` scripts to generate LaTeX certificates based on website exports etc. 
 
  - `scripts/certificates_prep.py` loops over list of names pulled from registration from export and splits PDFs based on that. 
+ - `scripts/create_qr_codes.py` creates QR codes for the abstract links to put on the nametags. 
+ - `scripts/make_latex_calls.py` makes the \confpin calls to put in `nametags*.tex`. 
+ - `scripts/split_attendance_certificates.py` split the multi-page PDF into individual, appropriately-named PDFs. 
+
+⚠ compiling `.tex` files with pdflatex is usually fine, except when using the `fontspec` package, in that case use LuaLaTeX instead. 
+
+ - `scripts/webinar_certificates.tex` takes a `.txt` file as input, with each row corresponding to a name, and generates certificates based on those. 
+ - `scripts/nametags_*.tex` uses the `\confpin` generated by `make_latex_calls.py` to make conference badges with name, affiliation and QR code (for participants with contributions). 
+ - `scripts/attendance_certificates.tex` and `scripts/award_certificates_landscape.tex` produce the attendance and award certificates for the conference, respectively, importing data from a dedicated `.csv` file generated by `parse_presences_for_certificates.py`. 
+
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 # What to do for...
@@ -65,10 +71,15 @@ Generate personalised certificates using a containerised LaTeX application and u
  - *"Token expired" error*: run `OAuth2_email_test.py` and follow browser-based authentication to renew it. Use hardcoded arguments (commented out in the script) if `argparse` mode fails. 
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
-# Known bugs
+# Known bugs 🐛
 If the the `.csv` export contains empty values for certain variables (e.g. "What webinars are you interested in?"), it will throw an error; could fix it with a `try` construct but seems unnecessary at this point... 
 
 In dev container `LaTeX-custom-devcontainer`, on Windows the SSH agent doesn't communicate correctly with Docker, so authentication doesn't currently work (e.g. github). 
+
+<!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
+# Changelog
+
+[SECURITY UPDATE FEB 2025]: sanitised all scripts, no sensitive personal info appears anywhere in public files. 
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 # Dev notes
