@@ -16,6 +16,8 @@
 *.TXT
 *.svg
 *.SVG
+*.zip
+*.ZIP
 graphics/svg-inkscape/
 
 ### LaTeX stuff
