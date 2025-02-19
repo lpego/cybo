@@ -44,8 +44,6 @@ def SendMessageInternal(service, user_id, message):
         return "Error"
     return "OK"
 
-# ...existing code...
-
 def SendMessage(sender, to, subject, msgHtml, msgPlain, cc=None, attachmentFile=None):
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
@@ -63,7 +61,7 @@ def CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain):
     message['from'] = sender
     message['subject'] = subject
     if cc:
-        message['cc'] = cc
+        message['cc'] = ', '.join(cc) if isinstance(cc, list) else cc
     part1 = MIMEText(msgPlain, 'plain')
     part2 = MIMEText(msgHtml, 'html')
     message.attach(part1)
@@ -72,13 +70,11 @@ def CreateMessageHtml(sender, to, cc, subject, msgHtml, msgPlain):
     raw = raw.decode()
     return {'raw': raw}
 
-# ...existing code...
-
 def createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, attachmentFile):
     message = MIMEMultipart('mixed')
     message['to'] = to
     if cc:
-        message['Cc'] = cc
+        message['cc'] = ', '.join(cc) if isinstance(cc, list) else cc
     message['from'] = sender
     message['subject'] = subject
 
@@ -112,37 +108,17 @@ def createMessageWithAttachment(sender, to, cc, subject, msgHtml, msgPlain, atta
     filename = os.path.basename(attachmentFile)
     msg.add_header('Content-Disposition', 'attachment', filename=filename)
     message.attach(msg)
-
-    # Combine 'To' and 'Cc' for the final recipient list
-    all_recipients = [to] + ([cc] if cc else [])
-    return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode(), 'to': all_recipients}
-
-
-# ### Hardcoded arguments    
-# def send_email():
-#     """Send email with attachment"""
-#     to = "luca.pegoraro@outlook.com"
-#     cc = "luca.pegoraro@wsl.ch"
-#     sender = "conferenceyoungbotanists@gmail.com"
-#     subject = "CYBO emails - testing PDF attachments"
-#     msgHtml = "Hi<br/>Html Email"
-#     msgPlain = "Hi\nPlain Email"
-#     ### Send message without attachment: 
-#     # SendMessage(sender, to, subject, msgHtml, msgPlain)
-#     ### Send message with attachment: 
-#     SendMessage(sender, to, subject, msgHtml, msgPlain, 'D:\cybo\webinars_cybo2024_v4.1_compressed.pdf')
-
-# if __name__ == '__main__':
-#     send_email()
+    
+    raw = base64.urlsafe_b64encode(message.as_bytes())
+    raw = raw.decode()
+    return {'raw': raw}
 
 ### Argument parsing
 def send_email(sender, to, subject, msgHtml, msgPlain, cc=None, attachmentFile=None):
     """Send email with optional CC and attachment."""
     SendMessage(sender, to, subject, msgHtml, msgPlain, cc, attachmentFile)
 
-
 if __name__ == "__main__":
-   
     parser = argparse.ArgumentParser(description="Send email with attachments")
     parser.add_argument('--sender', type=str, required=True, help="Reply to field")
     parser.add_argument('--to', type=str, required=True, help="Address to send email to")
