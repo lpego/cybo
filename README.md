@@ -29,28 +29,29 @@ The section [Scripts](#scripts) is auto-generated based on short descriptions at
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### --> 
 # Scripts
 
-- `scripts/OAuth_token_refresh.py`: This script is useful to renew the OAuth2 token when expired
 - `scripts/send_conference_attendance_certificates.py`: This script uses the participants list to send the attendance certificates.
+- `scripts/update_readme.py`: Helper script to automatically grab the first couple lines of each script with the description of what it does, and update the README accordingly.
+- `scripts/webinar_invitation.py`: This script send webinar invitations, uses external txt file for invite import
+- `scripts/latest_file.py`: This is a small utility script to grab the most recent file version when filenames include datetime
+- `scripts/OAuth2_email.py`: These are the main functions to handle parsing of various arguments for email message composition and sending the message via the Gmail API
+- `scripts/certificates_send.py`: This script send personalised emails with locally generated LaTeX certificates
+- `scripts/parse_users_emails.py`: This script uses various exports to collect all user emails useful for sending newsletters, etc.
+- `scripts/HTML_table_talks.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
+- `scripts/merge_abstracts_evaluations.py`: This script merges the abstracts and reviewers' evaluations
+- `scripts/certificates_prep.py`: This script produces the LaTeX certificates for the webinar attendees
+- `scripts/parse_wp_users.py`: This script parses webinar registrations and grabs users's emails that have registered to a particular webinar.
+- `scripts/create_qr_codes.py`: This scripts generates QR codes based on abstract URLs for name badges
+- `scripts/cybo_photos.py`: Simple script to count the photos in various subfolders of a directory and copy a selection of photos to a new directory, based on a CSV file with selected photo names
+- `scripts/zip_private_files.py`: This script puts all the files with sensitive information in a zip archive
+- `scripts/send_emails.py`: This script grabs email list from parse_users_emails.py and sends messages
+- `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
+- `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
+- `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
+- `scripts/OAuth_token_refresh.py`: This script is useful to renew the OAuth2 token when expired
+- `scripts/send_acceptance_emails.py`: This script parses the reviewed abstract scores and sends acceptance emails to authors.
+- `scripts/HTML_tables_posters.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
 - `scripts/parse_abstracts.py`: This script parses the abstracts form export, cleans rogue newlines, and writes out a reduced csv for further processing
 - `scripts/make_latex_calls.py`: This scripts generates the LaTeX \confpin calls based on name patterns and file names
-- `scripts/HTML_tables_posters.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
-- `scripts/parse_wp_users.py`: This script parses webinar registrations and grabs users's emails that have registered to a particular webinar.
-- `scripts/send_acceptance_emails.py`: This script parses the reviewed abstract scores and sends acceptance emails to authors.
-- `scripts/certificates_prep.py`: This script produces the LaTeX certificates for the webinar attendees
-- `scripts/OAuth2_email.py`: These are the main functions to handle parsing of various arguments for email message composition and sending the message via the Gmail API
-- `scripts/webinar_invitation.py`: This script send webinar invitations, uses external txt file for invite import
-- `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
-- `scripts/HTML_table_talks.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
-- `scripts/update_readme.py`: Helper script to automatically grab the first couple lines of each script with the description of what it does, and update the README accordingly.
-- `scripts/certificates_send.py`: This script send personalised emails with locally generated LaTeX certificates
-- `scripts/create_qr_codes.py`: This scripts generates QR codes based on abstract URLs for name badges
-- `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
-- `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
-- `scripts/send_emails.py`: This script grabs email list from parse_users_emails.py and sends messages
-- `scripts/merge_abstracts_evaluations.py`: This script merges the abstracts and reviewers' evaluations
-- `scripts/zip_private_files.py`: This script puts all the files with sensitive information in a zip archive
-- `scripts/parse_users_emails.py`: This script uses various exports to collect all user emails useful for sending newsletters, etc.
-- `scripts/latest_file.py`: This is a small utility script to grab the most recent file version when filenames include datetime
 ## Utils
 General-purpose utilities used in other scripts.  
 
