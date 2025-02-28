@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from OAuth2_email import send_email
 
 ### get email list 
-with open("..\emails\email_list.txt") as f:
+with open("..\website_exports\email_list.txt") as f:
      email_addresses = [line.rstrip('\n') for line in f]
 # print(type(email_addresses))
 # print(email_addresses)
@@ -30,7 +30,10 @@ for addressee in email_addresses:
     print("Sending email to: ", addressee)
     send_email(
         sender="conferenceyoungbotanists@gmail.com",
-        to=addressee,
+        # to=addressee,
+        ### my emails for testing
+        to="luca.pegoraro@outlook.com",
+        cc="luca.pegoraro@wsl.ch", 
         subject=subject,
         msgHtml=msgHtml,
         msgPlain=msgPlain,
