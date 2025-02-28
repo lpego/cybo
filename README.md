@@ -8,6 +8,7 @@ Get a snapshot of private files like website exports, email lists, etc here (pas
 ## What's what
 The main directories are: 
  - `certificates` - contains the produced files for certificates generation
+ - `emails` - contains the HTML files to with subject and message body
  - `graphics` - assets for certificate generation and emails
  - `scripts` - contains all the python al LaTeX scripts, as well secrets (i.e. OAuth token)
  - `webinars` - contains the Zoom invites for the webinars
