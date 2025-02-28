@@ -49,7 +49,9 @@ The section [Scripts](#scripts) is auto-generated based on short descriptions at
 - `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
 - `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
 - `scripts/OAuth_token_refresh.py`: This script is useful to renew the OAuth2 token when expired
+- `scripts/send_emails_generic.py`: Script to parse HTML file and send emails with its contents
 - `scripts/send_acceptance_emails.py`: This script parses the reviewed abstract scores and sends acceptance emails to authors.
+- `scripts/send_emails_field_parsing.py`: This script send emails messages with specific fields for parsing in the HTMl body
 - `scripts/HTML_tables_posters.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
 - `scripts/parse_abstracts.py`: This script parses the abstracts form export, cleans rogue newlines, and writes out a reduced csv for further processing
 - `scripts/make_latex_calls.py`: This scripts generates the LaTeX \confpin calls based on name patterns and file names
