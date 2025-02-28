@@ -58,7 +58,7 @@ General-purpose utilities used in other scripts.
 
  - `scripts/latest_file.py` a RegEx that grabs the most recent file given a list, using `glob` for instance; supports several `datetime` formats. 
 
- - `scripts/OAuth2_email.py` sends emails to a specified email address (implemented as `main` function), with attachment. ~~Supports also CC~~. 🐛 BUG: "cc" field is still broken...
+ - `scripts/OAuth2_email.py` sends emails to a specified email address (implemented as `main` function), with attachment. Supports also CC field. 
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 ## Parse users info
@@ -94,6 +94,8 @@ Uses both `.py` and `.tex` scripts to generate LaTeX certificates based on websi
 
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### -->
 # Known bugs 🐛
+Refreshing the OAuth2 token does not work from interactive session (aka Jupyter notebook)... Works only if launched from CLI, i.e. `python scripts/OAuth_token_refresh.py`
+
 If the the `.csv` export contains empty values for certain variables (e.g. "What webinars are you interested in?"), it will throw an error; could fix it with a `try` construct but seems unnecessary at this point... 
 
 In dev container `LaTeX-custom-devcontainer`, on Windows the SSH agent doesn't communicate correctly with Docker, so authentication doesn't currently work (e.g. github). 
