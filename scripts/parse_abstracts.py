@@ -5,6 +5,7 @@
 import pandas as pd
 import re
 import os
+import csv
 from glob import glob
 from latest_file import find_most_recent_file
 
@@ -13,10 +14,14 @@ filelist = glob("..\website_exports\cybo-2025-registration,-with-contribution*[!
 filename = find_most_recent_file(filelist) # grab most recent version
 print("Reading from file: ", filename)
 
-data = pd.read_csv(filename)
-
-# %% strip newlines from all cells
-data = data.apply(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else x)
+# %% Replace pandas read_csv with csv module for better handling of quoted fields
+with open(filename, mode='r', encoding='utf-8') as file:
+    reader = csv.DictReader(file)
+    rows = list(reader)
+# Convert the rows back to a pandas DataFrame
+data = pd.DataFrame(rows)
+# Ensure all fields are stripped of rogue newlines
+data = data.applymap(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else x)
 
 # %% count preferred sessions
 data['Preferred session'].value_counts()
@@ -34,9 +39,10 @@ data['Career stage'].value_counts()
 
 # %%
 ### Prepare reduced version
-data_redux = data[['First Name', 'Last Name', 'Email address', 'Career stage', 'Country', 'Gender',
-       'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session', 'User Registered GMT', 
-       'Title', "Contributing author's institution"]]
+data_redux = data
+# data_redux = data[['First Name', 'Last Name', 'Email address', 'Career stage', 'Country', 'Gender',
+#        'What type of contribution would you prefer to submit?', 'Preferred session', 'Alternative session', 'User Registered GMT', 
+#        'Title', "Contributing author's institution"]]
 # ### Obtain usernames based on email addresses - CAUTION! some users have different usernames...
 # data_redux["Username"] = data['Email address'].str.extract(r'^([^@]+)@')
 ### Sort by registration date
