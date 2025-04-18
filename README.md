@@ -45,6 +45,7 @@ The section [Scripts](#scripts) is auto-generated based on short descriptions at
 - `scripts/cybo_photos.py`: Simple script to count the photos in various subfolders of a directory and copy a selection of photos to a new directory, based on a CSV file with selected photo names
 - `scripts/zip_private_files.py`: This script puts all the files with sensitive information in a zip archive
 - `scripts/send_emails.py`: This script grabs email list from parse_users_emails.py and sends messages
+- `scripts/parse_presence_for_book_of_abstracts.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for the book of abstracts data generation.
 - `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
 - `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
 - `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
