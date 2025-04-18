@@ -50,7 +50,8 @@ affiliations_att_only = affiliations_att_only.drop(["User ID", "Gender", "Countr
 
 # %% Read in final assignment to sessions and contribution type
 final_assignments = pd.read_csv('..\\website_exports\\Programme_2025 - Detailed_programme.csv', index_col=False)
-final_assignments = final_assignments[["First Name", "Last Name", "Email address","Final contribution","Final session","URL"]]
+final_assignments = final_assignments[["First Name", "Last Name", "Email address", "Final contribution", "Final session"]]
+final_assignments.dropna(how='all', inplace=True) # remove rows that are completely empty
 
 # %% Merge abstracts and evaluations by URL
 merged = abstracts.merge(evaluations, left_on="URL", right_on="Link to the abstract", how="left")
@@ -64,9 +65,15 @@ presences_merged["Name"] = presences_merged["First Name"] + " " + presences_merg
 presences_merged = presences_merged.merge(affiliations_contributes, left_on="Contributing author's institution", right_on="original", how="left")
 presences_merged = presences_merged.merge(affiliations_att_only, on=["First Name", "Last Name"], how="left")
 ### some people still are without affiliation, nothing to do there...
+presences_merged.to_csv("..\website_exports\\test.csv", index=False)
 
 # %% Merge with final sessions and contribution type
-presences_merged = presences_merged.merge(final_assignments, on=["Email address", "URL"], how="left")
+presences_merged = presences_merged.merge(final_assignments, on=["First Name", "Last Name"], how="left")
+
+# %% Fill "Final contribution" and "Final session" for Poster contributions (posters were never switched to other sessions)
+poster_condition = presences_merged["What type of contribution would you prefer to submit?"] == "Poster"
+presences_merged.loc[poster_condition, "Final contribution"] = presences_merged.loc[poster_condition, "What type of contribution would you prefer to submit?"]
+presences_merged.loc[poster_condition, "Final session"] = presences_merged.loc[poster_condition, "Preferred session"]
 
 # %% fix last problems with dataframe
 presences_merged["Institution"].fillna(presences_merged["shortened"], inplace=True) # fill missing values in "shortened" with values from "Institution"
@@ -76,15 +83,20 @@ presences_merged.dropna(how='all', inplace=True) # remove rows that are complete
 presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", index=False)
 
 # %% reduce to only necessary columns
-presences_merged_redux = presences_merged[["Name", "Email address", "Link to the abstract", 
+presences_merged_redux = presences_merged[["Name", "Email address_x", "Link to the abstract", 
                                            "Final contribution", "Final session", 
                                            "Title", "Abstract", 
                                            "Contributing author's institution", 
                                            "Author 2", "Author 3", "Author 4", "Author 5", "Author 6", "Author 7", "Author 8", "Author 9", "Additional authors", 
                                            "Author 2 affiliation", "Author 3 affiliation", "Author 4 affiliation", "Author 5 affiliation", "Author 6 affiliation", "Author 7 affiliation", "Author 8 affiliation", "Author 9 affiliation", "Additional authors affiliations"
                                            ]]
+presences_merged_redux.dropna(subset=["Abstract"], inplace=True)  # Remove rows with no data for Abstract
+
+# Extract numeric index from "Final session" and sort
+presences_merged_redux["Final session index"] = presences_merged_redux["Final session"].str.extract(r'(\d+)').astype(float)
+presences_merged_redux.sort_values(by=["Final session index", "Name"], inplace=True)
+presences_merged_redux.drop(columns=["Final session index"], inplace=True)  # Remove helper column
+
 presences_merged_redux.to_csv("..\website_exports\presences_for_book_of_abstracts_redux.csv", index=False)
-
-
 
 # %%
