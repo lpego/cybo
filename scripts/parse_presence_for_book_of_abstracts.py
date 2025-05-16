@@ -79,7 +79,7 @@ presences_merged.loc[poster_condition, "Final session"] = presences_merged.loc[p
 presences_merged["Institution"].fillna(presences_merged["shortened"], inplace=True) # fill missing values in "shortened" with values from "Institution"
 presences_merged.dropna(how='all', inplace=True) # remove rows that are completely empty
 
-# %% write out to file for certificate generation
+# %% write out to file for book of abstracts generation
 presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", index=False)
 
 # %% reduce to only necessary columns
@@ -98,5 +98,106 @@ presences_merged_redux.sort_values(by=["Final session index", "Name"], inplace=T
 presences_merged_redux.drop(columns=["Final session index"], inplace=True)  # Remove helper column
 
 presences_merged_redux.to_csv("..\website_exports\presences_for_book_of_abstracts_redux.csv", index=False)
+
+# %% From ChatGPT
+presences_merged_redux_dict = presences_merged_redux
+
+# Base author and affiliation columns
+author_cols = ['Name', 'Author 2', 'Author 3', 'Author 4', 'Author 5',
+               'Author 6', 'Author 7', 'Author 8', 'Author 9']
+affil_cols = ['Contributing author\'s institution', 'Author 2 affiliation', 'Author 3 affiliation',
+              'Author 4 affiliation', 'Author 5 affiliation', 'Author 6 affiliation',
+              'Author 7 affiliation', 'Author 8 affiliation', 'Author 9 affiliation']
+
+def build_author_dict(row):
+    # 1. Get named authors and affiliations
+    authors = [row[col] for col in author_cols if pd.notna(row[col])]
+    affiliations = [row[col] for col in affil_cols if pd.notna(row[col])]
+    
+    # 2. Handle additional authors
+    add_authors_str = row.get('Additional authors', '')
+    add_affils_str = row.get('Additional authors affiliations', '')
+    
+    # Split by semicolon and strip whitespace
+    if pd.notna(add_authors_str):
+        add_authors = [a.strip() for a in add_authors_str.split(';') if a.strip()]
+    else:
+        add_authors = []
+    
+    if pd.notna(add_affils_str):
+        add_affils = [a.strip() for a in add_affils_str.split(';') if a.strip()]
+    else:
+        add_affils = []
+    
+    # Ensure they are paired
+    if len(add_authors) != len(add_affils):
+        print(f"Warning: Mismatched additional authors/affiliations in row {row.name}")
+    
+    # Combine core and additional authors
+    all_authors = authors + add_authors
+    all_affils = affiliations + add_affils
+    
+    # Pair authors with affiliations
+    paired = list(zip(all_authors, all_affils))
+    
+    # Assign superscripts
+    affil_to_sup = {}
+    current_sup = 1
+    author_list = []
+    
+    for author, affil in paired:
+        if affil not in affil_to_sup:
+            affil_to_sup[affil] = current_sup
+            current_sup += 1
+        author_list.append({
+            "name": author,
+            "affiliation": affil,
+            "superscript": affil_to_sup[affil]
+        })
+    
+    return author_list
+
+# Apply the function
+presences_merged_redux_dict["author_affil_map"] = presences_merged_redux_dict.apply(build_author_dict, axis=1)
+
+# %% Extract authors and their assigned superscript into a separate column
+def format_authors_latex(author_affil_map):
+    return ", ".join(
+        f"{entry['name']}\\textsuperscript{{{entry['superscript']}}}" for entry in author_affil_map
+    )
+
+# apply to the dataframe
+presences_merged_redux_dict["latex_authors_string"] = presences_merged_redux_dict["author_affil_map"].apply(format_authors_latex)
+
+# %% Extract affiliations into a separate column
+def extract_affil_list(author_affil_map):
+    # Use a dict to preserve insertion order (Python 3.7+)
+    affil_to_sup = {}
+    for entry in author_affil_map:
+        affil = entry["affiliation"]
+        sup = entry["superscript"]
+        if affil not in affil_to_sup:
+            affil_to_sup[affil] = sup
+    # Format for LaTeX
+    formatted = [f"\\textsuperscript{{{sup}}} {affil}" for affil, sup in affil_to_sup.items()]
+    return formatted
+
+# format the string for LaTeX with newlines escaped
+def format_affiliations_latex_multiline(author_affil_map):
+    affil_to_sup = {}
+    for entry in author_affil_map:
+        affil = entry["affiliation"]
+        sup = entry["superscript"]
+        if affil not in affil_to_sup:
+            affil_to_sup[affil] = sup
+    # Use double backslashes, but escape them as `\\` in the CSV string
+    lines = [f"\\textsuperscript{{{sup}}} {affil}" for affil, sup in affil_to_sup.items()]
+    return " \\\\ ".join(lines)  # double backslash with space for LaTeX line break
+
+presences_merged_redux_dict["latex_affiliations_multiline"] = presences_merged_redux_dict["author_affil_map"].apply(format_affiliations_latex_multiline)
+
+
+# %% write out to another file
+presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary.csv", index=False)
 
 # %%
