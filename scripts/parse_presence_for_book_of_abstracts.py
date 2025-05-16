@@ -41,6 +41,9 @@ evaluations = pd.DataFrame(rows)
 # Ensure all fields are stripped of rogue newlines
 evaluations = evaluations.applymap(lambda x: str(x).replace('\n', ' ') if isinstance(x, str) else x)
 evaluations = evaluations.rename(columns=lambda x: x.strip())
+# Rename column for consistency
+if "Link to the abstract" in evaluations.columns:
+    evaluations = evaluations.rename(columns={"Link to the abstract": "Link_to_abstract"})
 evaluations = evaluations.drop(["Date Created", "User Device", "User IP Address"], axis=1)
 
 # %% Read in shortened institutions dictionary
@@ -54,8 +57,8 @@ final_assignments = final_assignments[["First Name", "Last Name", "Email address
 final_assignments.dropna(how='all', inplace=True) # remove rows that are completely empty
 
 # %% Merge abstracts and evaluations by URL
-merged = abstracts.merge(evaluations, left_on="URL", right_on="Link to the abstract", how="left")
-# merged = merged[["First Name", "Last Name", "Email address", "Contributing author's institution", "Career stage", "Title", "Link to the abstract", "Reccommended type of contribution", "Reccommended session"]]
+merged = abstracts.merge(evaluations, left_on="URL", right_on="Link_to_abstract", how="left")
+# merged = merged[["First Name", "Last Name", "Email address", "Contributing author's institution", "Career stage", "Title", "Link_to_abstract", "Reccommended type of contribution", "Reccommended session"]]
 
 # %% Merge presences by name, surname and email
 presences_merged = presences.merge(merged, on=["First Name", "Last Name", "Email address"], how="left")
@@ -83,7 +86,7 @@ presences_merged.dropna(how='all', inplace=True) # remove rows that are complete
 presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", index=False)
 
 # %% reduce to only necessary columns
-presences_merged_redux = presences_merged[["Name", "Email address_x", "Link to the abstract", 
+presences_merged_redux = presences_merged[["Name", "Email address_x", "Link_to_abstract", 
                                            "Final contribution", "Final session", 
                                            "Title", "Abstract", 
                                            "Contributing author's institution", 
