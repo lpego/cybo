@@ -18,7 +18,7 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 % Load the CSV data
-\DTLloaddb{abstracts}{d:/cybo/website_exports/presences_for_book_of_abstracts_redux_dictionary.csv}
+\DTLloaddb{abstracts}{presences_for_book_of_abstracts_redux_dictionary.csv}
 
 \begin{document}
 
@@ -26,37 +26,40 @@
 \section*{Index}
 
 \begin{itemize}
-\DTLforeach*{abstracts}{%
-  \IndexName=Name,
-  \IndexTitle=Title,
-  \Index=DTLrowi % row index for unique label
-}{%
-  \item \hyperref[abs:\Index]{\IndexName: \IndexTitle}
+\DTLforeach*{abstracts}{\IndexName=Name, \IndexTitle=Title}{%
+  \item \hyperref[abs:\IndexName]{\IndexName: \IndexTitle}
 }
 \end{itemize}
 
 \newpage
 
 % Iterate through each abstract
-\DTLforeach*{abstracts}{%
-  \Title=Title, 
-  \Name=Name, 
-  \Abstract=Abstract, 
-  \Linktotheabstract=Link_to_abstract, 
-  \Authors=latex_authors_string,
-  \Affiliations=latex_affiliations_multiline,
-  \Index=DTLrowi
-}{%
-  \phantomsection
-  \label{abs:\Index}
+\DTLforeach*{abstracts}{\Title=Title, 
+                        \Name=Name, 
+                        \Abstract=Abstract, 
+                        \Linktotheabstract=Link_to_abstract, 
+                        \Authors=latex_authors_string,
+                        \Affiliations=latex_affiliations_multiline
+}{
+    % Label for hyperlink target
+    \phantomsection
+    \label{abs:\Name}
+    
+    % Title
+    \textbf{Title:} \Title \\
 
-  \textbf{Title:} \Title \\[0.5em]
-  \textbf{Authors:} \Authors \\[0.5em]
-  \textbf{Affiliations:} \Affiliations \\[0.5em]
-  \textbf{Abstract:} \Abstract \\[0.5em]
-  \textbf{URL:} \href{\Linktotheabstract}{\Linktotheabstract} \\
+    % Authors and Affiliations
+    \textbf{Authors:} \Authors \\
 
-  \newpage
+    \textbf{Affiliations:} \Affiliations \\
+
+    % Abstract
+    \textbf{Abstract:} \Abstract \\
+
+    % URL
+    \textbf{URL:} \href{\Linktotheabstract}{\Linktotheabstract} \\
+
+    \newpage
 }
 
 \end{document}
