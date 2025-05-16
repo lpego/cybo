@@ -17,7 +17,7 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 % Load the CSV data
-\DTLloaddb{abstracts}{d:/cybo/website_exports/presences_for_book_of_abstracts_redux.csv}
+\DTLloaddb{abstracts}{d:/cybo/website_exports/presences_for_book_of_abstracts_redux_dictionary.csv}
 
 \begin{document}
 
@@ -26,47 +26,52 @@
                         \Name=Name, 
                         \Abstract=Abstract, 
                         \Linktotheabstract=Link to the abstract, 
-                        \Contributingauthorsinstitution=Contributing author's institution,
-                        \AuthorTwo=Author 2,
-                        \AuthorThree=Author 3,
-                        \AuthorFour=Author 4,
-                        \AuthorFive=Author 5,
-                        \AuthorSix=Author 6,
-                        \AuthorSeven=Author 7,
-                        \AuthorEight=Author 8,
-                        \AuthorNine=Author 9,
-                        \AuthorTwoAffiliation=Author 2 affiliation,
-                        \AuthorThreeAffiliation=Author 3 affiliation,
-                        \AuthorFourAffiliation=Author 4 affiliation,
-                        \AuthorFiveAffiliation=Author 5 affiliation,
-                        \AuthorSixAffiliation=Author 6 affiliation,
-                        \AuthorSevenAffiliation=Author 7 affiliation,
-                        \AuthorEightAffiliation=Author 8 affiliation,
-                        \AuthorNineAffiliation=Author 9 affiliation}{
+                        % \Contributingauthorsinstitution=Contributing author's institution,
+                        % \AuthorTwo=Author 2,
+                        % \AuthorThree=Author 3,
+                        % \AuthorFour=Author 4,
+                        % \AuthorFive=Author 5,
+                        % \AuthorSix=Author 6,
+                        % \AuthorSeven=Author 7,
+                        % \AuthorEight=Author 8,
+                        % \AuthorNine=Author 9,
+                        % \AdditionalAuthors=Additional authors,
+                        % \AuthorTwoAffiliation=Author 2 affiliation,
+                        % \AuthorThreeAffiliation=Author 3 affiliation,
+                        % \AuthorFourAffiliation=Author 4 affiliation,
+                        % \AuthorFiveAffiliation=Author 5 affiliation,
+                        % \AuthorSixAffiliation=Author 6 affiliation,
+                        % \AuthorSevenAffiliation=Author 7 affiliation,
+                        % \AuthorEightAffiliation=Author 8 affiliation,
+                        % \AuthorNineAffiliation=Author 9 affiliation
+                        \Authors=latex_authors_string,
+                        \Affiliations=latex_affiliations_multiline,}{
     
     % Title
     \textbf{Title:} \Title \\
 
     % Authors and Affiliations
-    \textbf{Authors:} \Name\textsuperscript{1}, 
-                      \AuthorTwo\textsuperscript{2}, 
-                      \AuthorThree\textsuperscript{3}, 
-                      \AuthorFour\textsuperscript{4}, 
-                      \AuthorFive\textsuperscript{5}, 
-                      \AuthorSix\textsuperscript{6}, 
-                      \AuthorSeven\textsuperscript{7}, 
-                      \AuthorEight\textsuperscript{8}, 
-                      \AuthorNine\textsuperscript{9} \\
+    \textbf{Authors:} %\Name\textsuperscript{1}, 
+                    %   \AuthorTwo\textsuperscript{2}, 
+                    %   \AuthorThree\textsuperscript{3}, 
+                    %   \AuthorFour\textsuperscript{4}, 
+                    %   \AuthorFive\textsuperscript{5}, 
+                    %   \AuthorSix\textsuperscript{6}, 
+                    %   \AuthorSeven\textsuperscript{7}, 
+                    %   \AuthorEight\textsuperscript{8}, 
+                    %   \AuthorNine\textsuperscript{9}
+                      \Authors \\
 
-    \textbf{Affiliations:} \textsuperscript{1}\Contributingauthorsinstitution \\
-                          \textsuperscript{2}\AuthorTwoAffiliation \\
-                          \textsuperscript{3}\AuthorThreeAffiliation \\
-                          \textsuperscript{4}\AuthorFourAffiliation \\
-                          \textsuperscript{5}\AuthorFiveAffiliation \\
-                          \textsuperscript{6}\AuthorSixAffiliation \\
-                          \textsuperscript{7}\AuthorSevenAffiliation \\
-                          \textsuperscript{8}\AuthorEightAffiliation \\
-                          \textsuperscript{9}\AuthorNineAffiliation \\
+    \textbf{Affiliations:} %\textsuperscript{1}\Contributingauthorsinstitution \\
+                        %   \textsuperscript{2}\AuthorTwoAffiliation \\
+                        %   \textsuperscript{3}\AuthorThreeAffiliation \\
+                        %   \textsuperscript{4}\AuthorFourAffiliation \\
+                        %   \textsuperscript{5}\AuthorFiveAffiliation \\
+                        %   \textsuperscript{6}\AuthorSixAffiliation \\
+                        %   \textsuperscript{7}\AuthorSevenAffiliation \\
+                        %   \textsuperscript{8}\AuthorEightAffiliation \\
+                        %   \textsuperscript{9}\AuthorNineAffiliation \\
+                          \Affiliations \\
 
     % Abstract
     \textbf{Abstract:} \Abstract \\
