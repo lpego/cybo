@@ -22,32 +22,22 @@
 
 \begin{document}
 
-% Index
-\section*{Index}
-
-\begin{itemize}
-\DTLforeach*{abstracts}{\IndexName=Name, \IndexTitle=Title}
-  {
-  \DTLreplace{\IndexName}{ }{_}{\SanitizedIndexName}
-  \item \hyperref[abs:\SanitizedIndexName]{\IndexName: \IndexTitle}
-  }
-\end{itemize}
+\tableofcontents
 
 \newpage
 
 % Iterate through each abstract
-\DTLforeach*{abstracts}{\Title=Title, 
+\DTLforeach{abstracts}{\Title=Title, 
                         \Name=Name, 
                         \Abstract=Abstract, 
                         \Linktotheabstract=Link_to_abstract, 
                         \Authors=latex_authors_string,
-                        \Affiliations=latex_affiliations_multiline
+                        \Affiliations=latex_affiliations_multiline,
   }{
-    % Sanitize label (replace spaces with underscores)
-    \DTLreplace{\Name}{ }{_}{\SanitizedName}
+}
     % Section heading for hyperlink target
-    \section*{\Name}
-    \label{abs:\SanitizedName}
+    \section{\Name}
+    \label{abs:\Name}
     
     % Title
     \textbf{Title:} \Title \\
