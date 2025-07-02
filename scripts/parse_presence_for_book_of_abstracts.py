@@ -215,7 +215,7 @@ presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abs
 
 # Apply removing non-breaking spaces to all string fields in the DataFrame
 presences_merged_redux_dict_no_nbsp = presences_merged_redux_dict.applymap(remove_nbsp)
-presences_merged_redux_dict_no_nbsp.to_csv("..\website_exports\presences_merged_redux_dict_no_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
+presences_merged_redux_dict_no_nbsp.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
 
 def escape_latex(s):
     if not isinstance(s, str):
