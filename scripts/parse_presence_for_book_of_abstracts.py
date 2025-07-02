@@ -68,7 +68,7 @@ presences_merged["Name"] = presences_merged["First Name"] + " " + presences_merg
 presences_merged = presences_merged.merge(affiliations_contributes, left_on="Contributing author's institution", right_on="original", how="left")
 presences_merged = presences_merged.merge(affiliations_att_only, on=["First Name", "Last Name"], how="left")
 ### some people still are without affiliation, nothing to do there...
-presences_merged.to_csv("..\website_exports\\test.csv", index=False)
+presences_merged.to_csv("..\website_exports\\test.csv", index=False, quoting=csv.QUOTE_ALL)
 
 # %% Merge with final sessions and contribution type
 presences_merged = presences_merged.merge(final_assignments, on=["First Name", "Last Name"], how="left")
@@ -83,7 +83,7 @@ presences_merged["Institution"].fillna(presences_merged["shortened"], inplace=Tr
 presences_merged.dropna(how='all', inplace=True) # remove rows that are completely empty
 
 # %% write out to file for book of abstracts generation
-presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", index=False)
+presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", index=False, quoting=csv.QUOTE_ALL)
 
 # %% reduce to only necessary columns
 presences_merged_redux = presences_merged[["Name", "Email address_x", "Link_to_abstract", 
@@ -100,7 +100,7 @@ presences_merged_redux["Final session index"] = presences_merged_redux["Final se
 presences_merged_redux.sort_values(by=["Final session index", "Name"], inplace=True)
 presences_merged_redux.drop(columns=["Final session index"], inplace=True)  # Remove helper column
 
-presences_merged_redux.to_csv("..\website_exports\presences_for_book_of_abstracts_redux.csv", index=False)
+presences_merged_redux.to_csv("..\website_exports\presences_for_book_of_abstracts_redux.csv", index=False, quoting=csv.QUOTE_ALL)
 
 # %% From ChatGPT
 presences_merged_redux_dict = presences_merged_redux
@@ -201,6 +201,6 @@ presences_merged_redux_dict["latex_affiliations_multiline"] = presences_merged_r
 
 
 # %% write out to another file
-presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary.csv", index=False)
+presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary.csv", index=False, quoting=csv.QUOTE_ALL)
 
 # %%
