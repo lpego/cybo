@@ -196,7 +196,7 @@ def format_affiliations_latex_multiline(author_affil_map):
             affil_to_sup[affil] = sup
     # Use double backslashes, but escape them as `\\` in the CSV string
     lines = [f"\\textsuperscript{{{sup}}} {affil}" for affil, sup in affil_to_sup.items()]
-    return " \\\\ ".join(lines)  # double backslash with space for LaTeX line break
+    return "; ".join(lines)  # double backslash with space for LaTeX line break
 
 presences_merged_redux_dict["latex_affiliations_multiline"] = presences_merged_redux_dict["author_affil_map"].apply(format_affiliations_latex_multiline)
 
