@@ -200,11 +200,23 @@ def format_affiliations_latex_multiline(author_affil_map):
 
 presences_merged_redux_dict["latex_affiliations_multiline"] = presences_merged_redux_dict["author_affil_map"].apply(format_affiliations_latex_multiline)
 
+# %% LaTeX special character escaping
+def remove_nbsp(s):
+    if not isinstance(s, str):
+        return s
+    # Replace non-breaking spaces with normal spaces
+    s = s.replace('\u00a0', ' ')
+    s = s.replace('\xa0', ' ')
+    s = s.replace(chr(160), ' ')
+    return s
 
 # %% write out to another file
 presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
 
-# %% LaTeX special character escaping
+# Apply removing non-breaking spaces to all string fields in the DataFrame
+presences_merged_redux_dict_no_nbsp = presences_merged_redux_dict.applymap(remove_nbsp)
+presences_merged_redux_dict_no_nbsp.to_csv("..\website_exports\presences_merged_redux_dict_no_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
+
 def escape_latex(s):
     if not isinstance(s, str):
         return s
@@ -221,7 +233,7 @@ def escape_latex(s):
     s = s.replace('^', r'\textasciicircum{}')
     return s
 
-# Apply escaping to all string fields in the DataFrame
+# Apply escaping to all string fields in the DataFrame (directly from presences_merged_redux_dict, not from a previous escaped version)
 presences_merged_redux_dict_escaped = presences_merged_redux_dict.applymap(escape_latex)
 
 # Save to new CSV with _escaped suffix
