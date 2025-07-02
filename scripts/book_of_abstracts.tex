@@ -18,7 +18,7 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 % Load the CSV data
-\DTLloaddb{abstracts}{presences_for_book_of_abstracts_redux_dictionary.csv}
+\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary.csv}
 
 \begin{document}
 
@@ -26,9 +26,11 @@
 \section*{Index}
 
 \begin{itemize}
-\DTLforeach*{abstracts}{\IndexName=Name, \IndexTitle=Title}{%
-  \item \hyperref[abs:\IndexName]{\IndexName: \IndexTitle}
-}
+\DTLforeach*{abstracts}{\IndexName=Name, \IndexTitle=Title}
+  {
+  \DTLreplace{\IndexName}{ }{_}{\SanitizedIndexName}
+  \item \hyperref[abs:\SanitizedIndexName]{\IndexName: \IndexTitle}
+  }
 \end{itemize}
 
 \newpage
@@ -40,10 +42,12 @@
                         \Linktotheabstract=Link_to_abstract, 
                         \Authors=latex_authors_string,
                         \Affiliations=latex_affiliations_multiline
-}{
-    % Label for hyperlink target
-    \phantomsection
-    \label{abs:\Name}
+  }{
+    % Sanitize label (replace spaces with underscores)
+    \DTLreplace{\Name}{ }{_}{\SanitizedName}
+    % Section heading for hyperlink target
+    \section*{\Name}
+    \label{abs:\SanitizedName}
     
     % Title
     \textbf{Title:} \Title \\
@@ -60,6 +64,6 @@
     \textbf{URL:} \href{\Linktotheabstract}{\Linktotheabstract} \\
 
     \newpage
-}
+  }
 
 \end{document}
