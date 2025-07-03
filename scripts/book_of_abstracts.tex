@@ -1,13 +1,12 @@
 \documentclass[a4paper,12pt]{article}
 
-% \usepackage[utf8]{inputenc} % for pdfLaTeX
-% \usepackage[T1]{fontenc} % for pdfLaTeX
 \usepackage{fontspec} % for LuaLaTeX
 \usepackage{geometry}
 \usepackage{longtable}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{datatool}
+\usepackage{ifthen}
 \usepackage[colorlinks=true, linkcolor=blue]{hyperref} % Load last!
 
 \geometry{margin=2cm}
@@ -15,12 +14,20 @@
 \fancyhf{}
 \fancyfoot[C]{\thepage}
 
-% Define section formatting
+%%% Define section formatting
 \titleformat{\section}{\bfseries\Large}{\thesection}{1em}{}
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
-% Load the CSV data
+%%% Load the CSV data
 \DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped_excerpt.csv}
+
+%%% Variable to store sessions for comparison
+\def\sessionA{1. Systematics, phylogenetics, biogeography and evolution}
+\def\sessionB{2. Ecology}
+\def\sessionC{3. Biodiversity and global change}
+\def\sessionD{4. Structure, physiology, and development}
+\def\sessionE{5. Genetics, genomics, and bioinformatics}
+\def\sessionF{6. Plants, Fungi and Society}
 
 \begin{document}
 
@@ -33,20 +40,98 @@
 %     Title: \texttt{\Title} \par
 %     \bigskip
 %   }
-
 % \newpage
 
 \section*{Index}
 
-\begin{itemize}
+% %%% No ifthen statements
+% \begin{itemize}
+
+% \DTLforeach*{abstracts}
+%   {\ID=ID,
+%   \Title=Title, 
+%   \Name=Name,
+%   \Session=Final session}
+%   {
+%     % Now the usual content:
+%     \item \hyperref[abs:\ID]{\textit{\Name}: \Title} % -- \text{Current session: \Session} \par
+%   }
+
+% \end{itemize}
+% \newpage
+
+% ========================= %
+
+%%% ifthen statements for separating sessions in index
+\subsection*{1. Systematics, phylogenetics, biogeography and evolution}
 \DTLforeach*{abstracts}
   {\ID=ID,
-  \IndexName=Name,
-  \IndexTitle=Title}
-  {\item \textbf{\ID} \hyperref[abs:\ID]{\IndexName: \IndexTitle}}
-\end{itemize}
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionA}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}:} \Title \newline}{}
+  }
+
+\subsection*{2. Ecology}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionB}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}:} \Title \newline}{}
+  }
+
+\subsection*{3. Biodiversity and global change}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionC}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}:} \Title \newline}{}
+  }
+
+\subsection*{4. Structure, physiology, and development}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionD}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}:} \Title \newline}{}
+  }
+
+\subsection*{5. Genetics, genomics, and bioinformatics}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionE}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}:} \Title \newline}{}
+  }
+
+\subsection*{6. Plants, Fungi and Society}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionF}{\Session}}
+      {\textbullet \hyperref[abs:\ID]{\textit{\Name}}: \Title \newline}{}
+  }
 
 \newpage
+
+% ========================= %
 
 %%% Actual abstract printing, iterate through each abstract
 \DTLforeach*{abstracts}
