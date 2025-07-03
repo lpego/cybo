@@ -1,13 +1,16 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{fontspec} % for LuaLaTeX
+\usepackage[sfdefault]{roboto}
 \usepackage{geometry}
-\usepackage{longtable}
 \usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{tikz}
 \usepackage{fancyhdr}
 \usepackage{datatool}
 \usepackage{ifthen}
-\usepackage[colorlinks=true, linkcolor=blue]{hyperref} % Load last!
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue]{hyperref} % Load last!
 
 \geometry{margin=2cm}
 \pagestyle{fancy}
@@ -19,7 +22,7 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 %%% Load the CSV data
-\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped_excerpt.csv}
+\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped.csv}
 
 %%% Variable to store sessions for comparison
 \def\sessionA{1. Systematics, phylogenetics, biogeography and evolution}
