@@ -80,8 +80,10 @@ presences_merged.loc[poster_condition, "Final contribution"] = presences_merged.
 presences_merged.loc[poster_condition, "Final session"] = presences_merged.loc[poster_condition, "Preferred session"]
 
 # %% fix last problems with dataframe
+# Sort by 'Final session' first, then by 'Last Name'
 presences_merged["Institution"].fillna(presences_merged["shortened"], inplace=True) # fill missing values in "shortened" with values from "Institution"
 presences_merged.dropna(how='all', inplace=True) # remove rows that are completely empty
+presences_merged.sort_values(by=["Final session", "Last Name"], inplace=True)
 
 # %% write out to file for book of abstracts generation
 # Add progressive unique ID column as first column
