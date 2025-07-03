@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
 
-\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc} % for pdfLaTeX
+% \usepackage[T1]{fontenc} % for pdfLaTeX
+\usepackage{fontspec} % for LuaLaTeX
 \usepackage{geometry}
 \usepackage{longtable}
 \usepackage{titlesec}
@@ -18,7 +20,7 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 % Load the CSV data
-\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary.csv}
+\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped.csv}
 
 \begin{document}
 
@@ -27,31 +29,27 @@
 \newpage
 
 % Iterate through each abstract
-\DTLforeach{abstracts}{\Title=Title, 
-                        \Name=Name, 
-                        \Abstract=Abstract, 
-                        \Linktotheabstract=Link_to_abstract, 
-                        \Authors=latex_authors_string,
-                        \Affiliations=latex_affiliations_multiline,
-  }{
-}
-    % Section heading for hyperlink target
-    \section{\Name}
+\DTLforeach{abstracts}
+  {\Title=Title, 
+  \Name=Name, 
+  \Abstract=Abstract, 
+  \Linktotheabstract=Link_to_abstract, 
+  \Authors=latex_authors_string, 
+  \Affiliations=latex_affiliations_multiline,
+  \URL=Link_to_abstract}
+  {
+    \section[\texorpdfstring{\Name}{Name}]{\Name}
     \label{abs:\Name}
-    
-    % Title
-    \textbf{Title:} \Title \\
 
-    % Authors and Affiliations
-    \textbf{Authors:} \Authors \\
+    \textbf{Title:} \Title
 
-    \textbf{Affiliations:} \Affiliations \\
+    \textbf{Authors:} \Authors
 
-    % Abstract
-    \textbf{Abstract:} \Abstract \\
+    \textbf{Affiliations:} \Affiliations
 
-    % URL
-    \textbf{URL:} \href{\Linktotheabstract}{\Linktotheabstract} \\
+    \textbf{Abstracts:} \Abstract
+
+    \textbf{Link:} \href{\URL}{\URL}
 
     \newpage
   }
