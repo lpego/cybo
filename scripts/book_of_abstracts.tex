@@ -20,16 +20,31 @@
 \titlespacing*{\section}{0pt}{0pt}{1em}
 
 % Load the CSV data
-\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped.csv}
+\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped_excerpt.csv}
 
 \begin{document}
 
-\tableofcontents
+% \tableofcontents
+
+\section*{Index}
+
+\begin{itemize}
+\DTLforeach*{abstracts}
+  {\IndexName=Name,
+  \IndexTitle=Title}
+  {
+    \edef\expandedname{\IndexName}
+    % \section*{\expandedname}
+    % \label{abs:\expandedname}
+    
+    \item \hyperref[abs:\expandedname]{\IndexName: \IndexTitle}
+  }
+\end{itemize}
 
 \newpage
 
 % Iterate through each abstract
-\DTLforeach{abstracts}
+\DTLforeach*{abstracts}
   {\Title=Title, 
   \Name=Name, 
   \Abstract=Abstract, 
@@ -38,8 +53,9 @@
   \Affiliations=latex_affiliations_multiline,
   \URL=Link_to_abstract}
   {
-    \section[\texorpdfstring{\Name}{Name}]{\Name}
-    \label{abs:\Name}
+    \edef\expandedname{\Name}
+    \section*{\expandedname}
+    \label{abs:\expandedname}
 
     \textbf{Title:} \Title
 
