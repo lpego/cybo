@@ -207,6 +207,7 @@ def remove_nbsp(s):
     # Replace non-breaking spaces with normal spaces
     s = s.replace('\u00a0', ' ')
     s = s.replace('\xa0', ' ')
+    s = s.replace('\u2009', ' ')
     s = s.replace(chr(160), ' ')
     return s
 
@@ -233,8 +234,10 @@ def escape_latex(s):
     s = s.replace('^', r'\textasciicircum{}')
     return s
 
-# Apply escaping to all string fields in the DataFrame (directly from presences_merged_redux_dict, not from a previous escaped version)
-presences_merged_redux_dict_escaped = presences_merged_redux_dict.applymap(escape_latex)
+# Apply escaping to all string fields in the DataFrame (but NOT to the last two fields)
+fields_to_escape = [col for col in presences_merged_redux_dict.columns if col not in ["latex_authors_string", "latex_affiliations_multiline"]]
+presences_merged_redux_dict_escaped = presences_merged_redux_dict.copy()
+presences_merged_redux_dict_escaped[fields_to_escape] = presences_merged_redux_dict_escaped[fields_to_escape].applymap(escape_latex)
 
 # Save to new CSV with _escaped suffix
 presences_merged_redux_dict_escaped.to_csv(
