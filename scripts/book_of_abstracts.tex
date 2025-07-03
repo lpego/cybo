@@ -32,6 +32,8 @@
 \def\sessionE{5. Genetics, genomics, and bioinformatics}
 \def\sessionF{6. Plants, Fungi and Society}
 
+% ========================= %
+
 \begin{document}
 
 % %%% Print out database entries, for debugging
@@ -44,7 +46,28 @@
 %     \bigskip
 %   }
 % \newpage
+% ========================= %
 
+%%% Title page
+\thispagestyle{empty}
+\tikz[remember picture,overlay] \node[opacity=.6] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{../graphics/certificates/sfondo verticale_1}};
+\vfill
+\begin{center}
+  \vspace{2em} 
+  \huge Conference of Young Botanists 2025 \\
+  \vspace{1em} 
+  \fontsize{50}{60}\selectfont \textsc{\textbf{Book of \\ Abstracts}} \\
+  \vspace{2em} 
+  \includegraphics[width=.5\paperwidth]{../graphics/certificates/LogoCYBO_2025} \\
+  \vspace{1em}
+  \Large\href{https://conferenceyoungbotanists.com/}{https://conferenceyoungbotanists.com/} \\
+\end{center}
+\vfill
+\newpage
+
+% ========================= %
+
+\pagestyle{fancy}
 \section*{Index}
 
 % %%% No ifthen statements
