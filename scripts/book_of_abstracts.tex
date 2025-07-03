@@ -72,7 +72,6 @@
 
 % %%% No ifthen statements
 % \begin{itemize}
-
 % \DTLforeach*{abstracts}
 %   {\ID=ID,
 %   \Title=Title, 
@@ -82,7 +81,6 @@
 %     % Now the usual content:
 %     \item \hyperref[abs:\ID]{\textit{\Name}: \Title} % -- \text{Current session: \Session} \par
 %   }
-
 % \end{itemize}
 % \newpage
 
@@ -173,10 +171,10 @@
     \label{abs:\ID}
 
     \begin{center}
-      {\Large \Title \par \vspace{1em}}
+      {\Large \Title \par}
     \end{center}
 
-    {\noindent \large \Authors \par \vspace{1em}}
+    {\noindent \large \Authors \par \vspace{.5em}}
 
     {\noindent \small \Affiliations \par \vspace{1em}}
 
