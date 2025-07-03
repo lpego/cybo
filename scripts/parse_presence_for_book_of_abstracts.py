@@ -86,7 +86,7 @@ presences_merged.dropna(how='all', inplace=True) # remove rows that are complete
 # %% write out to file for book of abstracts generation
 # Add progressive unique ID column as first column
 presences_merged.insert(0, 'ID', presences_merged.reset_index().index + 1)
-presences_merged['ID'] = presences_merged['ID'].apply(lambda x: f"ID_{x:03d}")
+presences_merged['ID'] = presences_merged['ID'].apply(lambda x: f"ID{x:03d}")
 presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", encoding="utf-8", index=False, quoting=csv.QUOTE_ALL)
 
 # %% reduce to only necessary columns
