@@ -24,46 +24,50 @@
 
 \begin{document}
 
-% \tableofcontents
+% %%% Print out database entries, for debugging
+% \DTLforeach*{abstracts}
+%   {\ID=ID, \Name=Name, \Title=Title}
+%   {
+%     ID: \texttt{\ID} \par
+%     Name: \texttt{\Name} \par
+%     Title: \texttt{\Title} \par
+%     \bigskip
+%   }
+
+% \newpage
 
 \section*{Index}
 
 \begin{itemize}
 \DTLforeach*{abstracts}
-  {\IndexName=Name,
+  {\ID=ID,
+  \IndexName=Name,
   \IndexTitle=Title}
-  {
-    \edef\expandedname{\IndexName}
-    % \section*{\expandedname}
-    % \label{abs:\expandedname}
-    
-    \item \hyperref[abs:\expandedname]{\IndexName: \IndexTitle}
-  }
+  {\item \textbf{\ID} \hyperref[abs:\ID]{\IndexName: \IndexTitle}}
 \end{itemize}
 
 \newpage
 
 % Iterate through each abstract
 \DTLforeach*{abstracts}
-  {\Title=Title, 
+  {\ID=ID,
+  \Title=Title, 
   \Name=Name, 
   \Abstract=Abstract, 
-  \Linktotheabstract=Link_to_abstract, 
   \Authors=latex_authors_string, 
   \Affiliations=latex_affiliations_multiline,
   \URL=Link_to_abstract}
   {
-    \edef\expandedname{\Name}
-    \section*{\expandedname}
-    \label{abs:\expandedname}
+    \section*{\ID\ - \Name}
+    \label{abs:\ID}
 
     \textbf{Title:} \Title
 
-    \textbf{Authors:} \Authors
+    % \textbf{Authors:} \Authors
 
-    \textbf{Affiliations:} \Affiliations
+    % \textbf{Affiliations:} \Affiliations
 
-    \textbf{Abstracts:} \Abstract
+    % \textbf{Abstracts:} \Abstract
 
     \textbf{Link:} \href{\URL}{\URL}
 
