@@ -30,32 +30,32 @@ The section [Scripts](#scripts) is auto-generated based on short descriptions at
 <!-- ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ### --> 
 # Scripts
 
-- `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
-- `scripts/parse_abstracts.py`: This script parses the abstracts form export, cleans rogue newlines, and writes out a reduced csv for further processing
-- `scripts/OAuth2_email.py`: These are the main functions to handle parsing of various arguments for email message composition and sending the message via the Gmail API
-- `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
-- `scripts/parse_users_emails.py`: This script uses various exports to collect all user emails useful for sending newsletters, etc.
-- `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
-- `scripts/certificates_prep.py`: This script produces the LaTeX certificates for the webinar attendees
-- `scripts/HTML_tables_posters.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
-- `scripts/update_readme.py`: Helper script to automatically grab the first couple lines of each script with the description of what it does, and update the README accordingly.
 - `scripts/zip_private_files.py`: This script puts all the files with sensitive information in a zip archive
+- `scripts/update_readme.py`: Helper script to automatically grab the first couple lines of each script with the description of what it does, and update the README accordingly.
+- `scripts/latest_file.py`: This is a small utility script to grab the most recent file version when filenames include datetime
+- `scripts/certificates_send.py`: This script send personalised emails with locally generated LaTeX certificates
+- `scripts/create_qr_codes.py`: This scripts generates QR codes based on abstract URLs for name badges
+- `scripts/parse_wp_users.py`: This script parses webinar registrations and grabs users's emails that have registered to a particular webinar.
+- `scripts/HTML_tables_posters.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
+- `scripts/send_emails_generic.py`: Script to parse HTML file and send emails with its contents
+- `scripts/parse_users_emails.py`: This script uses various exports to collect all user emails useful for sending newsletters, etc.
+- `scripts/send_conference_attendance_certificates.py`: This script uses the participants list to send the attendance certificates.
+- `scripts/split_attendance_certificates.py`: This script splits the single PDF file into individual, personalised PDFs for each participant
+- `scripts/parse_abstracts.py`: This script parses the abstracts form export, cleans rogue newlines, and writes out a reduced csv for further processing
 - `scripts/cybo_photos.py`: Simple script to count the photos in various subfolders of a directory and copy a selection of photos to a new directory, based on a CSV file with selected photo names
+- `scripts/HTML_table_talks.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
+- `scripts/send_emails_field_parsing.py`: This script send emails messages with specific fields for parsing in the HTMl body
+- `scripts/OAuth_token_refresh.py`: This script is useful to renew the OAuth2 token when expired
+- `scripts/certificates_prep.py`: This script produces the LaTeX certificates for the webinar attendees
+- `scripts/OAuth2_email.py`: These are the main functions to handle parsing of various arguments for email message composition and sending the message via the Gmail API
 - `scripts/send_acceptance_emails.py`: This script parses the reviewed abstract scores and sends acceptance emails to authors.
 - `scripts/send_emails.py`: This script grabs email list from parse_users_emails.py and sends messages
-- `scripts/HTML_table_talks.py`: This script reads in abstracts and sessions data and creates a HTML table with coloured sessions etc no need to read final sessions, since none were changed
 - `scripts/make_latex_calls.py`: This scripts generates the LaTeX \confpin calls based on name patterns and file names
-- `scripts/create_qr_codes.py`: This scripts generates QR codes based on abstract URLs for name badges
-- `scripts/OAuth_token_refresh.py`: This script is useful to renew the OAuth2 token when expired
-- `scripts/parse_wp_users.py`: This script parses webinar registrations and grabs users's emails that have registered to a particular webinar.
-- `scripts/latest_file.py`: This is a small utility script to grab the most recent file version when filenames include datetime
 - `scripts/webinar_invitation.py`: This script send webinar invitations, uses external txt file for invite import
-- `scripts/merge_abstracts_evaluations.py`: This script merges the abstracts and reviewers' evaluations
+- `scripts/parse_presences_for_certificates.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for certificate generation.
+- `scripts/send_reviewers_emails.py`: This script parses the compiled reviewer spreadsheet and sends emails to reviewers with their assigned abstracts.
 - `scripts/parse_presence_for_book_of_abstracts.py`: This script uses a manually curated list of attendees to the conference and merges it with abstract and evaluation data as well as curated institutions names to create the base data for the book of abstracts data generation.
-- `scripts/send_emails_generic.py`: Script to parse HTML file and send emails with its contents
-- `scripts/send_conference_attendance_certificates.py`: This script uses the participants list to send the attendance certificates.
-- `scripts/certificates_send.py`: This script send personalised emails with locally generated LaTeX certificates
-- `scripts/send_emails_field_parsing.py`: This script send emails messages with specific fields for parsing in the HTMl body
+- `scripts/merge_abstracts_evaluations.py`: This script merges the abstracts and reviewers' evaluations
 ## Utils
 General-purpose utilities used in other scripts.  
 
