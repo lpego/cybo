@@ -117,10 +117,28 @@ affil_cols = ['Contributing author\'s institution', 'Author 2 affiliation', 'Aut
               'Author 4 affiliation', 'Author 5 affiliation', 'Author 6 affiliation',
               'Author 7 affiliation', 'Author 8 affiliation', 'Author 9 affiliation']
 
+def escape_latex(s):
+    if not isinstance(s, str):
+        return s
+    # Order matters: escape backslash first
+    s = s.replace('\\', r'\textbackslash{}')
+    s = s.replace('&', r'\&')
+    s = s.replace('%', r'\%')
+    s = s.replace('$', r'\$')
+    s = s.replace('#', r'\#')
+    s = s.replace('_', r'\_')
+    s = s.replace('{', r'\{')
+    s = s.replace('}', r'\}')
+    s = s.replace('~', r'\textasciitilde{}')
+    s = s.replace('^', r'\textasciicircum{}')
+    return s
+
 def build_author_dict(row):
     # 1. Get named authors and affiliations
     authors = [row[col] for col in author_cols if pd.notna(row[col])]
     affiliations = [row[col] for col in affil_cols if pd.notna(row[col])]
+    # Escape LaTeX special characters in affiliations
+    affiliations = [escape_latex(affil) for affil in affiliations]
     
     # 2. Handle additional authors
     add_authors_str = row.get('Additional authors', '')
@@ -133,7 +151,7 @@ def build_author_dict(row):
         add_authors = []
     
     if pd.notna(add_affils_str):
-        add_affils = [a.strip() for a in add_affils_str.split(';') if a.strip()]
+        add_affils = [escape_latex(a.strip()) for a in add_affils_str.split(';') if a.strip()]
     else:
         add_affils = []
     
@@ -221,22 +239,6 @@ presences_merged_redux_dict.to_csv("..\\website_exports\\presences_for_book_of_a
 # Apply removing non-breaking spaces to all string fields in the DataFrame
 presences_merged_redux_dict_no_nbsp = presences_merged_redux_dict.applymap(remove_nbsp)
 presences_merged_redux_dict_no_nbsp.to_csv("..\\website_exports\\presences_for_book_of_abstracts_redux_dictionary_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
-
-def escape_latex(s):
-    if not isinstance(s, str):
-        return s
-    # Order matters: escape backslash first
-    s = s.replace('\\', r'\textbackslash{}')
-    s = s.replace('&', r'\&')
-    s = s.replace('%', r'\%')
-    s = s.replace('$', r'\$')
-    s = s.replace('#', r'\#')
-    s = s.replace('_', r'\_')
-    s = s.replace('{', r'\{')
-    s = s.replace('}', r'\}')
-    s = s.replace('~', r'\textasciitilde{}')
-    s = s.replace('^', r'\textasciicircum{}')
-    return s
 
 # Apply escaping to all string fields in the DataFrame (but NOT to the last two fields)
 fields_to_escape = [col for col in presences_merged_redux_dict.columns if col not in ["latex_authors_string", "latex_affiliations_multiline"]]
