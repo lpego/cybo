@@ -1,0 +1,82 @@
+\documentclass{article}
+\usepackage{datatool}
+\usepackage{ifthen}
+
+\def\sessionA{1. Systematics, phylogenetics, biogeography and evolution}
+\def\sessionB{2. Ecology}
+\def\sessionC{3. Biodiversity and global change}
+\def\sessionD{4. Structure, physiology, and development}
+\def\sessionE{5. Genetics, genomics, and bioinformatics}
+\def\sessionF{6. Plants, Fungi and Society}
+
+\DTLloaddb{abstracts}{../website_exports/presences_for_book_of_abstracts_redux_dictionary_escaped_excerpt.csv}
+
+\begin{document}
+
+\section*{1. Systematics, phylogenetics, biogeography and evolution}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionA}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\section*{2. Ecology}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionB}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\section*{3. Biodiversity and global change}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionC}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\section*{4. Structure, physiology, and development}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionD}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\section*{5. Genetics, genomics, and bioinformatics}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionE}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\section*{6. Plants, Fungi and Society}
+\DTLforeach*{abstracts}
+  {\ID=ID,
+   \Title=Title, 
+   \Name=Name,
+   \Session=Final session}
+  {
+    \ifthenelse{\equal{\sessionF}{\Session}}
+      {\noindent\textit{\Name}: \Title \par\vspace{1ex}}{}
+  }
+
+\end{document}
