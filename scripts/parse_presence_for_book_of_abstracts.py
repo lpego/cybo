@@ -84,10 +84,14 @@ presences_merged["Institution"].fillna(presences_merged["shortened"], inplace=Tr
 presences_merged.dropna(how='all', inplace=True) # remove rows that are completely empty
 
 # %% write out to file for book of abstracts generation
+# Add progressive unique ID column as first column
+presences_merged.insert(0, 'ID', presences_merged.reset_index().index + 1)
+presences_merged['ID'] = presences_merged['ID'].apply(lambda x: f"ID_{x:03d}")
 presences_merged.to_csv("..\website_exports\presences_for_book_of_abstracts.csv", encoding="utf-8", index=False, quoting=csv.QUOTE_ALL)
 
 # %% reduce to only necessary columns
-presences_merged_redux = presences_merged[["Name", "Email address_x", "Link_to_abstract", 
+# Add ID column to reduced DataFrame as well
+presences_merged_redux = presences_merged[["ID", "Name", "Email address_x", "Link_to_abstract", 
                                            "Final contribution", "Final session", 
                                            "Title", "Abstract", 
                                            "Contributing author's institution", 
@@ -101,10 +105,10 @@ presences_merged_redux["Final session index"] = presences_merged_redux["Final se
 presences_merged_redux.sort_values(by=["Final session index", "Name"], inplace=True)
 presences_merged_redux.drop(columns=["Final session index"], inplace=True)  # Remove helper column
 
-presences_merged_redux.to_csv("..\website_exports\presences_for_book_of_abstracts_redux.csv", encoding="utf-8", index=False, quoting=csv.QUOTE_ALL)
+presences_merged_redux.to_csv("..\\website_exports\\presences_for_book_of_abstracts_redux.csv", encoding="utf-8", index=False, quoting=csv.QUOTE_ALL)
 
 # %% From ChatGPT
-presences_merged_redux_dict = presences_merged_redux
+presences_merged_redux_dict = presences_merged_redux.copy()
 
 # Base author and affiliation columns
 author_cols = ['Name', 'Author 2', 'Author 3', 'Author 4', 'Author 5',
@@ -212,11 +216,11 @@ def remove_nbsp(s):
     return s
 
 # %% write out to another file
-presences_merged_redux_dict.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
+presences_merged_redux_dict.to_csv("..\\website_exports\\presences_for_book_of_abstracts_redux_dictionary.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
 
 # Apply removing non-breaking spaces to all string fields in the DataFrame
 presences_merged_redux_dict_no_nbsp = presences_merged_redux_dict.applymap(remove_nbsp)
-presences_merged_redux_dict_no_nbsp.to_csv("..\website_exports\presences_for_book_of_abstracts_redux_dictionary_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
+presences_merged_redux_dict_no_nbsp.to_csv("..\\website_exports\\presences_for_book_of_abstracts_redux_dictionary_nbsp.csv", index=False, encoding="utf-8", quoting=csv.QUOTE_ALL)
 
 def escape_latex(s):
     if not isinstance(s, str):
