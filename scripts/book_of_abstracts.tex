@@ -48,7 +48,7 @@
 
 \newpage
 
-% Iterate through each abstract
+%%% Actual abstract printing, iterate through each abstract
 \DTLforeach*{abstracts}
   {\ID=ID,
   \Title=Title, 
@@ -58,18 +58,20 @@
   \Affiliations=latex_affiliations_multiline,
   \URL=Link_to_abstract}
   {
-    \section*{\ID\ - \Name}
+    % \section*{\ID\ - \Name}
     \label{abs:\ID}
 
-    \textbf{Title:} \Title
+    \begin{center}
+      {\Large \Title \par \vspace{1em}}
+    \end{center}
 
-    \textbf{Authors:} \Authors
+    {\noindent \large \Authors \par \vspace{1em}}
 
-    % \textbf{Affiliations:} \Affiliations
+    {\noindent \small \Affiliations \par \vspace{1em}}
 
-    \textbf{Abstract:} \Abstract
+    {\noindent \Abstract \par \vspace{1em}}
 
-    \textbf{Link:} \href{\URL}{\URL}
+    {\centering \href{\URL}{\URL} \par}
 
     \newpage
   }
