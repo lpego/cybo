@@ -133,6 +133,28 @@ def escape_latex(s):
     s = s.replace('}', r'\}')
     s = s.replace('~', r'\textasciitilde{}')
     s = s.replace('^', r'\textasciicircum{}')
+    # Additional replacements for missing Unicode characters
+    s = s.replace('\u2261', r'\equiv')  # ≡
+    s = s.replace('\u2009', r'\,')      #   (thin space)
+    s = s.replace('\u2265', r'\geq')   # ≥
+    s = s.replace('\u2264', r'\leq')   # ≤
+    s = s.replace('\u03b2', r'\beta')  # β
+    s = s.replace('\u03b4', r'\delta') # δ
+    s = s.replace('\u03bc', r'\mu')    # μ
+    s = s.replace('\u03b1', r'\alpha') # α
+    s = s.replace('\u03c8', r'\psi')   # ψ
+    s = s.replace('\u2245', r'\cong')  # ≅
+    # Also handle direct unicode input (not just escaped)
+    s = s.replace('≡', r'\equiv')
+    s = s.replace(' ', r'\,')
+    s = s.replace('≥', r'\geq')
+    s = s.replace('≤', r'\leq')
+    s = s.replace('β', r'\beta')
+    s = s.replace('δ', r'\delta')
+    s = s.replace('μ', r'\mu')
+    s = s.replace('α', r'\alpha')
+    s = s.replace('ψ', r'\psi')
+    s = s.replace('≅', r'\cong')
     return s
 
 def build_author_dict(row):
