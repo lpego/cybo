@@ -104,7 +104,6 @@ presences_merged_redux.dropna(subset=["Abstract"], inplace=True)  # Remove rows 
 
 # Extract numeric index from "Final session" and sort
 presences_merged_redux["Final session index"] = presences_merged_redux["Final session"].str.extract(r'(\d+)').astype(float)
-# presences_merged_redux.sort_values(by=["Final session index", "Name"], inplace=True)
 presences_merged_redux.drop(columns=["Final session index"], inplace=True)  # Remove helper column
 
 presences_merged_redux.to_csv("..\\website_exports\\presences_for_book_of_abstracts_redux.csv", encoding="utf-8", index=False, quoting=csv.QUOTE_ALL)
