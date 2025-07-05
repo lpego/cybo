@@ -16,20 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2  # So HEAD^ exists
-
-      - name: Check if README.md was modified
-        id: readme_check
-        run: |
-          if git diff --name-only HEAD^ HEAD | grep -q '^README.md$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Update README
-        if: steps.readme_check.outputs.changed == 'true'
-        run: echo "README.md was changed! Updating README..."
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -42,7 +29,17 @@ jobs:
       - name: Run update_readme.py
         run: python scripts/update_readme.py --readme "README.md" --scripts_dir "scripts"
 
+      - name: Check if README.md was modified by script
+        id: readme_changed
+        run: |
+          if git diff --quiet README.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Commit and push changes
+        if: steps.readme_changed.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
